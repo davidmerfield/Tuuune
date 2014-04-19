@@ -32,6 +32,41 @@ $(function() {
 
   results.innerHTML = makeQueryURL('search', searchDefaults); 
 
+  function render(results){
+    var html;
+    for (var i in results) {
+      var result = results[i];
+      html += "<span class='result'>" + result.title + '</span>'
+    }
+    results.innerHTML = html
+  };
+
+  function findVideos() {
+   $.getJSON({
+     query: makeQueryURL('search', videoIDs),
+     response: function(){
+       return getVideoData(data)
+     }
+   });
+  }
+
+  // Youtube doesn't return video stats in search results
+  // So we extract video IDs from search results then retrieve stats for each one
+  // Thankfully we can pass multiple video ids in one request
+  function getVideoData(searchResults) {
+    var videoIDs = [];
+    for (var snippet in searchResults) {
+      videoIDs.push(searchResults[snippet].video);
+    };
+
+    $.getJSON({
+      query: makeQueryURL('search', videoIDs),
+      response: function(){
+        return filterResults(data)
+      }
+    });
+  };
+
   function filterResults(videos) {
     var results = [];
     for (var snippet in videos) {
@@ -50,3 +85,5 @@ $(function() {
     }
     return render(results);
   };
+
+});
