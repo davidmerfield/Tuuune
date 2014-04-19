@@ -33,6 +33,7 @@ $(function() {
       };
 
   results.innerHTML = makeQueryURL('search', searchDefaults); 
+  findVideos();
 
   function render(results){
     var html;
@@ -44,12 +45,13 @@ $(function() {
   };
 
   function findVideos() {
-   $.getJSON({
-     query: makeQueryURL('search', videoIDs),
-     response: function(){
-       return getVideoData(data)
-     }
-   });
+    var url = makeQueryURL('search', searchDefaults);
+    console.log(url);
+    $.getJSON(url, function(data,err) {
+      console.log(data);
+      console.log(err);
+      filterResults(data);
+    });
   }
 
   // Youtube doesn't return video stats in search results
@@ -61,11 +63,9 @@ $(function() {
       videoIDs.push(searchResults[snippet].video);
     };
 
-    $.getJSON({
-      query: makeQueryURL('search', videoIDs),
-      response: function(){
-        return filterResults(data)
-      }
+    $.getJSON(makeQueryURL('search', videoIDs), function(data) {
+      console.log(data)
+      filterResults(data);
     });
   };
 
