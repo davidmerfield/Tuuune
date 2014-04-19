@@ -1,3 +1,7 @@
+var foo;
+
+$(function() {
+
   var results = document.getElementById('results'),
 
       searchDefaults = {
@@ -13,6 +17,21 @@
         type: 'video',
         videoDuration: 'short'
       };
+
+      function makeQueryURL (query, defaults) {
+        
+        var url = query;
+            baseURL = 'https://www.googleapis.com/youtube/v3/';
+
+        for (key in defaults) {
+          url += '\&' + encodeURIComponent(key) + '=' + encodeURIComponent(defaults[key])
+        };
+
+        return url
+      };
+
+  results.innerHTML = makeQueryURL('search', searchDefaults); 
+
   function filterResults(videos) {
     var results = [];
     for (var snippet in videos) {
