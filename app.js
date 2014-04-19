@@ -1,3 +1,18 @@
+  var results = document.getElementById('results'),
+
+      searchDefaults = {
+        q: 'rand dsadom',
+        apiKey: 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4',
+        order: 'rating',
+        publishedAfter: 'DATE',
+        maxResults: '50,',
+        regionCode: 'USA',
+        videoEmbeddable: 'true',
+        videoCategoryId: 'music',
+        safeSearch: 'none',
+        type: 'video',
+        videoDuration: 'short'
+      };
   function filterResults(videos) {
     var results = [];
     for (var snippet in videos) {
