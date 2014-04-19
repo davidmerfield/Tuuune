@@ -22,14 +22,14 @@ $(function() {
 
       function makeQueryURL (query, defaults) {
         
-        var url = query;
+        var url = '';
             baseURL = 'https://www.googleapis.com/youtube/v3/';
 
         for (key in defaults) {
-          url += '\&' + encodeURIComponent(key) + '=' + encodeURIComponent(defaults[key])
+          url += encodeURIComponent(key) + '=' + encodeURIComponent(defaults[key]) + '\&'
         };
 
-        return url
+        return baseURL + query + '?' + url
       };
 
   results.innerHTML = makeQueryURL('search', searchDefaults); 
