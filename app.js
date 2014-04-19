@@ -5,17 +5,19 @@ $(function() {
   var results = document.getElementById('results'),
 
       searchDefaults = {
-        q: 'rand dsadom',
-        apiKey: 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4',
+        part: 'snippet',
+        q: 'a',
         order: 'rating',
-        publishedAfter: 'DATE',
-        maxResults: '50,',
-        regionCode: 'USA',
-        videoEmbeddable: 'true',
-        videoCategoryId: 'music',
-        safeSearch: 'none',
+        // publishedAfter: 'DATE',
+        regionCode: 'US',
+        // videoEmbeddable: 'true',
+        videoCategoryId: '10',
+        // safeSearch: 'none',
         type: 'video',
-        videoDuration: 'short'
+        videoCaption: 'closedCaption',
+        key: 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4',
+        maxResults: '50',
+        // videoDuration: 'short'
       };
 
       function makeQueryURL (query, defaults) {
