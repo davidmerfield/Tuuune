@@ -23,11 +23,11 @@ $(function() {
 
   findVideos();
 
-  function findVideos() {
-    var url = util.makeQueryURL('search', {
+  function findVideos(page) {
+
+    var defaults = {
       part: 'snippet',
-      order: 'rating',
-      q: 'allintitle:"-", -cover, -live, -interview, -episode, -review,' + randomWord(),
+      q: 'allintitle:"-", -cover, -live, -interview, -soundtrack, -ost, -episode, -review,' + randomWord(),
       topicID: '/m/074ft',
       type: 'video',
       videoEmbeddable: 'true',
@@ -36,10 +36,18 @@ $(function() {
       videoCategoryId: '10',
       key: apiKey,
       maxResults: '50',
-    });
+    };
 
+    if (page) {defaults['pageToken'] = page};
+    
+    url = util.makeQueryURL('search', defaults);
+    
     $.getJSON(url, function(searchResults,err) {
+      console.log(Window.queue.length);
       getVideoData(searchResults);
+      if (Window.queue.length < 10) {
+        findVideos(searchResults.nextPageToken)
+      }
     });
 
   };
@@ -82,10 +90,8 @@ $(function() {
         continue
       } 
 
-      // Ignore live shows
-      if (video.snippet.title.indexOf('live') > -1 ||
-          video.snippet.title.indexOf('#') > -1 ||
-          video.snippet.title.indexOf('@') > -1) {
+      // check for non english characters
+      if( nonEnglish.test(video.snippet.title)) {
         continue
       }
 
@@ -132,9 +138,6 @@ $(function() {
        player.play();
     });
 
-    if ($('.result').size() < 10) {
-      findVideos();
-    }
   };
 
 
