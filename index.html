@@ -8,8 +8,51 @@
   <body>
     <header>
       <h1>Music Finder</h1>
-      <section id="results">
-      </section>
+      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>    
+      <div id="embed">
+       <p>You will need Flash 8 or better to view this content.</p>
+      </div>
+      <div id="controls">
+        <a id="play">Play</a>
+        <a id="pause">Pause</a>
+        <a id="next">Previous</a>
+        <a id="next">Next</a>
+        <span id="bar">
+          <span id="buffered"></span>
+          <span id="progress"></span>
+          <span id="time"></span>
+          <span id="duration"></span>
+        </span>
+<!--         <a id="shuffle">Shuffle?</a>
+        <a id="repeat">Repeat?</a>
+ -->     </div>
+      <script type="text/javascript">
+      
+          var params = { allowScriptAccess: "always" };
+      
+          swfobject.embedSWF(    
+              "http://www.youtube.com/v/HWWogO3CWXs&enablejsapi=1&playerapiid=embed", "embed", "425", "365", "8", null, null, params);
+
+      function play() {      
+        ytplayer.playVideo();
+      }
+
+      function pause() {      
+        ytplayer.pauseVideo();
+      }
+      function stop() {      
+        ytplayer.stopVideo();
+      }
+
+      function newVideo() {
+        ytplayer.loadVideoById('FgxwKEuy-pM', 0)
+        cueVideoById
+      }
+
+      </script>
+      <script src="player.js"></script>
+
+      <section id="results"></section>
     </header>      
   </body>
 </html>
