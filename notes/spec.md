@@ -97,3 +97,35 @@ iterate over each of the responses,
 			call search on similar video
 
 when done call 
+
+work out how to search within languages
+
+// Application works like so
+
+get results from 
+   - youtube seed
+   - similar videos to like song
+
+there are user preferences and global preferences
+
+user preferences:
+   keyword - new search
+   date range - new search
+   max populatity - filter existing
+
+global:
+   no live shows 
+   like ratio
+   min likes
+
+make queue from results applying filters specified by user
+
+player moves down queue
+
+player saves song
+   append more to results
+
+player skips song
+   DO SOMETHING
+
+move song when finished from top of queue to history
