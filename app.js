@@ -99,10 +99,80 @@ $(function() {
         continue
       }
 
-      results.push(video);
+      // passed tests, add to queue
+      queue.push(video);        
+      
+    };
+    Window.queue = queue;
+    return render(queue);
+  }
 
+  function render(queue){
+    var html = '';
+
+    for (var i in queue) {
+      var video = queue[i];
+      html += "<a class='result' href='#' id='" + video.id + "'>"
+                 + video.snippet.title
+                 + '<span class="thumb"><img src="' + video.snippet.thumbnails.default.url + '" /></span>'
+            + '</a>'
+
+    };
+
+    output.innerHTML = html;
+    
+    $('.result').click(function(){
+       console.log('called');
+       var id = $(this).attr('id');
+       player.setVideo(id);
+       player.play();
+    });
+
+    if ($('.result').size() < 10) {
+      findVideos();
     }
-    return render(results);
   };
 
+
 });
+
+function loadUtilities() {
+  return {
+    searchDefaults: {
+      part: 'snippet',
+      // q: '',
+      order: 'rating',
+      // publishedAfter: 'DATE',
+      // publishedBefore: 'DATE',
+      regionCode: 'US',
+      // videoEmbeddable: 'true',
+      videoCategoryId: '10',
+      // safeSearch: 'none',
+      type: 'video',
+      videoCaption: 'closedCaption',
+      key: apiKey,
+      maxResults: '50',
+      // videoDuration: 'short'
+    },
+    videoDefaults: {
+      part: 'statistics,snippet',
+      id: [],
+      key: apiKey
+    },   
+    makeQueryURL: function (query, defaults) {
+      
+      var url = '';
+          baseURL = 'https://www.googleapis.com/youtube/v3/';
+
+      for (key in defaults) {
+        var param = defaults[key];
+        if (typeof param == 'object'){
+            param = param.join(',');
+        };
+        url += encodeURIComponent(key) + '=' + encodeURIComponent(param) + '\&'
+      };
+
+      return baseURL + query + '?' + url
+    }
+  }
+}
