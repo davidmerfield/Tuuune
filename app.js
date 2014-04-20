@@ -13,7 +13,7 @@ $(function() {
         likestoViews: 0.01,
         likeRatio: 0.01,
         minViews: 500,
-        maxViews: 30000
+        maxViews: 100000
       };
 
   var videos = [];
