@@ -25,14 +25,20 @@ $(function() {
 
   function findVideos(page) {
 
+    var dates = makeDateRange(),
+        after = dates.after,
+        before = dates.before;
+
     var defaults = {
       part: 'snippet',
-      q: 'allintitle:"-", -cover, -live, -interview, -soundtrack, -ost, -episode, -review,' + randomWord(),
+      q: 'allintitle:"-", -cover, -live, -interview, -album, -soundtrack, -ost, -episode, -review,' + randomWord(),
       topicID: '/m/074ft',
       type: 'video',
       videoEmbeddable: 'true',
       videoSyndicated: 'true',
       regionCode: 'US',
+      publishedAfter: util.ISODateString(after),
+      // publishedBefore: util.ISODateString(before),
       videoCategoryId: '10',
       key: apiKey,
       maxResults: '50',
