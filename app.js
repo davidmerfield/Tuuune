@@ -14,47 +14,41 @@ $(function() {
         maxViews: 20000
       };
 
-      function makeQueryURL (query, defaults) {
-        
-        var url = '';
-            baseURL = 'https://www.googleapis.com/youtube/v3/';
+  var videos = [],
+      queue = [];
 
-        for (key in defaults) {
-          url += encodeURIComponent(key) + '=' + encodeURIComponent(defaults[key]) + '\&'
-        };
-
-        return baseURL + query + '?' + url
-      };
-
-  results.innerHTML = makeQueryURL('search', searchDefaults); 
   findVideos();
 
-  function render(results){
-    var html;
-    for (var i in results) {
-      var result = results[i];
-      html += "<span class='result'>" + result.title + '</span>'
-    }
-    results.innerHTML = html
-  };
-
   function findVideos() {
-    var url = makeQueryURL('search', searchDefaults);
-    console.log(url);
-    $.getJSON(url, function(data,err) {
-      console.log(data);
-      console.log(err);
-      filterResults(data);
+    var url = util.makeQueryURL('search', {
+      part: 'snippet',
+      order: 'rating',
+      q: 'allintitle:"-", -cover, -live, -interview, -episode, -review,' + randomWord(),
+      topicID: '/m/074ft',
+      type: 'video',
+      videoEmbeddable: 'true',
+      videoSyndicated: 'true',
+      regionCode: 'US',
+      videoCategoryId: '10',
+      key: apiKey,
+      maxResults: '50',
     });
-  }
+
+    $.getJSON(url, function(searchResults,err) {
+      getVideoData(searchResults);
+    });
+
+  };
 
   // Youtube doesn't return video stats in search results
   // So we extract video IDs from search results then retrieve stats for each one
-  // Thankfully we can pass multiple video ids in one request
   function getVideoData(searchResults) {
+
     var videoIDs = [];
-    for (var snippet in searchResults) {
-      videoIDs.push(searchResults[snippet].video);
+  
+    for (var i in searchResults.items) {
+      var video = searchResults.items[i];
+      videoIDs.push(video.id.videoId);
     };
 
     $.getJSON(makeQueryURL('search', videoIDs), function(data) {
