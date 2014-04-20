@@ -70,7 +70,7 @@ $(function() {
     };
 
     var url = util.makeQueryURL('videos', {
-      part: 'statistics,snippet,topicDetails,contentDetails',
+      part: 'statistics,snippet,topicDetails',
       id: videoIDs,
       key: apiKey
     });
