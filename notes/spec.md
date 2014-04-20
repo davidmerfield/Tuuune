@@ -131,3 +131,17 @@ player skips song
 move song when finished from top of queue to history
 
 # Note: A playback only counts toward a video's official view count if it is initiated via a native play button in the player.
+
+right now the results contain 75% songs
+how do we remove the other 25%?
+
+need to work out how to remove  live shows
+
+Perhaps we can parse a location from the title of the video
+
+we also need to work out the language of the song
+perhaps pass the title to translate api?
+
+
+Perhaps build an 'explorer UI' 
+where one song is put in center ('like radio')
