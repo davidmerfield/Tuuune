@@ -51,23 +51,52 @@ $(function() {
       videoIDs.push(video.id.videoId);
     };
 
-    $.getJSON(makeQueryURL('search', videoIDs), function(data) {
-      console.log(data)
-      filterResults(data);
+    var url = util.makeQueryURL('videos', {
+      part: 'statistics,snippet,topicDetails,contentDetails',
+      id: videoIDs,
+      key: apiKey
+    });
+
+    $.getJSON(url, function(videoData) {
+      console.log(videoData);
+      for (var i in videoData.items) {
+        videos.push(videoData.items[i])
+      };
+      return filter(videos);
     });
   };
 
-  function filterResults(videos) {
-    var results = [];
-    for (var snippet in videos) {
-      var video = data[snippet];
+  function filter(videos) {
+
+    var queue = [];
+
+    for (var i in videos) {
+      var video = videos[i];
+
       // Check if video is well liked
-      if (video.dislikes/video.likes > 0.05) {
-        break
+      if (video.statistics.dislikeCount / video.statistics.likeCount > options.likeRatio) {
+        continue
+      } 
+
+      // Ignore live shows
+      if (video.snippet.title.indexOf('live') > -1 ||
+          video.snippet.title.indexOf('#') > -1 ||
+          video.snippet.title.indexOf('@') > -1) {
+        continue
       }
+
+      if (video.statistics.likeCount/video.statistics.viewCount < options.likestoViews){
+        continue
+      }
+
+      if (video.statistics.likeCount < options.minLikes) {
+        continue
+      }
+
       // Check if video has few views
-      if (video.views > 100000) {
-        break
+      if (video.statistics.viewCount > options.maxViews ||
+          video.statistics.viewCount < options.minViews) {
+        continue
       }
 
       results.push(video);
