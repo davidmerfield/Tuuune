@@ -129,3 +129,5 @@ player skips song
    DO SOMETHING
 
 move song when finished from top of queue to history
+
+# Note: A playback only counts toward a video's official view count if it is initiated via a native play button in the player.
