@@ -149,6 +149,26 @@ $(function() {
 
 });
 
+function makeDateRange(){
+
+  var min = new Date(2008, 1, 1),
+      minValue = min.valueOf(),
+
+      max = new Date(),
+      maxValue = max.valueOf(),
+
+      delta = maxValue - minValue;
+
+  afterValue = Math.floor(Math.random()*delta) + minValue;
+  beforeValue = Math.floor(Math.random()*(maxValue - afterValue)) + afterValue;
+
+  after = new Date(afterValue);
+  before = new Date(beforeValue)
+
+  return {'after': after, 'before': before};
+
+};
+
 function loadUtilities() {
   return {
     searchDefaults: {
