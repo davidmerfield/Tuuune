@@ -22,3 +22,34 @@ section {
   height: 200px;
 
 }
+
+.result {
+  clear: both;
+  width: 100%;
+  min-height: 100px;
+  display: block;
+}
+
+.thumb {
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  display: inline-block;
+  float: left;
+  margin-right: 12px
+}
+
+#bar {width: 50%;height: 12px;position:relative;background: #fafafa;display: block;border: 1px  solid #888}
+
+#progress,
+#buffered {position: absolute;top:0;left:0;width: 0%;height:12px;background: blue}
+
+#buffered {background: #aaa}
+
+#time {color: #333}
+#duration {color: #777;}
+
+#embed {width: 0px;height: 0px;overflow: hidden;}
+
+#controls a {color: blue;text-decoration: underline;cursor: pointer;}
+.thumb img {margin-left: -8px;height: 60px}
