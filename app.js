@@ -9,15 +9,17 @@ $(function() {
   var output = document.getElementById('results'),
       util = loadUtilities(),
       options = {
-        minLikes: 25,
-        likestoViews: 0.005,
+        minLikes: 30,
+        likestoViews: 0.01,
         likeRatio: 0.01,
         minViews: 500,
-        maxViews: 20000
+        maxViews: 30000
       };
 
-  var videos = [],
-      queue = [];
+  var videos = [];
+      Window.queue = [];
+
+
 
   findVideos();
 
