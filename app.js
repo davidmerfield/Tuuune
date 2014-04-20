@@ -4,22 +4,14 @@ var apiKey = 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4';
 
 $(function() {
 
-  var results = document.getElementById('results'),
-
-      searchDefaults = {
-        part: 'snippet',
-        q: 'a',
-        order: 'rating',
-        // publishedAfter: 'DATE',
-        regionCode: 'US',
-        // videoEmbeddable: 'true',
-        videoCategoryId: '10',
-        // safeSearch: 'none',
-        type: 'video',
-        videoCaption: 'closedCaption',
-        key: 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4',
-        maxResults: '50',
-        // videoDuration: 'short'
+  var output = document.getElementById('results'),
+      util = loadUtilities(),
+      options = {
+        minLikes: 25,
+        likestoViews: 0.005,
+        likeRatio: 0.01,
+        minViews: 500,
+        maxViews: 20000
       };
 
       function makeQueryURL (query, defaults) {
