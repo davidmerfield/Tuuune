@@ -79,3 +79,11 @@ function loadUtilities() {
               while (s.length < size) s = "0" + s;
               return s;
     },
+    hasBanned: function (string, phrases) {
+      for (var i in phrases){
+        var phrase = phrases[i];
+            regex = new RegExp( '(' + ' ' + phrase + ')', 'gi' );
+          if (regex.test(string)) {return true}
+      }
+      return false
+    },
