@@ -262,14 +262,46 @@ $(function() {
     };
 
     output.innerHTML = html;
+
+    // should abstract the video loop through queue
+
+    $('.removeFromQueue').click(function(e){
+      e.preventDefault();
+       var id = $(this).parent().parent().attr('id');
+       for (var i in Window.queue) {
+          var video = Window.queue[i];
+          if (video.id === id) {
+            // also need to remove it from videos when refiltering occurs
+            Window.queue.splice(i,1);      
+            $(this).parent().parent().remove();
+          }
+       };
+       for (var i in videos) {
+          var video = videos[i];
+          if (video.id === id) {
+            // also need to remove it from videos when refiltering occurs
+            videos.splice(i,1);      
+          }
+       };
+    });
+
+    $('.addToQueue').click(function(){
+       var id = $(this).parent().parent().attr('id');
+       for (var i in Window.queue) {
+          var video = Window.queue[i];
+          if (video.id === id) {
+            Window.queue.unshift(video);      
+          }
+       };
+    });
     
     $('.result').click(function(){
        var id = $(this).attr('id');
        for (var i in Window.queue) {
           var video = Window.queue[i];
           if (video.id === id) {
-            console.log(Window.queue);
-            Window.currentSong = i;
+            Window.currentSong = video;
+            Window.queue = Window.queue.slice(i+1);
             console.log(Window.queue)
             player.play(video);            
           }
