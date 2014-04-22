@@ -34,7 +34,7 @@ function loadUtilities() {
       afterValue = Math.floor(Math.random()*delta) + minValue;
 
       after = new Date(afterValue);
-      before = new Date(after.getFullYear(), after.getMonth(), after.getDate()+3);
+      before = new Date(after.getFullYear(), after.getMonth(), after.getDate()+4);
 
       console.log(after);
       console.log(before);
@@ -100,6 +100,8 @@ function loadUtilities() {
               'official video',
               'official audio',
               'official music video',
+              'music video',
+              'unofficial music video',
               'audio stream',
               'new release',
               'studio version',
