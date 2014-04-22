@@ -92,8 +92,17 @@ $(function() {
 
     var queue = [];
 
+
     for (var i in videos) {
+      
       var video = videos[i];
+          video.duration = util.parseYTDuration(video.contentDetails.duration);
+
+      // Check if video has few views
+      if (video.statistics.viewCount > options.maxViews ||
+          video.statistics.viewCount < options.minViews) {
+        continue
+      }
 
       // Check if video is well liked
       if (video.statistics.dislikeCount / video.statistics.likeCount > options.likeRatio) {
@@ -105,47 +114,123 @@ $(function() {
         continue
       }
 
+      // Check video has enough likes
       if (video.statistics.likeCount/video.statistics.viewCount < options.likestoViews){
         continue
       }
 
-      if (video.statistics.likeCount < options.minLikes) {
+      var bannedWords = [
+        'live',
+        'cover',
+        'album',
+        'monologue',
+        'backstage',
+        'part',
+        '2014',
+        '2013',
+        '2012',
+        '2011',
+        '2010',
+        '2009',
+        '2008',
+        '2007',
+        '2006',
+        'lesson',
+        'tabs',
+        'tutorial',
+        'theme',
+        'session',
+        'hd',
+        'blog',
+        'vlog',
+        '@',
+        '#',
+        'concert',
+        'music production',
+        'beat making',
+        'interview', 
+        'album', 
+        'soundtrack', 
+        'ost', 
+        'episode',
+        'review'
+      ];
+
+      // Check if remixes are cool
+      if (!options.remix) {
+        bannedWords.push('remix')
+      }
+
+      // skip banned words
+      if (util.hasBanned(video.snippet.title, bannedWords)) {
         continue
       }
 
-      // Check if video has few views
-      if (video.statistics.viewCount > options.maxViews ||
-          video.statistics.viewCount < options.minViews) {
+      // probably not a song
+      if (video.snippet.title.indexOf('-') === -1) {
         continue
       }
 
+      // Ignore too short or too long videos
+      if (video.duration < 120 || video.duration > 720)  {
+        continue
+      };
+
+      // Tidy up title string      
+      video.snippet.title = util.tidyTitle(video.snippet.title);
+
+      // Make pretty duration
+      var mins = Math.floor(video.duration / 60),
+          seconds = util.pad(Math.floor(video.duration % 60),2);
+          video.prettyDuration = mins + ':' + seconds;
+
+      // Make pretty viewcount
+      video.prettyViewCount = Math.round(video.statistics.viewCount/1000) + 'k';
+      
       // passed tests, add to queue
       queue.push(video);        
       
     };
+
     Window.queue = queue;
     return render(queue);
   }
 
   function render(queue){
-    var html = '';
+
+    if (queue.length < 5) {
+      return false
+    }
+
+    $('#results').attr('class', '')
+
+    var template =
+      '<a class="result" href="#" id="{{id}}">' +
+        '<img class="thumbnail" src="{{snippet.thumbnails.default.url}}" />' +
+          '<span class="title">{{snippet.title}} </span> ' +
+          '<span class="duration"> &#8226; {{prettyDuration}} &#8226; </span>' +
+          '<span class="views">{{prettyViewCount}} listens</span>' +
+      '</a>',
+      html = '';
 
     for (var i in queue) {
       var video = queue[i];
-      html += "<a class='result' href='#' id='" + video.id + "'>"
-                 + video.snippet.title
-                 + '<span class="thumb"><img src="' + video.snippet.thumbnails.default.url + '" /></span>'
-            + '</a>'
-
+      html += Mustache.render(template, video);
     };
 
     output.innerHTML = html;
     
     $('.result').click(function(){
-       console.log('called');
        var id = $(this).attr('id');
-       player.setVideo(id);
-       player.play();
+       for (var i in Window.queue) {
+          var video = Window.queue[i];
+          if (video.id === id) {
+            console.log(Window.queue);
+            Window.currentSong = i;
+            console.log(Window.queue)
+            player.play(video);            
+          }
+       };
     });
 
   };
