@@ -105,7 +105,7 @@ section {
     text-indent: -1000px;
   }
   #play, #pause {
-    background: url('/img/play.png') no-repeat center center;
+    background: url('./img/play.png') no-repeat center center;
     width: 36px;
     height: 36px;
     margin: 12px 6px;
@@ -115,11 +115,11 @@ section {
   }
 
   #pause {
-    background-image: url('/img/pause.png');
+    background-image: url('./img/pause.png');
   }
 
   #next, #previous {
-    background: url('/img/next.png') no-repeat center center;
+    background: url('./img/next.png') no-repeat center center;
     width: 16px;
     height: 24px;
     margin: 18px 6px;
@@ -127,7 +127,7 @@ section {
   }
 
   #previous {
-    background-image: url('/img/previous.png');
+    background-image: url('./img/previous.png');
     margin-left: 18px
   }
 
