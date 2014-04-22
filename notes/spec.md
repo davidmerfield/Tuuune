@@ -44,6 +44,12 @@ song track
 songmap 
 compass
 
+search sound cloud too
+
+unchanted.com - LIKE
+
+vnsvng.com - Unsung, meh
+
 void.fm
 avoid.fm
 the good unknown
@@ -51,6 +57,10 @@ ok unknown
 oktrak
 very disco (discovery)
 onown .co
+tvne.com
+tiptune - like
+unchanted.com
+
 uncharted - .cm, im, is, .mx, LIKE .am, .gd, .im, .is, .mx	
 strange
 goodunknownmusic
