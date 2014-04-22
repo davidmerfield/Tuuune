@@ -2,10 +2,23 @@ body {
   width:  100%;
   height: 100%;
   margin: 0px;
-  font-family: sans-serif;
+  font-family: 'Avenir Next',sans-serif;
+  padding-top: 60px;
 }
 
-
+.hide {display: none!important;}
+h1 {
+  font-family: 'Avenir Next Condensed';
+  font-style: italic;
+  text-transform: uppercase;
+}
+h1 em {
+  font-family: 'Avenir Next';
+  font-size: 0.6em;
+  color: #aaa;
+  text-transform: none;
+  font-weight: normal;
+}
 header,
 section {
   width: 660px;
