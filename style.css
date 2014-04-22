@@ -10,6 +10,7 @@ body {
 h1 {
   font-family: 'Avenir Next Condensed';
   font-style: italic;
+  color: black;
   text-transform: uppercase;
 }
 h1 em {
@@ -27,10 +28,13 @@ section {
 
 #options, #results, #advanced {margin: 0 auto}
 
-#showAdvanced {
-  float: right;
-  font-size: 0.88em;
+#options {  font-size: 0.88em;
 }
+#showAdvanced, #reload {
+  float: right;
+}
+
+#reload {margin-left: 12px}
 
 #advanced label {
   display: block;
@@ -58,7 +62,7 @@ section {
   color: #000;
   display: block;
   min-height: 60px;
-  margin-bottom: 12px
+  margin-bottom: 24px
 }
 .result:hover {
   background: rgba(255,168,0,0.1)
@@ -71,8 +75,10 @@ section {
   display: inline-block;
   overflow: hidden;
   height: 1.3em;
+  font-size: 1.15em;
 }
 
+.result .stats {display: block}
 .result .views, .result .duration {
   color: #aaa;
   font-size: 0.88em;
@@ -131,12 +137,15 @@ section {
     margin-left: 18px
   }
 
-#bar {width: 50%;display:block;max-width: 660px;margin: 28px auto;height: 4px;position:relative;background: #333;display: block;overflow: visible;}
+#bar,
+#title {width: 50%;display:block;max-width: 660px;margin: 0 auto;}
+
+#bar {height: 4px;position:relative;background: #333;display: block;overflow: visible;}
+
+#title {height: 1.3em;margin: 0.6em auto ;color: #888}
 
 #progress,
 #buffered {position: absolute;top:0;left:0;width: 0%;height:4px;background: blue}
-
-#title {float: left;}
 
 #progress:after {content: '';display: block;float:right;margin-top:-4px;margin-right:-2px;width: 12px;height: 12px;border-radius: 12px;background: #fff}
 #buffered {background: #666}
@@ -148,7 +157,7 @@ section {
   text-align: right;
   position: absolute;
   left: -40px;
-  top:-0.33em;
+  top:-0.5em;
   font-size: 0.88em
 }
 #duration {position: absolute;left:auto;right: -40px;}

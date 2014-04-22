@@ -23,7 +23,7 @@ function loadUtilities() {
     },
     makeDateRange: function(){
 
-      var min = new Date(2008, 1, 1),
+      var min = new Date(2007, 1, 1),
           minValue = min.valueOf(),
 
           max = new Date(),

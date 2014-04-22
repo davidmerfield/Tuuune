@@ -24,6 +24,40 @@ function newVideo() {
   cueVideoById
 }
 
+
+
+$('#play').click(function(){
+   player.play();
+});
+
+$('#pause').click(function(){
+   embed.pauseVideo();
+});
+
+$('#previous').click(function(){
+  Window.queue.unshift(Window.playHistory.shift());
+  var video = Window.queue[0];
+  player.play(video)
+});
+
+$('#next').click(function(){
+  Window.playHistory.push(Window.queue[Window.currentSong]);
+  Window.currentSong++;
+  var video = Window.queue[Window.currentSong];
+  player.play(video)
+});
+
+$('#bar').click(function(e){
+  var xOffset = e.pageX - $(this).offset().left,
+      ratio = xOffset/$(this).width(),
+      seconds = Math.round(ratio*player.duration);
+
+  embed.seekTo(seconds, true)
+
+});
+
+ 
+
 });
 
 
@@ -106,39 +140,6 @@ var player = {
 
    }
 }
-
-
-$('#play').click(function(){
-   player.play();
-});
-
-$('#pause').click(function(){
-   embed.pauseVideo();
-});
-
-$('#previous').click(function(){
-  Window.queue.unshift(Window.playHistory.shift());
-  var video = Window.queue[0];
-  player.play(video)
-});
-
-$('#next').click(function(){
-  Window.playHistory.push(Window.queue[Window.currentSong]);
-  Window.currentSong++;
-  var video = Window.queue[Window.currentSong];
-  player.play(video)
-});
-
-$('#bar').click(function(e){
-  var xOffset = e.pageX - $(this).offset().left,
-      ratio = xOffset/$(this).width(),
-      seconds = Math.round(ratio*player.duration);
-
-  embed.seekTo(seconds, true)
-
-});
-
- 
 
 
 //       seekTo(seconds)

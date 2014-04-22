@@ -7,9 +7,6 @@ var apiKey = 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4';
 
 $(function() {
 
-  $('#showAdvanced').click(function(){
-    $('#advanced').toggleClass('hide');
-  });
 
   var output = document.getElementById('results'),
       util = loadUtilities(),
@@ -27,6 +24,24 @@ $(function() {
       Window.currentSong = 0;
 
   findVideos();
+
+
+  $('#showAdvanced').click(function(){
+    $('#advanced').toggleClass('hide');
+  });
+
+
+  $('#reload').click(function(){
+    recreateQueue();
+  });
+
+  function recreateQueue () {
+
+    Window.queue = [];
+    videos = [];
+    render(Window.queue);
+    findVideos();
+  }
 
   function findVideos(page) {
 
@@ -125,6 +140,7 @@ $(function() {
         'album',
         'monologue',
         'backstage',
+        'tour',
         'part',
         '2014',
         '2013',
@@ -139,6 +155,7 @@ $(function() {
         'tabs',
         'tutorial',
         'theme',
+        'kickstarter',
         'session',
         'hd',
         'blog',
@@ -167,7 +184,7 @@ $(function() {
       }
 
       // probably not a song
-      if (video.snippet.title.indexOf('-') === -1) {
+      if (video.snippet.title.indexOf(' - ') === -1) {
         continue
       }
 
@@ -199,6 +216,8 @@ $(function() {
   function render(queue){
 
     if (queue.length < 5) {
+      $('#results').attr('class', 'empty');
+      output.innerHTML = '';
       return false
     }
 
@@ -208,8 +227,10 @@ $(function() {
       '<a class="result" href="#" id="{{id}}">' +
         '<img class="thumbnail" src="{{snippet.thumbnails.default.url}}" />' +
           '<span class="title">{{snippet.title}} </span> ' +
-          '<span class="duration"> &#8226; {{prettyDuration}} &#8226; </span>' +
-          '<span class="views">{{prettyViewCount}} listens</span>' +
+          '<span class="stats">' +
+            '<span class="duration">{{prettyDuration}} &#8226; </span>' +
+            '<span class="views">{{prettyViewCount}} listens</span>' +
+          '</span>' +
       '</a>',
       html = '';
 

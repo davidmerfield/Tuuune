@@ -14,14 +14,15 @@
       <h1>Uncharted <em>Explore undiscovered music</em></h1>
       <section id="options">
         Show songs with  
-        <select>
-          <option> under 100k listens</option>
-          <option>under 10k listens</option>
-          <option>under 1k listens</option>
+        <select id="popularity">
+          <option value="100"> under 100k listens</option>
+          <option value="10">under 10k listens</option>
+          <option value="1">under 1k listens</option>
         </select>
         <a href="#" id="showAdvanced">Show more options</a>
         <section id="advanced" class="hide">
           <label>Time range:
+          <label id="timeRange">Time range:
             <select>
               <option>Any date</option>
               <option>This year</option>
