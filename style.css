@@ -22,7 +22,18 @@ h1 em {
 header,
 section {
   width: 660px;
-  margin: 2em auto
+  margin: 1em auto
+}
+
+#options, #results, #advanced {margin: 0 auto}
+
+#showAdvanced {
+  float: right;
+  font-size: 0.88em;
+}
+
+#advanced label {
+  display: block;
 }
 
 section {
@@ -43,20 +54,40 @@ section {
 .result {
   clear: both;
   width: 100%;
-  min-height: 100px;
+  text-decoration: none;
+  color: #000;
   display: block;
+  min-height: 60px;
+  margin-bottom: 12px
+}
+.result:hover {
+  background: rgba(255,168,0,0.1)
 }
 
-.thumb {
+.result .title {
+  border-bottom: 2px solid rgba(0,0,255,0.25);
+  color: rgb(0,0,255);
+  max-width: 474px;
+  display: inline-block;
+  overflow: hidden;
+  height: 1.3em;
+}
+
+.result .views, .result .duration {
+  color: #aaa;
+  font-size: 0.88em;
+  font-family: 'Avenir Next Condensed'
+}
+.result 
+.thumbnail {
   width: 60px;
   height: 60px;
   overflow: hidden;
-  display: inline-block;
+  display: block;
   float: left;
   margin-right: 12px
 }
 
-#bar {width: 50%;height: 12px;position:relative;background: #fafafa;display: block;border: 1px  solid #888}
 #controls {
   width: 100%;
   position: fixed;
