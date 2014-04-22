@@ -145,8 +145,16 @@ $(function() {
         'live',
         'cover',
         'album',
+        'tedx',
         'monologue',
+        'band',
+        'recording',
+        'song',
+        'orchestra',
         'backstage',
+        'parody',
+        'making of',
+        'rehearsal',
         'tour',
         'part',
         '2014',
@@ -230,6 +238,9 @@ $(function() {
 
     $('#results').attr('class', '')
 
+    
+    //You should check the video's ratio (4:3 or 16:9) and crop the thumbnail to keep that ratio. Not trying to detect the color.
+    
     var template =
       '<a class="result" href="#" id="{{id}}">' +
         '<img class="thumbnail" src="{{snippet.thumbnails.default.url}}" />' +
