@@ -1,11 +1,25 @@
 # To do
 
-- Add feature to generate color which can have readable text on it
-- Add feature to handle multiple hue values passed as a preference
-- Add feature to harmonize array of randomly generated colors by mixing in an overlay
-- Add theme options (e.g. neon, pastel, bold)
+refilter songs based on user preferences
+remove song from queue (results)
+restyle results with few prominent 
+   and rest as grid in list
+make new date range if results don't arrive
+handle timeouts and errors from youtube
+tidy up player
+   - slider slide
+load more results button
 
-- Modify the color library to accept multiple hue ranges for a color (e.g red)
-- Modify the color library to store a hue range against multiple strings (e.g. pink and fuschia map to same range)
+create crud app
+   with users
+   to save songs
+   make playlists
 
-- Expand the random number picker to across a range with a weight
+   cache youtube search responses?
+   provide only whitelisted response to unlogged in users
+   
+   we'll need to go way deeper into their results at some point
+
+my music
+discover (basic app)
+hot section of most saved songs
