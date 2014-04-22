@@ -3,14 +3,31 @@ body {
   height: 100%;
   margin: 0px;
   font-family: 'Avenir Next',sans-serif;
-  padding-top: 60px;
+  padding-bottom: 60px;
 }
+
+#header {
+  width: 100%;
+  background: #000;
+  border-bottom: 4px solid blue;
+  height: 56px;
+  border-top: none;
+  padding: 0;
+  margin: 0
+}
+
+
 
 .hide {display: none!important;}
 h1 {
   font-family: 'Avenir Next Condensed';
   font-style: italic;
   color: black;
+  margin-top: 2em;
+  line-height: 56px;
+  width: 660px;
+  color: #fff;
+  margin: 0 auto;
   text-transform: uppercase;
 }
 h1 em {
@@ -20,6 +37,37 @@ h1 em {
   text-transform: none;
   font-weight: normal;
 }
+#loginPrompt {
+  background: rgba(250,245,187,0.8);
+  position: fixed;
+  top: 60px;
+  color: #85825c;
+  height: 48px;
+  padding: 0 1em;
+  margin: 0 0 0 -1em;
+  border-top: none;
+  line-height: 48px;
+  font-size: 0.88em;
+}
+
+#login {
+  float: right;
+  font-style: italic;
+  margin-right: 1em;
+  color: #85825c
+}
+#join {
+  display: inline-block;
+  float: right;
+  background: #eb6115;
+  text-decoration: none;
+  line-height: 1.3em;
+  padding: 0.5em;
+  font-weight: bold;
+  margin: 0.5em 0 0 0;
+  color: #fff
+}
+
 header,
 section {
   width: 660px;
@@ -28,7 +76,7 @@ section {
 
 #options, #results, #advanced {margin: 0 auto}
 
-#options {  font-size: 0.88em;
+#options {  font-size: 0.88em;border-top: none;margin-top: 4em;
 }
 #showAdvanced, #reload {
   float: right;
@@ -61,6 +109,7 @@ section {
   text-decoration: none;
   color: #000;
   display: block;
+  position: relative;
   min-height: 60px;
   margin-bottom: 24px
 }
@@ -94,10 +143,32 @@ section {
   margin-right: 12px
 }
 
+.result .buttons {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100px;
+}
+
+.result .buttons span {
+  display: block;
+  float: right;
+  padding: 0 0.33em;
+  border: 2px solid #aaa;
+  border-radius: 4px;
+  margin: 0.3em 0 0 0;
+  color: #444;
+  font-size: 0.88em;
+}
+
+.result:hover .buttons {display: block;}
+
+.thumbnail img {height: 84px;text-align: center;margin-top: -12px}
 #controls {
   width: 100%;
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
   right: 0;
   height: 60px;
