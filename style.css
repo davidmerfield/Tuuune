@@ -36,6 +36,10 @@ section {
 
 }
 
+#results.empty {
+  background: url('./img/loader.gif') no-repeat center center;
+}
+
 .result {
   clear: both;
   width: 100%;
