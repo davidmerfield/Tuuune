@@ -4,41 +4,45 @@ var apiKey = 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4';
     randomWord = function () {return dictionary[Math.floor(Math.random() * dictionary.length)]},
     nonEnglish = new RegExp("[^\x00-\x7F]+");
 
+
 $(function() {
+
+  $('#showAdvanced').click(function(){
+    $('#advanced').toggleClass('hide');
+  });
 
   var output = document.getElementById('results'),
       util = loadUtilities(),
       options = {
-        minLikes: 30,
         likestoViews: 0.01,
         likeRatio: 0.01,
         minViews: 500,
-        maxViews: 100000
+        maxViews: 100000,
+        remix: true
       };
 
   var videos = [];
-      Window.queue = [];
-
-
+      Window.queue = [],
+      Window.playHistory = [],
+      Window.currentSong = 0;
 
   findVideos();
 
   function findVideos(page) {
 
-    var dates = makeDateRange(),
+    var dates = util.makeDateRange(),
         after = dates.after,
         before = dates.before;
 
     var defaults = {
       part: 'snippet',
-      q: 'allintitle:"-", -cover, -live, -interview, -album, -soundtrack, -ost, -episode, -review,' + randomWord(),
-      topicID: '/m/074ft',
       type: 'video',
+      topicID: '/m/074ft',
       videoEmbeddable: 'true',
       videoSyndicated: 'true',
       regionCode: 'US',
       publishedAfter: util.ISODateString(after),
-      // publishedBefore: util.ISODateString(before),
+      publishedBefore: util.ISODateString(before),
       videoCategoryId: '10',
       key: apiKey,
       maxResults: '50',
@@ -47,9 +51,10 @@ $(function() {
     if (page) {defaults['pageToken'] = page};
     
     url = util.makeQueryURL('search', defaults);
-    
+    console.log(url)
+
     $.getJSON(url, function(searchResults,err) {
-      console.log(Window.queue.length);
+      console.log(searchResults);
       getVideoData(searchResults);
       if (Window.queue.length < 10) {
         findVideos(searchResults.nextPageToken)
@@ -70,13 +75,12 @@ $(function() {
     };
 
     var url = util.makeQueryURL('videos', {
-      part: 'statistics,snippet,topicDetails',
+      part: 'statistics,snippet,topicDetails,contentDetails',
       id: videoIDs,
       key: apiKey
     });
 
     $.getJSON(url, function(videoData) {
-      console.log(videoData);
       for (var i in videoData.items) {
         videos.push(videoData.items[i])
       };
