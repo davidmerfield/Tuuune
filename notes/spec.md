@@ -40,6 +40,10 @@ okunknown.com
 OK Unknown
 Good Unknown
 
+song track
+songmap 
+compass
+
 void.fm
 avoid.fm
 the good unknown
@@ -47,7 +51,7 @@ ok unknown
 oktrak
 very disco (discovery)
 onown .co
-uncharted - LIKE .am, .gd, .im, .is, .mx	
+uncharted - .cm, im, is, .mx, LIKE .am, .gd, .im, .is, .mx	
 strange
 goodunknownmusic
 goodunpopular
@@ -119,6 +123,8 @@ global:
    min likes
 
 make queue from results applying filters specified by user
+
+perhaps try without seed query (random word) but with more specific date range?
 
 player moves down queue
 
