@@ -11,8 +11,8 @@ $(function() {
   var output = document.getElementById('results'),
       util = loadUtilities(),
       options = {
-        likestoViews: 0.01,
-        likeRatio: 0.01,
+        likestoViews: 0.01, // ratio of likes to views
+        likeRatio: 0.01, // ratio of likes to dislikes
         minViews: 500,
         maxViews: 100000,
         remix: true
@@ -123,6 +123,13 @@ $(function() {
       if (video.statistics.dislikeCount / video.statistics.likeCount > options.likeRatio) {
         continue
       } 
+
+      // if songs by the same artist are returned, shuffle their location
+      // easiest way to do this would be to check the uplaoder
+
+      // needs to check for reuploads
+
+      // check against list of top artists
 
       // check for non english characters
       if( nonEnglish.test(video.snippet.title)) {
