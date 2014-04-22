@@ -10,17 +10,35 @@
     <script src="player.js"></script>
   </head>
   <body>
+    <section id="header">
+      <h1>Uncharted</h1>
+    </section>
     <header>
-      <h1>Uncharted <em>Explore undiscovered music</em></h1>
+      <section id="loginPrompt">
+        Uncharted helps you explore the internet's best undiscovered music.
+        <a href="#" id="join">Join</a>
+        <a href="#" id="login">Log in</a>
+      </section>
       <section id="options">
-        Show songs with  
+        Find great songs with  
         <select id="popularity">
           <option value="100"> under 100k listens</option>
           <option value="10">under 10k listens</option>
           <option value="1">under 1k listens</option>
-        </select>
+        </select> in 
+        <select id="genre">
+          <option value="100"> any genre</option>
+          <option value="10">hip hop</option>
+          <option value="10">electronic</option>
+          <option value="10">jazz</option>
+          <option value="10">indie</option>
+          <option value="10">metal</option>
+          <option value="10">blues</option>
+          <option value="10">rock</option>
+          <option value="1">reggae</option>
+        </select>  
         <a href="#" id="reload">Reload</a>
-        <a href="#" id="showAdvanced">Show more options </a>
+        <a href="#" id="showAdvanced">More options </a>
         <section id="advanced" class="hide">
           <label id="timeRange">Time range:
             <select>
@@ -30,18 +48,19 @@
               <option>This week</option>
               <option>Today</option>
             </select>
-          </label> 
+          </label>
+          <label><b>Include</b></label> 
           <label>
-            Allow remixes?
-            <input type="checkbox" />
+            <input type="checkbox" checked/>
+            Remixes
           </label>
           <label>
-            Allow foreign songs?
             <input type="checkbox" />
+            Foreign songs
           </label>
           <label>
-            Allow covers?
             <input type="checkbox" />
+            Covers
           </label>
           <label>
 
