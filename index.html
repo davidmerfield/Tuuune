@@ -11,52 +11,60 @@
   </head>
   <body>
     <header>
-      <h1>Music Finder</h1>
-      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>    
-      <div id="embed">
-       <p>You will need Flash 8 or better to view this content.</p>
-      </div>
-      <div id="controls">
-        <a id="play">Play</a>
-        <a id="pause">Pause</a>
-        <a id="next">Previous</a>
-        <a id="next">Next</a>
-        <span id="bar">
-          <span id="buffered"></span>
-          <span id="progress"></span>
-          <span id="time"></span>
-          <span id="duration"></span>
-        </span>
-<!--         <a id="shuffle">Shuffle?</a>
-        <a id="repeat">Repeat?</a>
- -->     </div>
-      <script type="text/javascript">
-      
-          var params = { allowScriptAccess: "always" };
-      
-          swfobject.embedSWF(    
-              "http://www.youtube.com/v/HWWogO3CWXs&enablejsapi=1&playerapiid=embed", "embed", "425", "365", "8", null, null, params);
+      <h1>Uncharted <em>Explore undiscovered music</em></h1>
+      <section id="options">
+        Show songs with  
+        <select>
+          <option> under 100k listens</option>
+          <option>under 10k listens</option>
+          <option>under 1k listens</option>
+        </select>
+        <a href="#" id="showAdvanced">Show more options</a>
+        <section id="advanced" class="hide">
+          <label>Time range:
+            <select>
+              <option>Any date</option>
+              <option>This year</option>
+              <option>This month</option>
+              <option>This week</option>
+              <option>Today</option>
+            </select>
+          </label> 
+          <label>
+            Allow remixes?
+            <input type="checkbox" />
+          </label>
+          <label>
+            Allow foreign songs?
+            <input type="checkbox" />
+          </label>
+          <label>
+            Allow covers?
+            <input type="checkbox" />
+          </label>
+          <label>
 
-      function play() {      
-        ytplayer.playVideo();
-      }
-
-      function pause() {      
-        ytplayer.pauseVideo();
-      }
-      function stop() {      
-        ytplayer.stopVideo();
-      }
-
-      function newVideo() {
-        ytplayer.loadVideoById('FgxwKEuy-pM', 0)
-        cueVideoById
-      }
-
-      </script>
-      <script src="player.js"></script>
-
-      <section id="results"></section>
+        </section>
+      </section>
+      <section id="results" class="empty"></section>
+            <div id="embed">
+             <p>You will need Flash 8 or better to view this content.</p>
+            </div>
+            <div id="controls">
+              <a id="previous">Previous</a>
+              <a id="play">Play</a>
+              <a id="pause" style="display: none">Pause</a>
+              <a id="next">Next</a>
+              <span id="title"></span>
+              <div id="bar">
+                <span id="buffered"></span>
+                <span id="progress"></span>
+                <span id="time">0:00</span>
+                <span id="duration">0:00</span>
+              </div>
+      <!--         <a id="shuffle">Shuffle?</a>
+              <a id="repeat">Repeat?</a>
+       -->     </div>      
     </header>      
   </body>
 </html>
