@@ -1,5 +1,11 @@
 var util = loadUtilities();
 
+// player.queue // songs about to player next
+// player.currentSong // song currently playing
+
+// discover.filteredResults // every song which passes the current filters and is in the view
+// discover.allResults // every song returned from youtube
+
 $(function() {
 
     var params = { allowScriptAccess: "always" };
@@ -41,10 +47,7 @@ $('#previous').click(function(){
 });
 
 $('#next').click(function(){
-  Window.playHistory.push(Window.queue[Window.currentSong]);
-  Window.currentSong++;
-  var video = Window.queue[Window.currentSong];
-  player.play(video)
+  player.nextSong();
 });
 
 $('#bar').click(function(e){
@@ -56,7 +59,7 @@ $('#bar').click(function(e){
 
 });
 
- 
+
 
 });
 
@@ -82,6 +85,11 @@ var player = {
       setInterval(player.updateProgressBar, 50);
     }
 
+    // song finished
+    if (e === 0) {
+      player.nextSong();
+    }
+
     // Paused
     if (e === 2) {
       $('#pause').hide();
@@ -89,6 +97,11 @@ var player = {
       clearInterval(player.updateProgressBar)
     }
 
+   },
+   nextSong: function() {
+    Window.playHistory.push(Window.currentSong);
+    Window.currentSong = Window.queue.shift();
+    player.play(Window.currentSong);
    },
    play: function(video){
 
@@ -101,7 +114,7 @@ var player = {
       };
       
       if (this.video === '') {
-         this.video = Window.queue[0]
+         player.nextSong();
       };
 
       this.renderUI();
