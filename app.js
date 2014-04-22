@@ -243,12 +243,16 @@ $(function() {
     
     var template =
       '<a class="result" href="#" id="{{id}}">' +
-        '<img class="thumbnail" src="{{snippet.thumbnails.default.url}}" />' +
-          '<span class="title">{{snippet.title}} </span> ' +
-          '<span class="stats">' +
-            '<span class="duration">{{prettyDuration}} &#8226; </span>' +
-            '<span class="views">{{prettyViewCount}} listens</span>' +
-          '</span>' +
+        '<span class="thumbnail"><img src="{{snippet.thumbnails.default.url}}" /></span>' +
+        '<span class="title">{{snippet.title}} </span> ' +
+        '<span class="buttons">' +
+          '<span class="removeFromQueue">x Hide</span>' +
+          '<span class="addToQueue">+ Queue</span>' +
+        '</span>'
+        '<span class="stats">' +
+          '<span class="duration">{{prettyDuration}} &#8226; </span>' +
+          '<span class="views">{{prettyViewCount}} listens</span>' +
+        '</span>' +
       '</a>',
       html = '';
 
