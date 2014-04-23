@@ -6,10 +6,10 @@ body {
   padding-bottom: 60px;
 }
 
-#header {
+header {
   width: 100%;
   background: #000;
-  border-bottom: 4px solid blue;
+  border-bottom: 4px solid #dbd7a8;
   height: 56px;
   border-top: none;
   padding: 0;
@@ -25,10 +25,12 @@ h1 {
   color: black;
   margin-top: 2em;
   line-height: 56px;
+  padding: 0 14px;
   width: 660px;
   color: #fff;
   margin: 0 auto;
   text-transform: uppercase;
+  border-bottom: 4px solid #ffe900;
 }
 h1 em {
   font-family: 'Avenir Next';
@@ -38,28 +40,56 @@ h1 em {
   font-weight: normal;
 }
 #loginPrompt {
-  background: rgba(250,245,187,0.8);
-  position: fixed;
-  top: 60px;
-  color: #85825c;
+  background: #fff9bc;
+  color: #535136;
   height: 48px;
   padding: 0 1em;
-  margin: 0 0 0 -1em;
   border-top: none;
   line-height: 48px;
   font-size: 0.88em;
+  position: relative;
+  top: 0;
+  margin: 0 auto;
+  }
+
+select {
+font-size: 14px;
+background: #f4f4f4;
+border: 1px solid #aaa;
+font-family: 'Avenir Next';
+}
+
+#type a {
+  border-bottom: 3px solid;
+  margin-left: 0.25em;
+  text-decoration: none;
+}
+
+#type #type-song {
+  color: #36779d;
+  border-color: #d7e4eb;
+}
+#type #type-album {
+  color: #56b2bd;
+  border-color: #ddf0f2;
+}
+
+#type #type-playlist {
+  color: #6abc8b;
+  border-color: #e1f2e8;
 }
 
 #login {
   float: right;
-  font-style: italic;
   margin-right: 1em;
-  color: #85825c
+  text-decoration: none;
+  color: #535136;
 }
 #join {
   display: inline-block;
   float: right;
   background: #eb6115;
+  border-radius: 3px;
   text-decoration: none;
   line-height: 1.3em;
   padding: 0.5em;
@@ -68,18 +98,23 @@ h1 em {
   color: #fff
 }
 
-header,
 section {
   width: 660px;
   margin: 1em auto
 }
 
+#discover {margin: 2em auto;border-top: none;}
 #options, #results, #advanced {margin: 0 auto}
 
-#options {  font-size: 0.88em;border-top: none;margin-top: 4em;
+#options {  font-size: 0.88em;border-top: none;
 }
 #showAdvanced, #reload {
   float: right;
+  margin-top: 6px;
+  text-decoration: none;
+  border-bottom: 2px solid #aeaee9;
+  color: #3d3ddc;
+  font-weight: 500;
 }
 
 #reload {margin-left: 12px}

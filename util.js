@@ -1,26 +1,6 @@
 function loadUtilities() {
   return {
-    searchDefaults: {
-      part: 'snippet',
-      // q: '',
-      order: 'rating',
-      // publishedAfter: 'DATE',
-      // publishedBefore: 'DATE',
-      regionCode: 'US',
-      // videoEmbeddable: 'true',
-      videoCategoryId: '10',
-      // safeSearch: 'none',
-      type: 'video',
-      videoCaption: 'closedCaption',
-      key: apiKey,
-      maxResults: '50',
-      // videoDuration: 'short'
-    },
-    videoDefaults: {
-      part: 'statistics,snippet',
-      id: [],
-      key: apiKey
-    },
+
     makeDateRange: function(){
 
       var min = new Date(2007, 1, 1),
@@ -36,10 +16,7 @@ function loadUtilities() {
       after = new Date(afterValue);
       before = new Date(after.getFullYear(), after.getMonth(), after.getDate()+4);
 
-      console.log(after);
-      console.log(before);
-      
-      return {'after': after, 'before': before};
+      return {'after': this.ISODateString(after), 'before': this.ISODateString(before)};
 
     },
     parseYTDuration: function(duration) {

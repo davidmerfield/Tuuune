@@ -10,37 +10,42 @@
     <script src="player.js"></script>
   </head>
   <body>
-    <section id="header">
-      <h1>Uncharted</h1>
-    </section>
     <header>
+      <h1>Uncharted</h1>
       <section id="loginPrompt">
-        Uncharted helps you explore the internet's best undiscovered music.
+        Uncharted is a search engine for the internet's best undiscovered music.
         <a href="#" id="join">Join</a>
         <a href="#" id="login">Log in</a>
       </section>
+    </header>  
+    <section id="discover">
       <section id="options">
-        Find great songs with  
+        Find 
+        <select id="type">
+          <option value="song">songs</option>
+          <option value="album">albums</option>
+        </select> 
+        with
         <select id="popularity">
           <option value="100"> under 100k listens</option>
           <option value="10">under 10k listens</option>
           <option value="1">under 1k listens</option>
         </select> in 
         <select id="genre">
-          <option value="100"> any genre</option>
-          <option value="10">hip hop</option>
-          <option value="10">electronic</option>
-          <option value="10">jazz</option>
-          <option value="10">indie</option>
-          <option value="10">metal</option>
-          <option value="10">blues</option>
-          <option value="10">rock</option>
-          <option value="1">reggae</option>
+          <option value="/m/074ft"> any genre</option>
+          <option value="/m/074ft">hip hop</option>
+          <option value="/m/074ft">electronic</option>
+          <option value="/m/074ft">jazz</option>
+          <option value="/m/074ft">indie</option>
+          <option value="/m/074ft">metal</option>
+          <option value="/m/074ft">blues</option>
+          <option value="/m/074ft">rock</option>
+          <option value="/m/074ft">reggae</option>
         </select>  
-        <a href="#" id="reload">Reload</a>
-        <a href="#" id="showAdvanced">More options </a>
+<!--         <a href="#" id="reload">Reload</a>
+ -->        <a href="#" id="showAdvanced">More options</a>
         <section id="advanced" class="hide">
-          <label id="timeRange">Time range:
+          <label id="after">Uploaded during
             <select>
               <option>Any date</option>
               <option>This year</option>
@@ -51,15 +56,15 @@
           </label>
           <label><b>Include</b></label> 
           <label>
-            <input type="checkbox" checked/>
+            <input type="checkbox" checked id="remixes"/>
             Remixes
           </label>
           <label>
-            <input type="checkbox" />
+            <input type="checkbox" id="foreign" />
             Foreign songs
           </label>
           <label>
-            <input type="checkbox" />
+            <input type="checkbox" id="covers" />
             Covers
           </label>
           <label>
