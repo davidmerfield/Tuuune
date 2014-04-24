@@ -4,65 +4,65 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <header>
-      <h1>Uncharted</h1>
+      <header>
+        <h1>Uncharted</h1>
+      </header>  
       <section id="loginPrompt">
-        Uncharted is a search engine for the internet's best undiscovered music.
-        <a href="#" id="join">Join</a>
-        <a href="#" id="login">Log in</a>
+              Uncharted is a search engine for the internet's best undiscovered music.
+              <a href="#" id="join">Join</a>
+              <a href="#" id="login">Log in</a>
       </section>
-    </header>  
-    <section id="discover">
-      <section id="options">
-        Find 
-        <select id="type">
-          <option value="song">songs</option>
-          <option value="album">albums</option>
-        </select> 
-        with
-        <select id="popularity">
-          <option value="100"> under 100k listens</option>
-          <option value="10">under 10k listens</option>
-          <option value="1">under 1k listens</option>
-        </select> in 
-        <select id="genre">
-          <option value="/m/074ft"> any genre</option>
-          <option value="/m/074ft">hip hop</option>
-          <option value="/m/074ft">electronic</option>
-          <option value="/m/074ft">jazz</option>
-          <option value="/m/074ft">indie</option>
-          <option value="/m/074ft">metal</option>
-          <option value="/m/074ft">blues</option>
-          <option value="/m/074ft">rock</option>
-          <option value="/m/074ft">reggae</option>
-        </select>  
-<!--         <a href="#" id="reload">Reload</a>
- -->        <a href="#" id="showAdvanced">More options</a>
-        <section id="advanced" class="hide">
-          <label id="after">Uploaded during
-            <select>
-              <option>Any date</option>
-              <option>This year</option>
-              <option>This month</option>
-              <option>This week</option>
-              <option>Today</option>
-            </select>
-          </label>
-          <label><b>Include</b></label> 
-          <label>
-            <input type="checkbox" checked id="remixes"/>
-            Remixes
-          </label>
-          <label>
-            <input type="checkbox" id="foreign" />
-            Foreign songs
-          </label>
-          <label>
-            <input type="checkbox" id="covers" />
-            Covers
-          </label>
-          <label>
-
+      <section id="discover">
+         <section id="options">
+            Find <select id="category" class="option" category="filter">
+               <option value="song">songs</option>
+               <option value="album">albums</option>
+            </select> 
+            with <select id="maxListens" class="option" category="filter">
+               <option value="100000">under 100k listens</option>
+               <option value="10000">under 10k listens</option>
+               <option value="1000">under 1k listens</option>
+            </select> 
+            in  <select id="topicID" class="option" category="search">
+               <option value="/m/074ft">any genre</option>
+               <option value="/m/074ft">hip hop</option>
+               <option value="/m/074ft">electronic</option>
+               <option value="/m/074ft">jazz</option>
+               <option value="/m/074ft">indie</option>
+               <option value="/m/074ft">metal</option>
+               <option value="/m/074ft">blues</option>
+               <option value="/m/074ft">rock</option>
+               <option value="/m/074ft">reggae</option>
+            </select>  
+            <a href="#" id="toggleAdvanced">More options</a>
+            <section id="advancedOptions" class="hide">
+               <label>Uploaded during
+                  <select id="after" class="option" category="search">
+                     <option>Any date</option>
+                     <option>This year</option>
+                     <option>This month</option>
+                     <option>This week</option>
+                     <option>Today</option>
+                  </select>
+               </label>
+               <b>Include</b>
+               <label>
+                 <input type="checkbox" id="remixes" class="option"  category="filter" />
+                 Remixes
+               </label>
+               <label>
+                 <input type="checkbox" id="foreign"  class="option"  category="filter" />
+                 Foreign songs
+               </label>
+               <label>
+                 <input type="checkbox" id="covers" class="option"  category="filter" />
+                 Covers and tributes
+               </label>
+             </section>
+         </section>
+         <section id="results" class="empty">
+         </section>    
+      </section>      
         </section>
       </section>
       <section id="results" class="empty"></section>
