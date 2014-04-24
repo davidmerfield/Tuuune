@@ -70,7 +70,7 @@ var discover = {
       options.maxDuration = 7200;
       options.minDuration = 120;
 
-      var bannedWords = [ 'live', 'choir', 'monologue', 'band', 'recording', 'song', 'orchestra', 'backstage', 'parody', 'making of', 'rehearsal', 'acoustic', 'tour', 'part', 'lesson', 'tabs', 'tutorial', 'theme', 'kickstarter', 'session', 'hd', 'blog', 'vlog', '@', '#', 'concert', 'music production', 'beat making', 'interview', 'soundtrack', 'instrumental', 'ost', 'episode', 'ep.', 'review' ];
+      var bannedWords = [ 'live', 'choir', 'monologue', 'band', 'best of', 'barbershop', 'recording', 'song', 'orchestra', 'backstage', 'parody', 'making of', 'rehearsal', 'acoustic', 'tour', 'part', 'lesson', 'tabs', 'tutorial', 'theme', 'kickstarter', 'session', 'hd', 'blog', 'vlog', '@', '#', 'concert', 'music production', 'beat making', 'interview', 'soundtrack', 'instrumental', 'ost', 'episode', 'ep.', 'review' ];
 
       if (options.category !== 'album') {
          bannedWords.push('album', 'full album', 'remixxx', 'remixed');
@@ -224,6 +224,14 @@ var discover = {
             discover.options[category][name] = $(this).val();
          }
 
+         if (category == 'search') {
+           discover.results = [];
+           discover.allSongs = [];
+
+           discover.render('empty');
+           
+           return discover.findSongs()
+         }
          // refilter and rerender with new options
          discover.results = discover.filter(discover.allSongs);
          discover.render('done')
