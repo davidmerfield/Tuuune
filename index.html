@@ -2,89 +2,98 @@
   <head>
     <title>Music Finder</title>
     <link rel="stylesheet" href="style.css">
-    <script src="jquery.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>   
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>   
-    <script src="util.js"></script>
-    <script src="app.js"></script>
-    <script src="player.js"></script>
   </head>
   <body>
-    <section id="header">
-      <h1>Uncharted</h1>
-    </section>
-    <header>
+      <header>
+        <h1>Uncharted</h1>
+      </header>  
       <section id="loginPrompt">
-        Uncharted helps you explore the internet's best undiscovered music.
-        <a href="#" id="join">Join</a>
-        <a href="#" id="login">Log in</a>
+              Uncharted is a search engine for the internet's best undiscovered music.
+              <a href="#" id="join">Join</a>
+              <a href="#" id="login">Log in</a>
       </section>
-      <section id="options">
-        Find great songs with  
-        <select id="popularity">
-          <option value="100"> under 100k listens</option>
-          <option value="10">under 10k listens</option>
-          <option value="1">under 1k listens</option>
-        </select> in 
-        <select id="genre">
-          <option value="100"> any genre</option>
-          <option value="10">hip hop</option>
-          <option value="10">electronic</option>
-          <option value="10">jazz</option>
-          <option value="10">indie</option>
-          <option value="10">metal</option>
-          <option value="10">blues</option>
-          <option value="10">rock</option>
-          <option value="1">reggae</option>
-        </select>  
-        <a href="#" id="reload">Reload</a>
-        <a href="#" id="showAdvanced">More options </a>
-        <section id="advanced" class="hide">
-          <label id="timeRange">Time range:
-            <select>
-              <option>Any date</option>
-              <option>This year</option>
-              <option>This month</option>
-              <option>This week</option>
-              <option>Today</option>
-            </select>
-          </label>
-          <label><b>Include</b></label> 
-          <label>
-            <input type="checkbox" checked/>
-            Remixes
-          </label>
-          <label>
-            <input type="checkbox" />
-            Foreign songs
-          </label>
-          <label>
-            <input type="checkbox" />
-            Covers
-          </label>
-          <label>
-
+      <section id="discover">
+         <section id="options">
+            Find <select id="category" class="option" category="filter">
+               <option value="song">songs</option>
+               <option value="album">albums</option>
+            </select> 
+            with <select id="maxListens" class="option" category="filter">
+               <option value="100000">under 100k listens</option>
+               <option value="10000">under 10k listens</option>
+               <option value="1000">under 1k listens</option>
+            </select> 
+            in  <select id="topicID" class="option" category="search">
+               <option value="/m/074ft">any genre</option>
+               <option value="/m/074ft">hip hop</option>
+               <option value="/m/074ft">electronic</option>
+               <option value="/m/074ft">jazz</option>
+               <option value="/m/074ft">indie</option>
+               <option value="/m/074ft">metal</option>
+               <option value="/m/074ft">blues</option>
+               <option value="/m/074ft">rock</option>
+               <option value="/m/074ft">reggae</option>
+            </select>  
+            <a href="#" id="toggleAdvanced">More options</a>
+            <section id="advancedOptions" class="hide">
+               <label>Uploaded during
+                  <select id="after" class="option" category="search">
+                     <option>Any date</option>
+                     <option>This year</option>
+                     <option>This month</option>
+                     <option>This week</option>
+                     <option>Today</option>
+                  </select>
+               </label>
+               <b>Include</b>
+               <label>
+                 <input type="checkbox" id="remixes" class="option"  category="filter" />
+                 Remixes
+               </label>
+               <label>
+                 <input type="checkbox" id="foreign"  class="option"  category="filter" />
+                 Foreign songs
+               </label>
+               <label>
+                 <input type="checkbox" id="covers" class="option"  category="filter" />
+                 Covers and tributes
+               </label>
+             </section>
+         </section>
+         <section id="results" class="empty">
+         </section>    
+      </section>      
+      <section id="player">
+        <section id="controls">
+           <a id="previous" href="#">Previous</a>
+           <a id="play" href="#">Play</a>
+           <a id="pause" style="display: none" href="#">Pause</a>
+           <a id="next" href="#">Next</a>
+           <span id="songTitle"></span>
+           <a id="shuffle" href="#" class=" ">Shuffle?</a>
+           <a id="repeat" href="#" class=" ">Repeat?</a>
+           <a id="progressBar" href="#">
+              <span id="buffered"></span>
+              <span id="progress"></span>
+              <span id="currentTime">0:00</span>
+              <span id="songDuration">0:00</span>
+           </a>
+           <div id="embed">
+              <p>You will need Flash 8 or better to view this content.</p>
+           </div>           
         </section>
-      </section>
-      <section id="results" class="empty"></section>
-            <div id="embed">
-             <p>You will need Flash 8 or better to view this content.</p>
-            </div>
-            <div id="controls">
-              <a id="previous">Previous</a>
-              <a id="play">Play</a>
-              <a id="pause" style="display: none">Pause</a>
-              <a id="next">Next</a>
-              <span id="title"></span>
-              <div id="bar">
-                <span id="buffered"></span>
-                <span id="progress"></span>
-                <span id="time">0:00</span>
-                <span id="duration">0:00</span>
-              </div>
-      <!--         <a id="shuffle">Shuffle?</a>
-              <a id="repeat">Repeat?</a>
-       -->     </div>      
-    </header>      
-  </body>
-</html>
+      </section>        
+      <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>   
+      <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>   
+
+      <script src="src/helper.js"></script>
+      <script src="src/youtube.js"></script>
+      <script src="src/discover.js"></script>
+      <script src="src/player.js"></script>
+      <script src="src/helper.js"></script>
+
+      <script src="src/app.js"></script>
+
+    </body>
+  </html>

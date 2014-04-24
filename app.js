@@ -1,12 +1,8 @@
 var apiKey = 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4';
-    dictionary = "Adult Aeroplane Air Aircraft Airforce Airport Alphabet Apple Arm Baby Backpack Balloon Banana Bank Bathroom Bathtub Bed Bee Bird Bomb Book Boss Bottle Bowl Box Boy Brain Bridge Butterfly Button Carpet Carrot Cave Chair Chess Board Chief Child Chisel Church Church Circle Coffee shop Comet Compass Crystal Cup Cycle Drink Drum Dung Ears Earth Egg Electricity Elephant Eraser Explosive Eyes Family Fan Feather Festival Film Finger Fire Floodlight Flower Foot Fork Freeway Fruit Game Garden Gas Gate Gemstone Girl Gloves God Grapes Guitar Hammer Hat Highway Horoscope Horse Hose Ice Insect Jet fighter Junk Kaleidoscope Kitchen Knife Leather jacket Leg Library Liquid Magnet Man Map Maze Meat Meteor Microscope Milk Milkshake Mist Money $$$$ Monster Mosquito Mouth Nail Navy Necklace Needle Onion PaintBrush Pants Parachute Passport Pebble Pendulum Pepper Perfume Pillow Plane Planet Pocket Post Potato Printer Prison Pyramid Radar Rainbow Record Restaurant Rifle Ring Robot Rock Rocket Roof Room Rope Saddle Salt Sandpaper Sandwich Satellite School Sex Ship Shoes Shop Shower Signature Skeleton Slave Snail Software Solid Space Shuttle Spectrum Sphere Spice Spiral Spoon Sports-car Spot Light Square Staircase Star Stomach Sun Sunglasses Surveyor Swimming Pool Sword Table Tapestry Teeth Telescope Television Tennis racquet Thermometer Tiger Toilet Tongue Torch Torpedo Train Treadmill Triangle Tunnel Typewriter Umbrella Vacuum Vampire Videotape Vulture Water Weapon Web Wheelchair Window Woman Worm Xray " + 
-                 "white yellow gold red green blue black pink orange the of and a to in is you that it he was for on are as with his they I at be this have from or one had by word but not what all were we when your can said there use an each which she do how their if will up there about out many then them these so some her would make like him into time has look two more write go see number no way could people my than first water been call who oil its now find long down day did get come made may part".split(' ');
-    randomWord = function () {return dictionary[Math.floor(Math.random() * dictionary.length)]},
     nonEnglish = new RegExp("[^\x00-\x7F]+");
 
 
 $(function() {
-
 
   var output = document.getElementById('results'),
       util = loadUtilities(),
@@ -146,6 +142,7 @@ $(function() {
         'cover',
         'album',
         'tedx',
+        'choir',
         'monologue',
         'band',
         'recording',
@@ -155,6 +152,7 @@ $(function() {
         'parody',
         'making of',
         'rehearsal',
+        'acoustic',
         'tour',
         'part',
         '2014',
@@ -248,7 +246,7 @@ $(function() {
         '<span class="buttons">' +
           '<span class="removeFromQueue">x Hide</span>' +
           '<span class="addToQueue">+ Queue</span>' +
-        '</span>'
+        '</span>' + 
         '<span class="stats">' +
           '<span class="duration">{{prettyDuration}} &#8226; </span>' +
           '<span class="views">{{prettyViewCount}} listens</span>' +
