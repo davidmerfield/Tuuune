@@ -290,10 +290,10 @@ section {
 #progress,
 #buffered {position: absolute;top:0;left:0;width: 0%;height:4px;background: blue}
 
-#progress:after {content: '';display: block;float:right;margin-top:-4px;margin-right:-2px;width: 12px;height: 12px;border-radius: 12px;background: #fff}
+#progress:after {content: '';display: block;float:right;margin-top:-4px;margin-right:-12px;width: 12px;height: 12px;border-radius: 12px;background: #fff}
 #buffered {background: #666}
 
-#time, #duration {
+#currentTime, #songDuration {
   color: #555;
   width: 24px;
   height:1em;
@@ -303,7 +303,7 @@ section {
   top:-0.5em;
   font-size: 0.88em
 }
-#duration {position: absolute;left:auto;right: -40px;}
+#songDuration {position: absolute;left:auto;right: -40px;}
 
 #embed {width: 0px;height: 0px;overflow: hidden;}
 
