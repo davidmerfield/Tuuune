@@ -1,7 +1,9 @@
+.hide {display: none!important;}
+
 body {
   width:  100%;
   height: 100%;
-  margin: 0px;
+  margin: 0;
   font-family: 'Avenir Next',sans-serif;
   padding-bottom: 60px;
 }
@@ -16,9 +18,6 @@ header {
   margin: 0
 }
 
-
-
-.hide {display: none!important;}
 h1 {
   font-family: 'Avenir Next Condensed';
   font-style: italic;
@@ -103,12 +102,12 @@ section {
   margin: 1em auto
 }
 
-#discover {margin: 2em auto;border-top: none;}
+#discover {margin: 0 auto;border-top: none;padding-bottom: 10em}
 #options, #results, #advanced {margin: 0 auto}
 
 #options {  font-size: 0.88em;border-top: none;
 }
-#showAdvanced, #reload {
+#toggleAdvanced {
   float: right;
   margin-top: 6px;
   text-decoration: none;
@@ -200,27 +199,53 @@ section {
 .result:hover .buttons {display: block;}
 
 .thumbnail img {height: 84px;text-align: center;margin-top: -12px}
-#controls {
+#player {
   width: 100%;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+  margin: 0;
+  padding: 0;
   height: 60px;
   background: #000;
   color: #fff
 }
   
-  #play, #pause,#next,#previous{
+  #controls {
+    padding: 0;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  #play, #pause,#next,#previous, #shuffle, #repeat{
     display: block;
     float: left;
     text-indent: -1000px;
   }
+
+  #shuffle, #repeat {
+    background: url('./img/shuffle.png') no-repeat center center;
+    width: 24px;
+    height: 24px;
+    margin: 20px 0 0 12px;
+    overflow: hidden;
+    opacity: 0.5;
+    background-size: 24px;   
+    float: right; 
+  }
+
+  #shuffle.enabled, #repeat.enabled {
+    opacity: 1.0
+  }
+
+  #repeat {background-image: url('./img/repeat.png');}
+
   #play, #pause {
     background: url('./img/play.png') no-repeat center center;
     width: 36px;
     height: 36px;
-    margin: 12px 6px;
+    margin: 12px 6px 0;
     border: 2px solid #fff;
     border-radius: 36px;
     background-size: 18px;
@@ -234,20 +259,32 @@ section {
     background: url('./img/next.png') no-repeat center center;
     width: 16px;
     height: 24px;
-    margin: 18px 6px;
+    margin: 18px 6px 0;
     background-size: contain;
   }
 
   #previous {
     background-image: url('./img/previous.png');
-    margin-left: 18px
+    margin-left: 0
   }
 
-#bar,
-#title {width: 50%;display:block;max-width: 660px;margin: 0 auto;}
+#progressBar, #songTitle {
+  position:absolute;
+  top: 6px;
+  left: 160px;right:120px;}
 
-#bar {height: 4px;position:relative;background: #333;display: block;overflow: visible;}
-
+#songTitle {
+  color: #929292;
+  overflow: hidden;
+  text-align: center;
+  font-size: 0.88em
+}
+#progressBar {
+  top: 28px;
+  overflow: visible;  
+  height: 4px;
+  background: #333;  
+}
 #title {height: 1.3em;margin: 0.6em auto ;color: #888}
 
 #progress,
