@@ -2,6 +2,7 @@ var discover = {
 
    init: function() {
       
+      // Load the options used to discover songs
       this.setOptions(true);
 
       // Listen to changes to options inputs
@@ -337,6 +338,6 @@ var discover = {
 
       $('#results').html(html);
 
-   },
+   }
 
 };
