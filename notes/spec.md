@@ -1,107 +1,86 @@
-# Youtube Music Finder
+# Music Finder
 
-Searches the music category for music with <10,000 views which has < 0.5% ratings and whose like to dislike ratio is > 95%.
+Find good unknown music.
 
-By default, just show audio player.
+Works by searching for songs with low number of listens but a very high like-to-view ratio. Or just a high ratio of 'responses,' positive or negative.
 
-BLACK FEEL
+Sources:
+Youtube Data API - have to show embed
 
-generates new playlist on load, options to share playlist.
+Future sources:
+Soundcloud Api
+Vimeo API
+Last.fm?
 
-calling / redirects you to 
-/p/HASH which allows you to share generated playlist
+Prefer other sources over YouTube since their API TOS prohibit hiding their music player.
 
-Parse Title and song name. query spotify. Add feature to push to spotify.
+# Target
+8tracks users and designers.mx
 
-go after designers.mx market
+# Explore features
 
-have random playlists made
+- Options for view range
+- Options for song/album
+- Options for remixes, covers, foreign music
+- Options for genre
 
-also show pre-made playlists on right hand side
-youtify.com is good example
+# Explore implementation
 
-hide video player by default
+On load quickly returns 10 preached responses?
+Should we always return cached responses?
+Should we always return whitelisted response?
+Perhaps allow regular and semi-trusted users the options to 'Be a pioneer' and actually interact with the raw (basic filtered) responses from the source APIs?
+Perhaps allow regular and semi-trusted users to paste in a youtube link which is automatically added to songs on the site
+Have a big SKIP (not appropriate for this site) button?
 
-add a slider to find good music with under 100,000 views, log scale.
+*We're going to need a 'duplicate' detector for finding youtube re-uploads of popular music*
 
-add slider for 'fresh'
+*If we cache songs on our servers we're going to need to periodically update them*
 
-scrobble to last fm
+*What about a succeeded section for songs which we indexed but which grew to have more than 100k views.*
 
-Attempt to parse buy link
+# Playlist implementation
 
-AVENIR CONDENSED, MUSEO SANS CONDENSED IF NOT
+- Paste in URL from source websites
+- No MP3 uploads, except perhaps for verified artists?
+- Underground factor 
 
-# Name ideas
+# Additional features
 
-GoodUnknown
-okunknown.com
+Long term goal is to build a community around sharing good unknown music, if the explore tool is good enough.
 
-OK Unknown
-Good Unknown
+- Saving music you find which you like.
+- Creating playlists from music you find. // Playlists are human
 
-song track
-songmap 
-compass
+# Design
 
-search sound cloud too
+ALL ABOUT THAT AVENIR CONDENSED, MUSEO SANS CONDENSED IF NOT?
+WHAT ABOUT FUTURA BOLD ITALIC FOR THAT HIPSTER SUPREME VIBE
 
-unchanted.com - LIKE
+# Getting the rights songs
 
-vnsvng.com - Unsung, meh
+## Youtube
 
-void.fm
-avoid.fm
-the good unknown
-ok unknown 
-oktrak
-very disco (discovery)
-onown .co
-tvne.com
-tiptune - like
-unchanted.com
+First we make a date range. Since there are so many music videos uploaded to youtube, we want to restrict the videos we need to filter. A date range of 1-3 days seems to work well. 
 
-uncharted - .cm, im, is, .mx, LIKE .am, .gd, .im, .is, .mx	
-strange
-goodunknownmusic
-goodunpopular
-unknown.fm
-unone.fm
-unown.fm
-notyet.fm
-prefame.fm
-probablyhavent.com
-novelsong
-novel.fm
-new.gd
-upMusic
+Then we search youtube with the following options:
 
-unkwn
-unoone
-unown.com
-vnknown
-sonu
-
-If it gets popular it will 'shift the market' and influence results returned
-
-# Implementation Ideas
-
-How to get low viewed highly rated videos from youtube
-
-search params:
-
-q: 'random string' to help reduce number of results and vary response
-order: 'rating' highest to lowest, we want good music
-	- other potentially useful are title (alphabetical) and views (top to bottom)
-publishedAfter: 1 month, we want fresh music
+order: 'relevance' seems to work the best
+*other potentially useful are title (alphabetical) and views (top to bottom) and rating (top to bottom)*
+publishedAfter: start of date range
+publishedBefore: end of date range
 maxResults: 50
 regionCode: USA
 videoEmbeddable: true
-videoCategoryId: music
-videoDefinition: any
-safeSearch: none
+videoCategoryId: 10 // which is music
+safeSearch: none // FUCK THE POLICE
 type: video
-videoDuration: short (will return < 4min) eek
+
+Note there is no query parameter. Not sure how to construct one which works well.
+
+Then filter the reponses: 
+
+# Filter
 
 iterate over each of the responses, 
 		for each check rating is > 95%
@@ -114,23 +93,7 @@ when done call
 
 work out how to search within languages
 
-// Application works like so
-
-get results from 
-   - youtube seed
-   - similar videos to like song
-
-there are user preferences and global preferences
-
-user preferences:
-   keyword - new search
-   date range - new search
-   max populatity - filter existing
-
-global:
-   no live shows 
-   like ratio
-   min likes
+# Player
 
 make queue from results applying filters specified by user
 
@@ -143,6 +106,13 @@ player saves song
 
 player skips song
    DO SOMETHING
+
+
+## detect if video is a lyric video with just an image:
+http://stackoverflow.com/questions/13808268/check-to-see-if-youtube-video-is-static-image
+
+## removing borders from image thumbnails
+http://stackoverflow.com/questions/13220715/removing-black-borders-43-on-youtube-thumbnails
 
 move song when finished from top of queue to history
 
@@ -158,6 +128,31 @@ Perhaps we can parse a location from the title of the video
 we also need to work out the language of the song
 perhaps pass the title to translate api?
 
-
 Perhaps build an 'explorer UI' 
 where one song is put in center ('like radio')
+
+# Name ideas
+
+Good Unknown
+Ok Unknown
+oktrak
+compass
+unchanted
+uncharted - .cm, im, is, .mx, LIKE .am, .gd, .im, .is, .mx	
+unknown
+unsound
+unfound
+soundless
+undersound
+songsearch
+sounnnd
+not40
+notforty
+bottom40
+future40
+void
+avoid
+verydisco (discovery)
+onown
+tvne
+tiptune - like
