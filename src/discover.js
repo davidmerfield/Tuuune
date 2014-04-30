@@ -38,7 +38,7 @@ var discover = {
 
          var resultsCount = discover.results.length,
              minResults = 3,
-             maxResults = 10;
+             maxResults = 20;
 
          if (resultsCount > maxResults) {
              return discover.render('complete')
@@ -48,7 +48,7 @@ var discover = {
          if (pageToken !== undefined) {
             options.pageToken = pageToken;            
          } else {
-            options = null
+           options = null;
          }
          
          if (resultsCount < minResults) {
@@ -69,17 +69,17 @@ var discover = {
           results = [];
 
       options.maxDuration = 7200;
-      options.minDuration = 120;
+      options.minDuration = 60;
 
-      var bannedWords = [ 'live', 'choir', 'monologue', 'band', 'best of', 'barbershop', 'recording', 'song', 'orchestra', 'backstage', 'parody', 'making of', 'rehearsal', 'acoustic', 'tour', 'part', 'lesson', 'tabs', 'tutorial', 'theme', 'kickstarter', 'session', 'hd', 'blog', 'vlog', '@', '#', 'concert', 'music production', 'beat making', 'interview', 'soundtrack', 'instrumental', 'ost', 'episode', 'ep.', 'review' ];
+      var bannedWords = [ 'live', 'choir', 'monologue', 'band', 'best of', 'barbershop', 'recording', 'song', 'music', 'orchestra', 'backstage', 'parody', 'making of', 'rehearsal', 'acoustic', 'tour', 'part', '@', '#', 'lesson', 'tabs', 'tutorial', 'theme', 'kickstarter', 'session', 'hd', 'blog', 'vlog', 'concert', 'interview', 'soundtrack', 'instrumental', 'episode', 'ep.', 'review' ];
 
       if (options.category !== 'album') {
-         bannedWords.push('album', 'full album', 'remixxx', 'remixed');
+         bannedWords.push('album', 'full album', 'remixxx', 'remixed', 'remake');
          options.maxDuration = 720; // only songs up to 12 min in duration
       }
 
       if (options.category !== 'song') {
-         options.minDuration = 720 // only albums more than 12 min in duration
+         options.minDuration = 1442 // only albums more than 24 min in duration
       }
 
       if (options.exclude.covers) {
@@ -96,6 +96,7 @@ var discover = {
 
       for (var i in songs) {
         
+
         var song = songs[i],
             listens = song.statistics.viewCount,
             dislikes = song.statistics.dislikeCount,
@@ -119,6 +120,13 @@ var discover = {
           continue
         }
 
+        // disallow duplicates
+        for (var j in results) {
+          if (results[j].id === song.id) {
+            continue
+          }
+        }
+        
         // Check video has enough likes
         if (likes / listens < options.likestoListens){
           continue
@@ -130,7 +138,8 @@ var discover = {
         }
 
         // probably not a song
-        if (song.snippet.title.indexOf(' - ') === -1) {
+        if (song.snippet.title.indexOf(' - ') === -1 &&
+            song.snippet.title.indexOf(' by ') === -1) {
           continue
         }
 
@@ -139,9 +148,14 @@ var discover = {
             song.duration > options.maxDuration)  {
           continue
         };
-
+        
         // Tidy up title string      
         song.prettyTitle = helper.tidyTitle(song.snippet.title);
+
+        // Probably not great
+        if (song.prettyTitle.length > 75) {
+          continue
+        }
 
         // Make pretty duration
         var mins = Math.floor(song.duration / 60),
@@ -154,7 +168,7 @@ var discover = {
         
         // passed tests, add to queue
         results.push(song);        
-        
+
       };
 
       return results
@@ -165,14 +179,14 @@ var discover = {
    setOptions: function(defaultValues){
       
       var searchDefaults = {
-         topicID: '/m/074ft', // all songs
+         // topicID: '/m/074ft', // all songs
          regionCode: 'US'
       },
 
       filterDefaults = {
-         likestoListens: 0.01, // ratio of likes to views
+         likestoListens: 0.015, // ratio of likes to views
          dislikesToLikes: 0.01, // ratio of likes to dislikes
-         minListens: 500,
+         minListens: 1000,
          maxListens: 100000,
          category: 'song',
          exclude: {
@@ -319,7 +333,9 @@ var discover = {
        '</span>' + 
        '<span class="stats">' +
          '<span class="duration">{{prettyDuration}} &#8226; </span>' +
-         '<span class="views">{{prettyViewCount}} listens</span>' +
+         '<span class="views">{{prettyViewCount}} listens &#8226; </span>' +
+         '<span class="views">{{statistics.likeCount}} likes &#8226; </span>' +
+         '<span class="views">{{statistics.dislikeCount}} dislikes</span>' +
        '</span>' +
      '</a>',
 
