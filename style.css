@@ -132,11 +132,19 @@ section {
 #results {
   width: 100%;
   height: 200px;
-
+  position: relative;
+  overflow: visible;
 }
 
-#results.empty {
+#results.empty:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -48px;
+  width: 24px;
+  height: 24px;
   background: url('./img/loader.gif') no-repeat center center;
+  background-size: 24px;
 }
 
 .result {
