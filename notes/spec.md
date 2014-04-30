@@ -55,14 +55,13 @@ Long term goal is to build a community around sharing good unknown music, if the
 
 # Design
 
-ALL ABOUT THAT AVENIR CONDENSED, MUSEO SANS CONDENSED IF NOT?
-WHAT ABOUT FUTURA BOLD ITALIC FOR THAT HIPSTER SUPREME VIBE
+HIPSTER SUPREME VIBE
 
 # How to get the right songs
 
 ## Youtube
 
-First we make a date range. Since there are so many music videos uploaded to youtube, we want to restrict the videos we need to filter. A date range of 1-3 days seems to work well. 
+First we make a date range. Since there are so many music videos uploaded to youtube, we want to restrict the videos we need to filter. A date range of 1 day seems to work well. 
 
 Then we search youtube with the following options:
 
@@ -74,14 +73,39 @@ maxResults: 50
 regionCode: USA
 videoEmbeddable: true
 videoCategoryId: 10 // which is music
-safeSearch: none // FUCK THE POLICE
+safeSearch: moderate // experiment with this
 type: video
 
 Note there is no query parameter. Not sure how to construct one which works well.
 
-Then filter the reponses: 
+I'm unsure that this is working to retrieve all the music videos which are uploaded. Perhaps sort by date?
+
+Then filter the reponses. If a video passes the filter perhaps call:
+
+relatedToVideoId=video.id since the related videos will also likes be ok.
+
+relatedToVideoId=video.id might be a smart way to work out the artist name.
+
+channelId to get artist name? or perhaps more videos uploaded by uploader. get intersection of two strings to work out what's the artist and what's the song name.
 
 # Filter
+
+Right now the filter is very aggressive.
+
+It doesn't assign weights to content it just removes it. Is this fine? Or should we not just remove bad results but assign them values then return a sorted list of videos?
+
+Right now the songs that most appeal to me are in the format:
+
+SONG - ARTIST
+
+The like count and like to dislikes isn't quite so important since I don't show those to the user. But increasing the requirements for like and dislike seems to return songs with titles which conform to the above format.
+
+right now I'm not looking at the description at all. Perhaps I should. I'm also making a ton of assumptions about the content of the video based on the title. should I implement some slightly more impartial algorithm which I train by just looking at the video? then clicking yes or no?
+
+Have no other cruft alongside. And are a video with just a photo.
+
+By default we don't want live performances, we want studio recordings. Perhaps have a feature to search for live performances as a toggle.
+
 
 iterate over each of the responses, 
 		for each check rating is > 95%
@@ -90,11 +114,17 @@ iterate over each of the responses,
 			append to results div
 			call search on similar video
 
-when done call 
-
 work out how to search within languages
 
+right now I reject anything with a non english character in it.
+
 # Player
+
+Player should take a service and resource ID (e.g. Youtube and video id). then pass this to player as an embed.
+
+Player code should be structured to add a services in a modular way. 
+
+The service module needs to load a resource, change the state of the resource, broadcast the state of the resource.
 
 make queue from results applying filters specified by user
 
