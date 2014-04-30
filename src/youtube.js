@@ -3,7 +3,7 @@ var youtube = {
       key: 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4',
 
       baseURL: 'https://www.googleapis.com/youtube/v3/',
-
+      
       fetchVideos: function (options, callback) {
         youtube.getVideoIDs(options, function(videoIDs, nextPage){
            youtube.getMetadata(videoIDs, function(response){
@@ -19,6 +19,7 @@ var youtube = {
                key: youtube.key,
                type: 'video',
                part: 'snippet', 
+               order: 'title',
                videoEmbeddable: 'true',
                videoSyndicated: 'true', // means the embed is playable
                maxResults: '50', // max allowed by YouTube
@@ -30,10 +31,17 @@ var youtube = {
          
          var queryUrl = youtube.makeURL('search', params);
 
+        console.log(queryUrl);
+
+        console.log(params.publishedAfter + ' is start date.');
+        console.log(params.publishedBefore + ' is end date.');
+
          $.getJSON(queryUrl, function(searchResults, err) {
             
             if (err) {youtube.errorHandler(queryUrl, 'getVideoIDs', err)};
-                       
+            
+            console.log(searchResults);
+
             for (var i in searchResults.items) {
               var video = searchResults.items[i];
               videoIDs.push(video.id.videoId);
@@ -63,6 +71,8 @@ var youtube = {
             if (err) {youtube.errorHandler(queryUrl, 'getMetadata', err)};
 
             for (var i in metadata.items) {
+              console.log(metadata.items[i]);
+              
              results.push(metadata.items[i])
             }
 
