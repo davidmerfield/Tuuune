@@ -1,113 +1,146 @@
-var youtube = {
+var youtube = function () {
 
-      key: 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4',
+  var key = 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4',
+      baseURL = 'https://www.googleapis.com/youtube/v3/';
 
-      baseURL: 'https://www.googleapis.com/youtube/v3/',
+  function getSongs (minResults, options, callback, previousResults) {
+
+    options.topicID: = '/m/074ft';
+    options.regionCode = 'US';
+    options.order = 'rating';
+
+    if (!options.publishedAfter && !options.publishedBefore) {
+       var dateRange = helper.makeDateRange();
+       options.publishedAfter = dateRange.after;
+       options.publishedBefore = dateRange.before;
+    }
+    
+    getVideoIDs(options, function(videoIDs, nextPageToken){
       
-      fetchVideos: function (options, callback) {
-        youtube.getVideoIDs(options, function(videoIDs, nextPage){
-           youtube.getMetadata(videoIDs, function(response){
-              return callback(response, nextPage)
-           });
-        });
-      },
+      getMetadata(videoIDs, function(videos){
 
-      getVideoIDs: function (options, callback) {
+        var results = filter(videos);
 
-         var videoIDs = [], 
-             params = {
-               key: youtube.key,
-               type: 'video',
-               part: 'snippet', 
-               order: 'title',
-               videoEmbeddable: 'true',
-               videoSyndicated: 'true', // means the embed is playable
-               maxResults: '50', // max allowed by YouTube
-               videoCategoryId: '10' // Is correct for 'US', 'GB', 'AU', 'FR', 'CA', 'DE', 'IT'
-            }
+        if (previousResults) {
+          results = results.concat(previousResults);
+        }
 
-         // Merge options with default params
-         for (var i in options) {params[i] = options[i]};
-         
-         var queryUrl = youtube.makeURL('search', params);
+        // We've got enough songs, return them
+        if (results.length > minResults) {
+          return callback(results);
+        }
 
-        console.log(queryUrl);
-
-        console.log(params.publishedAfter + ' is start date.');
-        console.log(params.publishedBefore + ' is end date.');
-
-         $.getJSON(queryUrl, function(searchResults, err) {
-            
-            if (err) {youtube.errorHandler(queryUrl, 'getVideoIDs', err)};
-            
-            console.log(searchResults);
-
-            for (var i in searchResults.items) {
-              var video = searchResults.items[i];
-              videoIDs.push(video.id.videoId);
-            };
-
-            return callback(videoIDs, searchResults.nextPageToken);
-           
-         });
-
-
-      },
-
-      getMetadata: function (videoIDs, callback) {
-
-         var params = {
-               part: 'statistics,snippet,topicDetails,contentDetails',
-               id: videoIDs,
-               key: youtube.key
-         };
-
-         var queryUrl =  youtube.makeURL('videos', params)
-
-         $.getJSON(queryUrl, function(metadata, err) {
-
-            var results = [];
-
-            if (err) {youtube.errorHandler(queryUrl, 'getMetadata', err)};
-
-            for (var i in metadata.items) {
-              console.log(metadata.items[i]);
-              
-             results.push(metadata.items[i])
-            }
-
-            return callback(results)
-
-         });
-      },
-
-      makeURL: function (query, params) {
+        // Set page token to retrieve next set of videos
+        if (nextPageToken) {
+          options.pageToken = nextPageToken;
+        } else { // we've run out videos in this date range, find more
+          options.pageToken = 
+          options.publishedBefore =
+          options.publishedAfter = null;            
+        }
         
-        var url = '';
+        return getSongs(minResults, options, callback, results)
 
-        for (key in params) {
-          var param = params[key];
-          if (typeof param == 'object'){
-              param = param.join(',');
-          };
-          url += encodeURIComponent(key) + '=' + encodeURIComponent(param) + '\&'
+       });
+    });
+  };
+
+  function getMetadata (videoIDs, callback) {
+
+     var params = {
+       part: 'statistics,snippet,topicDetails,contentDetails',
+       id: videoIDs,
+       key: key
+     };
+
+     var queryUrl = makeURL('videos', params);
+
+     $.getJSON(queryUrl, function(metadata, err) {
+
+        var results = [];
+
+        if (err) {errorHandler(queryUrl, 'getMetadata', err)};
+
+        for (var i in metadata.items) {
+          console.log(metadata.items[i]);
+
+         results.push(metadata.items[i])
+        }
+
+        return callback(results)
+
+     });
+  };
+
+  function getVideoIDs (options, callback) {
+
+     var videoIDs = [], 
+         params = {
+           key: key,
+           type: 'video',
+           part: 'snippet', 
+           order: 'title',
+           videoEmbeddable: 'true',
+           videoSyndicated: 'true', // means the embed is playable
+           maxResults: '50', // max allowed by YouTube
+           videoCategoryId: '10' // Is correct for 'US', 'GB', 'AU', 'FR', 'CA', 'DE', 'IT'
+        }
+
+     // Merge options with default params
+     for (var i in options) {params[i] = options[i]};
+     
+     var queryUrl = makeURL('search', params);
+
+     $.getJSON(queryUrl, function(searchResults, err) {
+        
+        if (err) {errorHandler(queryUrl, 'getVideoIDs', err)};
+        
+        for (var i in searchResults.items) {
+          var video = searchResults.items[i];
+          videoIDs.push(video.id.videoId);
         };
 
-        return youtube.baseURL + query + '?' + url
-      },
+        return callback(videoIDs, searchResults.nextPageToken);
+       
+     });
 
-      errorHandler: function(method, query, err) {
-         if (err !== 'success') {
-            console.log('YT API ERRRRRRRRRRROR: ')
-            console.log('Method: ' + method);
-            console.log('Query URL: ');
-            console.log(query);
-            console.log('Error: ');
-            console.log(err);
-            console.log('-----------------------------: ')            
-         } else {
-            // console.log('YT Api call succeeded: ' + query)
-         }
-      }
 
-   };
+  };
+
+  function makeURL (query, params) {
+    
+    var url = '';
+
+    for (key in params) {
+      var param = params[key];
+      if (typeof param == 'object'){
+          param = param.join(',');
+      };
+      url += encodeURIComponent(key) + '=' + encodeURIComponent(param) + '\&'
+    };
+
+    return baseURL + query + '?' + url
+  };
+
+  function errorHandler (method, query, err) {
+     if (err !== 'success') {
+        console.log('YT API ERRRRRRRRRRROR: ')
+        console.log('Method: ' + method);
+        console.log('Query URL: ');
+        console.log(query);
+        console.log('Error: ');
+        console.log(err);
+        console.log('-----------------------------: ')            
+     } else {
+        // console.log('YT Api call succeeded: ' + query)
+     }
+  };
+
+  function filter (videos) {
+    return videos
+  };
+
+  return {
+    getSongs: getSongs
+  }
+}
