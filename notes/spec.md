@@ -15,6 +15,7 @@ Last.fm?
 Prefer other sources over YouTube since their API TOS prohibit hiding their music player.
 
 # Target
+
 8tracks users and designers.mx
 
 # Explore features
@@ -57,7 +58,7 @@ Long term goal is to build a community around sharing good unknown music, if the
 ALL ABOUT THAT AVENIR CONDENSED, MUSEO SANS CONDENSED IF NOT?
 WHAT ABOUT FUTURA BOLD ITALIC FOR THAT HIPSTER SUPREME VIBE
 
-# Getting the rights songs
+# How to get the right songs
 
 ## Youtube
 
@@ -106,7 +107,6 @@ player saves song
 
 player skips song
    DO SOMETHING
-
 
 ## detect if video is a lyric video with just an image:
 http://stackoverflow.com/questions/13808268/check-to-see-if-youtube-video-is-static-image
