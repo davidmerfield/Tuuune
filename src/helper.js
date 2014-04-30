@@ -9,7 +9,7 @@ var helper = {
    },
    makeDateRange: function(){
 
-     var min = new Date(2011, 1, 1),
+     var min = new Date(2008, 1, 1),
          minValue = min.valueOf(),
 
          max = new Date(),
@@ -20,7 +20,7 @@ var helper = {
      afterValue = Math.floor(Math.random()*delta) + minValue;
 
      after = new Date(afterValue);
-     before = new Date(after.getFullYear(), after.getMonth(), after.getDate()+4);
+     before = new Date(after.getFullYear(), after.getMonth(), after.getDate() + 1);
 
      return {'after': this.ISODateString(after), 'before': this.ISODateString(before)};
 
