@@ -413,7 +413,8 @@ var discover =  function () {
 
      var html = '';
 
-       var song =  results[i];
+     for (var i in filteredSongs) {
+       var song =  filteredSongs[i];
        html += Mustache.render(resultTemplate, song);
      };
 
@@ -431,7 +432,9 @@ var discover =  function () {
       addOptionsListener();
 
       // Find songs
-      findSongs();
+      searchForSongs(function(message){
+        console.log(message);
+      });
 
     },
 
