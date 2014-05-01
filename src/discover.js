@@ -332,6 +332,31 @@ var discover =  function () {
      }
   };
 
+  // Used to ensure no duplicatea are added to array
+  function addNew (newArray) {
+
+    return {
+      to: function (oldArray) {
+        
+        if (newArray.length === 0) {return oldArray};
+
+        var newItem = newArray.pop();
+
+        for (var i in oldArray) {
+          if (newItem.id === oldArray[i].id) {
+            // ignore this item we have it already
+            return addNew(newArray).to(oldArray)
+          }
+        }
+
+        // item is unique, add it to old items
+        oldArray.push(newItem);
+        return addNew(newArray).to(oldArray)
+  
+      }
+    }
+  };
+
   function setClickhandlers () {
      
      $('#results').on('click', '.result', function(){
@@ -388,7 +413,6 @@ var discover =  function () {
 
      var html = '';
 
-     for (var i in results) {
        var song =  results[i];
        html += Mustache.render(resultTemplate, song);
      };
