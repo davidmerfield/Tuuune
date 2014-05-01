@@ -1,8 +1,5 @@
 $(function() {
 
-   discover.init();
+   discover().init();
 
-   // Listen to clicks
-   discover.setClickhandlers();
-   
 });
