@@ -131,9 +131,10 @@ section {
 
 #results {
   width: 100%;
-  height: 200px;
+  min-height: 200px;
   position: relative;
   overflow: visible;
+  padding-bottom: 30em
 }
 
 #results.empty:before {
