@@ -4,17 +4,15 @@ var discover =  function () {
   
       filteredSongs = [], // Will contain all the songs which pass the filter
       
-      sources = [youtube, soundcloud, vimeo], // references to the modules
+      sources = [youtube], // references to the modules
       
       options = {},
       
       searchOptions = {
 
       },
-      
-      minResults = 10;
 
-
+      minResults = 20;
 
   function searchForSongs (callback) {
 
@@ -26,16 +24,16 @@ var discover =  function () {
       var source = sources[i]; // e.g. youtube
       
       // Find songs from this source
-      source.getSongs(searchOptions, function(newSongs){
+      source().getSongs(searchOptions, function(songs){
         
         // append new songs to list of every song retrieved
-        allSongs = allSongs.concat(newSongs);
+        allSongs = addNew(songs).to(allSongs);
         
         // refilter results
-        filteredResults = filter(allSongs);
+        filteredSongs = filter(allSongs);
 
         // Render filtered results
-        render(filteredResults);
+        render('');
 
         // Add current source to list of sources which have replied
         searchedSources.push(source);
