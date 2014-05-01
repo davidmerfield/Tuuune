@@ -62,13 +62,54 @@ var discover =  function () {
 
   function filter (songs) {
 
-     var options = this.getOptions('filter'),
+    console.log('FILTER: TOTAL SONGS: ' + songs.length);
+
+     var options = getOptions('filter'),
          results = [];
 
      options.maxDuration = 7200;
      options.minDuration = 60;
 
-     var bannedWords = [ 'live', 'choir', 'monologue', 'band', 'best of', 'barbershop', 'recording', 'song', 'music', 'orchestra', 'backstage', 'parody', 'making of', 'rehearsal', 'acoustic', 'tour', 'part', '@', '#', 'lesson', 'tabs', 'tutorial', 'theme', 'kickstarter', 'session', 'hd', 'blog', 'vlog', 'concert', 'interview', 'soundtrack', 'instrumental', 'episode', 'ep.', 'review' ];
+     var bannedWords = [
+      'live', 'radio', 'choir', 'medley', 'monologue',
+      'university', 'college', 'encore',
+      'moshcam', 'premiere', 'dvd', 'Eurovision', 'sxsw',
+      'improv', 'TEDx', 'band', 'hd', 'quartet', 'choral', 'chorale',
+      'concerto', 'requiem', 'improvisation', 'semifinal', 'recital',
+      'festival', 'suite', 'idol', 'contest', 'Q&A', 'middle school',
+      'high school', 'capella', 'a cappella', 'bonaroo', 'subscribers',
+      'octet', 'best of', 'barbershop', 'recording', 'song',
+      'music', 'orchestra', 'backstage', 'behind the scenes', 'parody', 'making of',
+      'w/', 'rehearsal', 'acoustic', 'tour', 'part', '@', '#',
+      'violin', 'piano', 'hall of fame', 'documentary',
+      'awards',
+      'lesson', 'tabs', 'tutorial', 'theme', 'kickstarter', 'session',
+      'blog', 'vlog', 'concert', 'concierto', 'interview', 'soundtrack',
+      'chord changes', 'instrumental', 'episode', 'performance',
+      'letterman', 'jimmy kimmel', 'jonathan ross', 'me singing',
+      'me covering', 'guitar tab', 'performed by',
+      'dubstep', 'jazz', 'rap', 'hiphop', 'anthem',
+      'version', 'ep.', 'op.', 'no.', 'review', '.wmv',
+      '.mov', '.avi', '.mp3', '.mpg', 'at the', 'OST'
+      ];
+
+     bannedWords.push(
+      'Justin Bieber', 'One Direction', 'Michael Jackson', 'Temper Trap',
+       'dean martin', 'justin timberlake', 'cee lo green', 'josh groban',
+       'britney spears', 'modest mouse', 'elton john', 'bob dylan', 'don mclean',
+       'katy perry', 'johnny cash', 'snow patrol', 'nickleback', 'idina menzel',
+       'timbaland', 'ingrid michaelson', 'shakira', 'lana del rey', 'alabama shakes',
+       'radiohead', 'paloma faith', 'the ramones', 'snoop dogg', 'bach', 'the shins',
+       'fleet foxes', 'led zeppelin', 'taio cruz', 'birdy', 'paolo nutini', 'willie nelson',
+       'iron maiden', 'Guns N\' Roses', 'guns n roses', 'tom waits', 'REM', 'R.E.M',
+       'R. Kelly', 'R.Kelly', 'bon iver', 'sinead o connor', 'norah jones',
+       'red hot chilli peppers', 'paul mcartney', 'taylor swift', 'jason derulo',
+       'billy bragg', 'miley cyrus', 'p!nk', 'modest mouse', 'wu tang clan',
+       'macklemore', 'queens of the stone age', 'the kinks', 'jimi hendrix',
+       'twisted sister', '2pac', 'bjork', 'enya', 'jethro tull', 'mariah carey',
+       'lupe fiasco', 'my chemical romance', 'the beatles', 'maroon 5', 'carly rae jepsen',
+       'the wanted', 'david bowie', 'rod stewart', 'rolling stones', 'skrillex', 'cher lloyd'
+     );
 
      if (options.category !== 'album') {
         bannedWords.push('album', 'full album', 'remixxx', 'remixed', 'remake');
@@ -93,7 +134,6 @@ var discover =  function () {
 
      for (var i in songs) {
        
-
        var song = songs[i],
            listens = song.statistics.viewCount,
            dislikes = song.statistics.dislikeCount,
@@ -106,7 +146,6 @@ var discover =  function () {
            listens < options.minListens) {
          continue
        }
-
        // Check if video is well liked
        if (dislikes / likes > options.dislikesToLikes) {
          continue
@@ -135,8 +174,13 @@ var discover =  function () {
        }
 
        // probably not a song
-       if (song.snippet.title.indexOf(' - ') === -1 &&
-           song.snippet.title.indexOf(' by ') === -1) {
+       if (song.snippet.title.indexOf('#') > -1 ||
+           song.snippet.title.indexOf('@') > -1 ) {
+         continue
+       }
+
+       // probably not a song
+       if (song.snippet.title.indexOf(' - ') === -1) {
          continue
        }
 
@@ -167,6 +211,8 @@ var discover =  function () {
        results.push(song);        
 
      };
+
+     console.log('PASSED SONGS: ' + results.length);
 
      return results
   }; 
