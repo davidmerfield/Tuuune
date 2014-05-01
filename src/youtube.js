@@ -111,16 +111,18 @@ var youtube = function () {
     
     var url = '';
 
-    for (key in params) {
-      var param = params[key];
+    for (var i in params) {
+      var param = params[i];
+      if (!param) {continue};
       if (typeof param == 'object'){
           param = param.join(',');
       };
-      url += encodeURIComponent(key) + '=' + encodeURIComponent(param) + '\&'
+      url += encodeURIComponent(i) + '=' + encodeURIComponent(param) + '\&'
     };
 
     return baseURL + query + '?' + url
   };
+
 
   function errorHandler (method, query, err) {
      if (err !== 'success') {
