@@ -3,43 +3,22 @@ var youtube = function () {
   var key = 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4',
       baseURL = 'https://www.googleapis.com/youtube/v3/';
 
-  function getSongs (minResults, options, callback, previousResults) {
+  function getSongs (options, callback) {
 
-    options.topicID: = '/m/074ft';
+    var dateRange = helper.makeDateRange();
+
     options.regionCode = 'US';
     options.order = 'rating';
-
-    if (!options.publishedAfter && !options.publishedBefore) {
-       var dateRange = helper.makeDateRange();
-       options.publishedAfter = dateRange.after;
-       options.publishedBefore = dateRange.before;
-    }
+    options.publishedAfter = dateRange.after;
+    options.publishedBefore = dateRange.before;
     
-    getVideoIDs(options, function(videoIDs, nextPageToken){
+    getVideoIDs(options, function(videoIDs){
       
       getMetadata(videoIDs, function(videos){
 
-        var results = filter(videos);
+        console.log('Found ' + videos.length);
 
-        if (previousResults) {
-          results = results.concat(previousResults);
-        }
-
-        // We've got enough songs, return them
-        if (results.length > minResults) {
-          return callback(results);
-        }
-
-        // Set page token to retrieve next set of videos
-        if (nextPageToken) {
-          options.pageToken = nextPageToken;
-        } else { // we've run out videos in this date range, find more
-          options.pageToken = 
-          options.publishedBefore =
-          options.publishedAfter = null;            
-        }
-        
-        return getSongs(minResults, options, callback, results)
+        return callback(videos);
 
        });
     });
@@ -48,9 +27,9 @@ var youtube = function () {
   function getMetadata (videoIDs, callback) {
 
      var params = {
+      key: key,
        part: 'statistics,snippet,topicDetails,contentDetails',
        id: videoIDs,
-       key: key
      };
 
      var queryUrl = makeURL('videos', params);
@@ -62,7 +41,6 @@ var youtube = function () {
         if (err) {errorHandler(queryUrl, 'getMetadata', err)};
 
         for (var i in metadata.items) {
-          console.log(metadata.items[i]);
 
          results.push(metadata.items[i])
         }
@@ -79,7 +57,6 @@ var youtube = function () {
            key: key,
            type: 'video',
            part: 'snippet', 
-           order: 'title',
            videoEmbeddable: 'true',
            videoSyndicated: 'true', // means the embed is playable
            maxResults: '50', // max allowed by YouTube
@@ -100,7 +77,7 @@ var youtube = function () {
           videoIDs.push(video.id.videoId);
         };
 
-        return callback(videoIDs, searchResults.nextPageToken);
+        return callback(videoIDs);
        
      });
 
