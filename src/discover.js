@@ -225,8 +225,8 @@ var discover =  function () {
      },
 
      filterDefaults = {
-        likestoListens: 0.015, // ratio of likes to views
-        dislikesToLikes: 0.01, // ratio of likes to dislikes
+        likestoListens: 0.0025, // ratio of likes to views
+        dislikesToLikes: 0.075, // ratio of likes to dislikes
         minListens: 1000,
         maxListens: 100000,
         category: 'song',
@@ -281,7 +281,7 @@ var discover =  function () {
         }
 
         if (category == 'search') {
-          results = [];
+          filteredSongs = [];
           allSongs = [];
 
           render('empty');
@@ -289,11 +289,11 @@ var discover =  function () {
           return findSongs()
         }
         // refilter and rerender with new options
-        results = filter(allSongs);
+        filteredSongs = filter(allSongs);
         render('done')
 
-        if (results.length < 10) {
-           findSongs()
+        if (filteredSongs.length < 10) {
+           searchForSongs()
         }
 
      });
@@ -315,17 +315,17 @@ var discover =  function () {
   };
 
   function removeSongByID (id) {
-     for (var i in results) {
-        var song = results[i];
+     for (var i in allSongs) {
+        var song = allSongs[i];
         if (song.id && song.id === id) {
-           return results = results.splice(i,1)
+           return allSongs = allSongs.splice(i,1);
         }
      };      
   };
 
   function getSongByID (id) {
-     for (var i in results) {
-        var song = results[i];
+     for (var i in allSongs) {
+        var song = allSongs[i];
         if (song.id && song.id === id) {
            return song
         }
