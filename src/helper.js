@@ -9,7 +9,7 @@ var helper = {
    },
    makeDateRange: function(){
 
-     var min = new Date(2008, 1, 1),
+     var min = new Date(2009, 1, 1),
          minValue = min.valueOf(),
 
          max = new Date(),
@@ -17,7 +17,7 @@ var helper = {
 
          delta = maxValue - minValue;
 
-     afterValue = Math.floor(Math.random()*delta) + minValue;
+     afterValue = Math.round(Math.random()*delta) + minValue;
 
      after = new Date(afterValue);
      before = new Date(after.getFullYear(), after.getMonth(), after.getDate() + 1);
@@ -53,6 +53,11 @@ var helper = {
             'official audio',
             'official music video',
             'music video',
+            '.mp3',
+            '.wmv',
+            '.mov',
+            '.mpg',
+            '.avi',
             'unofficial music video',
             'audio stream',
             'new release',
