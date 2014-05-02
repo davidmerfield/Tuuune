@@ -29,12 +29,9 @@ var player = {
       // If possible, load previous queue, history, play prefs and current song
       // this.getPreviousState();
 
-      // Make a queue from results returned by discover
-      this.queue = this.makeQueue();
+      alert('player initied');
 
-      if (this.currentSong !== {}) {
-          this.currentSong = this.queue.shift();
-      };
+
       
       this.addUIListener();
    },
@@ -43,15 +40,13 @@ var player = {
       this.savePlayerState()
    },
 
-   makeQueue: function() {
+   makeQueue: function(array) {
       
-      var queue = helper.duplicate(discover.results);
+      if (this.currentSong === {}) {
+          this.currentSong = array.shift();
+      };
 
-      if (this.shuffleQueue) {
-         queue = helper.shuffle(queue)
-      }
-
-      return this.queue = queue
+      return this.queue = array
    },
 
    next: function() {
