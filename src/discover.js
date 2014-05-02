@@ -330,10 +330,10 @@ var discover =  function () {
   };
 
   function getSongByID (id) {
-     for (var i in allSongs) {
-        var song = allSongs[i];
+     for (var i in filteredSongs) {
+        var song = filteredSongs[i];
         if (song.id && song.id === id) {
-           return song
+           return [song, filteredSongs.slice(i)]
         }
      }
   };
@@ -368,10 +368,11 @@ var discover =  function () {
      $('#results').on('click', '.result', function(){
 
         var id = $(this).attr('id'),
-            song = getSongByID(id);
+            song = getSongByID(id)[0],
+            defaultQueue = getSongByID(id)[1];
 
         player.play(song);
-
+        player.makeQueue(defaultQueue);
      })
 
      $('#results').on('click', '.addToQueue', function(e){
@@ -425,6 +426,8 @@ var discover =  function () {
      };
 
      $('#results').html(html);
+
+     setClickhandlers();
 
   };
 
