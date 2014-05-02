@@ -72,7 +72,7 @@ var discover =  function () {
 
      var bannedWords = [
       'live', 'radio', 'choir', 'medley', 'monologue',
-      'university', 'college', 'encore',
+      'university', 'college', 'encore', 'duet',
       'moshcam', 'premiere', 'dvd', 'Eurovision', 'sxsw',
       'improv', 'TEDx', 'band', 'hd', 'quartet', 'choral', 'chorale',
       'concerto', 'requiem', 'improvisation', 'semifinal', 'recital',
@@ -82,7 +82,7 @@ var discover =  function () {
       'music', 'orchestra', 'backstage', 'behind the scenes', 'parody', 'making of',
       'w/', 'rehearsal', 'acoustic', 'tour', 'part', '@', '#',
       'violin', 'piano', 'hall of fame', 'documentary',
-      'awards',
+      'awards', 'music theory', 'arrangement',
       'lesson', 'tabs', 'tutorial', 'theme', 'kickstarter', 'session',
       'blog', 'vlog', 'concert', 'concierto', 'interview', 'soundtrack',
       'chord changes', 'instrumental', 'episode', 'performance',
