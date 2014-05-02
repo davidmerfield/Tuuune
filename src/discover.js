@@ -193,6 +193,12 @@ var discover =  function () {
        // Tidy up title string      
        song.prettyTitle = helper.tidyTitle(song.snippet.title);
 
+
+       // Song title contains a number
+       if (/\d/.test(song.prettyTitle)) {
+        continue
+       }
+
        // Probably not great
        if (song.prettyTitle.length > 75) {
          continue
