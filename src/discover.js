@@ -89,7 +89,7 @@ var discover =  function () {
       'letterman', 'jimmy kimmel', 'jonathan ross', 'me singing',
       'me covering', 'guitar tab', 'performed by',
       'dubstep', 'jazz', 'rap', 'hiphop', 'anthem',
-      'version', 'ep.', 'op.', 'no.', 'review', '.wmv',
+      'version', 'review', '.wmv',
       '.mov', '.avi', '.mp3', '.mpg', 'at the', 'OST'
       ];
 
@@ -102,9 +102,9 @@ var discover =  function () {
        'radiohead', 'paloma faith', 'the ramones', 'snoop dogg', 'bach', 'the shins',
        'fleet foxes', 'led zeppelin', 'taio cruz', 'birdy', 'paolo nutini', 'willie nelson',
        'iron maiden', 'Guns N\' Roses', 'guns n roses', 'tom waits', 'REM', 'R.E.M',
-       'R. Kelly', 'R.Kelly', 'bon iver', 'sinead o connor', 'norah jones',
+       'R. Kelly', 'R.Kelly', 'bon iver', 'sinead o connor', 'norah jones', 'hq',
        'red hot chilli peppers', 'paul mcartney', 'taylor swift', 'jason derulo',
-       'billy bragg', 'miley cyrus', 'p!nk', 'modest mouse', 'wu tang clan',
+       'billy bragg', 'miley cyrus', 'p!nk', 'modest mouse', 'wu tang clan', 'ACDC', 'AC/DC',
        'macklemore', 'queens of the stone age', 'the kinks', 'jimi hendrix',
        'twisted sister', '2pac', 'bjork', 'enya', 'jethro tull', 'mariah carey',
        'lupe fiasco', 'my chemical romance', 'the beatles', 'maroon 5', 'carly rae jepsen',
