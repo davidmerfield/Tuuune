@@ -231,8 +231,8 @@ var discover =  function () {
      },
 
      filterDefaults = {
-        likestoListens: 0.0025, // ratio of likes to views
-        dislikesToLikes: 0.075, // ratio of likes to dislikes
+        likestoListens: 0.005, // ratio of likes to views
+        dislikesToLikes: 0.05, // ratio of likes to dislikes
         minListens: 1000,
         maxListens: 100000,
         category: 'song',
