@@ -1,12 +1,4 @@
 var helper = {
-   hasBanned: function (string, phrases) {
-     for (var i in phrases){
-       var phrase = phrases[i];
-           regex = new RegExp( '(' + ' ' + phrase + ')', 'gi' );
-         if (regex.test(string)) {return true}
-     }
-     return false
-   },
    makeDateRange: function(){
 
      var min = new Date(2009, 1, 1),
