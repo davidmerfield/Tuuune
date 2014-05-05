@@ -89,24 +89,15 @@ var discover =  function () {
     }
   };
 
-  function setOptionsVals () {
-     $('.option').each(function(){
+  function getSongsAfter(id) {
 
-        var name = $(this).attr('id'),
-            category = $(this).attr('category');
+    for (var i in filteredSongs) {
+       var song = filteredSongs[i];
+       if (song.id && song.id === id) {
+          return [song, filteredSongs.slice(i)]
+       }
+    }
 
-        $(this).val(discover.options[category][name])
-
-     });
-  };
-
-  function removeSongByID (id) {
-     for (var i in allSongs) {
-        var song = allSongs[i];
-        if (song.id && song.id === id) {
-           return allSongs = allSongs.splice(i,1);
-        }
-     };      
   };
 
   function getSongByID (id) {
@@ -143,8 +134,33 @@ var discover =  function () {
     }
   };
 
-  function setClickhandlers () {
-     
+  function addUIListener () {
+
+    $('.option').on('change', function(){
+
+       var name = $(this).attr('id');
+
+       if (name === 'maxListens') {
+          options.maxListens = parseInt($(this).val())
+       } else {
+          options[name] = $(this).val();
+       }
+
+       // refilter and rerender with new options
+       filteredSongs = filter(allSongs, options);
+
+       if (filteredSongs.length < options.minResults) {
+         render('searching');
+         searchForSongs(function(response){
+           render('done');
+           console.log(response);
+         });
+       } else {
+         render('done')
+       }
+
+    });     
+
      $('#results').on('click', '.result', function(){
 
         var id = $(this).attr('id'),
@@ -207,18 +223,13 @@ var discover =  function () {
 
      $('#results').html(html);
 
-     setClickhandlers();
-
   };
 
   return {
     init: function () {
       
-      // Load the options used to discover songs
-      setOptions(true);
-
       // Listen to changes to options inputs
-      addOptionsListener();
+      addUIListener();
 
       // Find songs
       searchForSongs(function(message){
@@ -226,6 +237,9 @@ var discover =  function () {
       });
 
     },
+    detach: function() {
+      $('.option').unbind('on');
+    }
 
   }
 };
