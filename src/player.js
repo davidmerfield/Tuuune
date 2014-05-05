@@ -28,10 +28,6 @@ var player = {
 
       // If possible, load previous queue, history, play prefs and current song
       // this.getPreviousState();
-
-      alert('player initied');
-
-
       
       this.addUIListener();
    },
