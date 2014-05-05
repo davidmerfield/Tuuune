@@ -1,19 +1,30 @@
+// I get lots of interesting architecture problems due to the slow nature of the search
+// this could be greatly simplified if I only had to make one call to my server, which would
+// return say 20 songs instantly.
+
 var discover =  function () {
 
-  var allSongs = [], // Will contain all the songs we retrieve
-  
-      filteredSongs = [], // Will contain all the songs which pass the filter
+  var allSongs = [], // A list of the all the unique songs returned from search
+      filteredSongs = [], // A subset of allSongs which passes the filter
+          
+      options = {
+        regionCode: 'US', // used to ensure songs are playable by user
+        minResults: 20, 
+        topicID: '/m/074ft', // all songs
+        likestoListens: 0.0025, // ratio of likes to views
+        dislikesToLikes: 0.05, // ratio of likes to dislikes
+        minListens: 1000,
+        maxListens: 100000,
+        maxDuration: 7200,
+        minDuration: 60,
+        category: 'song',
+        exclude: {
+           foreign: true,
+           covers: true,
+           remixes: true,
+        }
+      };
       
-      sources = [youtube], // references to the modules
-      
-      options = {},
-      
-      searchOptions = {
-
-      },
-
-      minResults = 20;
-
   function searchForSongs (callback) {
 
     var searchedSources = []; // contains list of sources which have responded
