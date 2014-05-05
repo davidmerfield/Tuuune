@@ -186,3 +186,5 @@ verydisco (discovery)
 onown
 tvne
 tiptune - like
+songsilo
+soundhound
