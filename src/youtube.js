@@ -1,22 +1,39 @@
+// should return a song from video
+// Possible model for song info
+// {
+//   id: SOURCENAME_SOURCEID, // id from source with prefix
+//   title: STR,
+//   duration: INT,
+//   listens: INT,
+//   popularity: INT (0-1),
+//   artwork: URL,
+//   characteristics: {
+//     genre: STR
+//     cover: BOOL
+//     foreign: BOOL  
+//   }
+// }
+
+
 var youtube = function () {
 
   var key = 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4',
       baseURL = 'https://www.googleapis.com/youtube/v3/';
 
-  function getSongs (options, callback) {
+  function getSongs (userOptions, callback) {
 
-    var dateRange = helper.makeDateRange();
+    var dateRange = helper.makeDateRange(),
+        options = {
+          order: 'rating',
+          publishedAfter: dateRange.after,
+          publishedBefore: dateRange.before,
+          regionCode: userOptions.regionCode || 'US',
+          topicID: userOptions.topicID || null
+        };
 
-    options.regionCode = 'US';
-    options.order = 'rating';
-    options.publishedAfter = dateRange.after;
-    options.publishedBefore = dateRange.before;
-    
     getVideoIDs(options, function(videoIDs){
       
       getMetadata(videoIDs, function(videos){
-
-        console.log('Found ' + videos.length);
 
         return callback(videos);
 
@@ -24,31 +41,6 @@ var youtube = function () {
     });
   };
 
-  function getMetadata (videoIDs, callback) {
-
-     var params = {
-      key: key,
-       part: 'statistics,snippet,topicDetails,contentDetails',
-       id: videoIDs,
-     };
-
-     var queryUrl = makeURL('videos', params);
-
-     $.getJSON(queryUrl, function(metadata, err) {
-
-        var results = [];
-
-        if (err) {errorHandler(queryUrl, 'getMetadata', err)};
-
-        for (var i in metadata.items) {
-
-         results.push(metadata.items[i])
-        }
-
-        return callback(results)
-
-     });
-  };
 
   function getVideoIDs (options, callback) {
 
@@ -82,6 +74,31 @@ var youtube = function () {
      });
 
 
+  };
+
+  function getMetadata (videoIDs, callback) {
+
+     var params = {
+        key: key,
+        part: 'statistics,snippet,topicDetails,contentDetails',
+        id: videoIDs,
+     };
+
+     var queryUrl = makeURL('videos', params);
+
+     $.getJSON(queryUrl, function(metadata, err) {
+
+        if (err) {errorHandler(queryUrl, 'getMetadata', err)};
+
+        var results = [];
+
+        for (var i in metadata.items) {
+          results.push(metadata.items[i])
+        }
+
+        return callback(results);
+
+     });
   };
 
   function makeURL (query, params) {
