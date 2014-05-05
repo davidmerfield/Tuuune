@@ -27,7 +27,8 @@ var discover =  function () {
       
   function searchForSongs (callback) {
 
-    var searchedSources = []; // contains list of sources which have responded
+    var sources = [youtube], // references to the modules
+        searchedSources = []; // will contain list of sources which have responded
 
     // go through each source and 
     for (var i in sources) {
@@ -35,23 +36,23 @@ var discover =  function () {
       var source = sources[i]; // e.g. youtube
       
       // Find songs from this source
-      source().getSongs(searchOptions, function(songs){
+      source().getSongs(options, function(songs){
+
+        // Indicate this source has responded
+        searchedSources.push(source);
         
         // append new songs to list of every song retrieved
         allSongs = addNew(songs).to(allSongs);
         
-        // refilter results
-        filteredSongs = filter(allSongs);
+        // refilter all songs
+        filteredSongs = filter(allSongs, options);
 
-        // Render filtered results
-        render('');
+        // Re-render new results
+        render();
 
-        // Add current source to list of sources which have replied
-        searchedSources.push(source);
-
-        // If all sources replied
+        // When all sources have replied
         if (searchedSources.length === sources.length) {
-          searchComplete();
+          return searchComplete();
         }
 
       });
