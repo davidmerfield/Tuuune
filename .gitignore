@@ -1,2 +1,4 @@
 /node_modules/*
 /public/js/*
+/music.sublime-project
+/music.sublime-workspace
