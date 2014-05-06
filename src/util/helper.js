@@ -14,11 +14,20 @@ var helper = {
      after = new Date(afterValue);
      before = new Date(after.getFullYear(), after.getMonth(), after.getDate() + 1);
 
-     return {'after': this.ISODateString(after), 'before': this.ISODateString(before)};
+     return {'after': after, 'before': before};
 
    },   
    duplicate: function (object) {
       return JSON.parse(JSON.stringify(object))
+   },
+   //Formats d to MM/dd/yyyy HH:mm:ss format
+   formatDate: function (d){
+     function addZero(n){
+        return n < 10 ? '0' + n : '' + n;
+     }
+
+       return addZero(d.getFullYear()) + '-' + addZero(d.getMonth() + 1) + "-" + addZero(d.getDate()) + " " + 
+              addZero(d.getHours()) + ":" + addZero(d.getMinutes()) + ":" + addZero(d.getMinutes());
    },
    ISODateString: function (d){
     function pad(n){return n<10 ? '0'+n : n}
