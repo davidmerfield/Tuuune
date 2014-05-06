@@ -15,9 +15,8 @@ var discover =  function (options, allSongs) {
         dislikesToLikes: 0.05, // ratio of likes to dislikes
         minListens: 1000,
         maxListens: 100000,
-        maxDuration: 7200,
+        maxDuration: 840,
         minDuration: 60,
-        category: 'song',
         exclude: {
            foreign: true,
            covers: true,

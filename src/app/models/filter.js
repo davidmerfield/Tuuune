@@ -43,22 +43,6 @@ var filter = function (songs, options) {
          'the wanted', 'david bowie', 'rod stewart', 'rolling stones', 'skrillex', 'cher lloyd'
       ];
 
-   switch (options.category) {
-      case 'album':
-         options.minDuration = 1442;
-         options.maxDuration = 7200;
-         break;
-      case 'song':
-         options.minDuration = 60;
-         options.maxDuration = 840;
-         bannedWords.push('album', 'full album', 'remixxx', 'remixed', 'remake');
-         break;
-      case 'both':
-         options.minDuration = 60;
-         options.maxDuration = 7200;
-         break;
-   }
-
    if (options.exclude.covers) {
       bannedWords.push('cover', 'covered', 'covers', 'tribute')
    }
@@ -149,7 +133,9 @@ var filter = function (songs, options) {
       results.push(song);        
 
    };
-
+   
+   console.log('PASSED SONGS: ' + results.length);   
+   return results
 
    function hasBanned (string, phrases) {
       for (var i in phrases){
@@ -158,9 +144,7 @@ var filter = function (songs, options) {
          if (regex.test(string)) {return true}
       }
       return false
-   }
-   
-   console.log('PASSED SONGS: ' + results.length);   
-   return results
+   };
 
-  };
+
+};
