@@ -144,7 +144,7 @@ section {
   left: -48px;
   width: 24px;
   height: 24px;
-  background: url('./img/loader.gif') no-repeat center center;
+  background: url('./images/loader.gif') no-repeat center center;
   background-size: 24px;
 }
 
@@ -236,7 +236,7 @@ section {
   }
 
   #shuffle, #repeat {
-    background: url('./img/shuffle.png') no-repeat center center;
+    background: url('./images/shuffle.png') no-repeat center center;
     width: 24px;
     height: 24px;
     margin: 20px 0 0 12px;
@@ -250,10 +250,10 @@ section {
     opacity: 1.0
   }
 
-  #repeat {background-image: url('./img/repeat.png');}
+  #repeat {background-image: url('./images/repeat.png');}
 
   #play, #pause {
-    background: url('./img/play.png') no-repeat center center;
+    background: url('./images/play.png') no-repeat center center;
     width: 36px;
     height: 36px;
     margin: 12px 6px 0;
@@ -263,11 +263,11 @@ section {
   }
 
   #pause {
-    background-image: url('./img/pause.png');
+    background-image: url('./images/pause.png');
   }
 
   #next, #previous {
-    background: url('./img/next.png') no-repeat center center;
+    background: url('./images/next.png') no-repeat center center;
     width: 16px;
     height: 24px;
     margin: 18px 6px 0;
@@ -275,7 +275,7 @@ section {
   }
 
   #previous {
-    background-image: url('./img/previous.png');
+    background-image: url('./images/previous.png');
     margin-left: 0
   }
 
