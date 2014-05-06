@@ -2,12 +2,12 @@
 // this could be greatly simplified if I only had to make one call to my server, which would
 // return say 20 songs instantly.
 
-var discover =  function () {
+var discover =  function (options, allSongs) {
 
-  var allSongs = [], // A list of the all the unique songs returned from search
+  var allSongs = allSongs || [], // A list of the all the unique songs returned from search
       filteredSongs = [], // A subset of allSongs which passes the filter
           
-      options = {
+      options = options || {
         regionCode: 'US', // used to ensure songs are playable by user
         minResults: 20, 
         topicID: '/m/074ft', // all songs
@@ -27,7 +27,7 @@ var discover =  function () {
       
   function searchForSongs (callback) {
 
-    var sources = [youtube], // references to the modules
+    var sources = [youtube, soundcloud], // references to the modules
         searchedSources = []; // will contain list of sources which have responded
 
     // go through each source and 
@@ -161,6 +161,7 @@ var discover =  function () {
 
     });     
 
+    // the three below will get reused
      $('#results').on('click', '.result', function(){
 
         var id = $(this).attr('id'),
@@ -181,6 +182,21 @@ var discover =  function () {
 
      });
 
+     $('#results').on('click', '.star', function(e){
+        e.preventDefault(); // stops click event bubbling to .result
+
+        var id = $(this).attr('id'),
+            starredSongsKey = appPrefix + ':starred',
+            song = getSongByID(id);
+
+        var starredSongs = JSON.parse(localStorage.get(savedSongsKey));
+            starredSongs.unshift(id);
+
+        localStorage.set(savedSongsKey, savedSongs);
+        localStorage.set(id, song);
+
+     });
+
      $('#results').on('click', '.removeFromResults', function(e){
         e.preventDefault(); // stops click event bubbling to .result
 
@@ -198,6 +214,7 @@ var discover =  function () {
       '<span class="title">{{prettyTitle}} </span> ' +
       '<span class="buttons">' +
         '<span class="removeFromResults">x Hide</span>' +
+        '<span class="star">* Star</span>' +
         '<span class="addToQueue">+ Queue</span>' +
       '</span>' + 
       '<span class="stats">' +
