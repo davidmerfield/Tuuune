@@ -1,256 +1,101 @@
-$(function() {
+var Player = function () {
 
-   function onYouTubePlayerReady (playerID) {
-     console.log('Player ready');
-     embed.addEventListener('onStateChange', 'player.stateChange');
-   };
+  var currentSong = {},
+      userQueue = [],
+      defaultQueue = [],
+      playHistory = [],
 
-   var params = {allowScriptAccess: "always"};
-
-   swfobject.embedSWF("http://www.youtube.com/v/pYVW0I-NnDc&enablejsapi=1&playerapiid=embed", "embed", "425", "365", "8", null, null, params);
-
-});
-
-var player = {
-
-   currentSong: {},
-   currentSongProgress: 0,
-
-   queue: [],
-   playHistory: [],
-
-   repeatQueue: false,
-   shuffleQueue: false,
-
-   // Controllers
-
-   init: function(){
-
-      // If possible, load previous queue, history, play prefs and current song
-      // this.getPreviousState();
-      
-      this.addUIListener();
-   },
-
-   close: function() {
-      this.savePlayerState()
-   },
-
-   makeQueue: function(array) {
-      
-      if (this.currentSong === {}) {
-          this.currentSong = array.shift();
+      options = {
+        repeat: false,
+        shuffle: false
       };
 
-      return this.queue = array
-   },
+  function play (song, nextSongs) {
+    
+    if (song) {
+      currentSong = song
+    }
 
-   next: function() {
-      this.playHistory.unshift(this.currentSong);
-      this.currentSong = this.queue.shift();
-      
-      this.play(this.currentSong);
-   },
+    if (nextSongs) {
+      defaultQueue = nextSongs
+    }
 
-   previous: function() {
-      this.queue.unshift(this.playHistory.shift());
-      this.currentSong = this.queue.shift();
-      
-      this.play(this.currentSong);
-   },
+    if (song.source === 'youtube') {
+      youtubePlayer().play(currentSong)
+    }
+    
+  }
 
-   play: function(song) {
-      
-      if (song) {
-         this.currentSong = song;
-         this.updateUI.play();
-         this.updateUI.songTitle();
-         this.updateUI.songDuration();
+  function pause () {
+    mediaPlayer.pauseVideo()
+  }
 
-         return embed.loadVideoById(song.id);
-      }
-      
-      this.updateUI.play();
-      return embed.playVideo();
-   },
-   pause: function() {
-      this.updateUI.pause();
-      return embed.pauseVideo()
-   },
-   shuffle: function() {
-      
-      this.shuffleQueue = !this.shuffleQueue;
-      this.updateUI.shuffle();
-   },
-   repeat: function() {
-      this.repeatQueue = !this.repeatQueue;
-      this.updateUI.repeat();
-   },
-   addToQueue: function (song) {
-      this.queue.unshift(song);
-   },
-   progressBar: function(seconds) {
-      embed.seekTo(seconds, true)
-   },
+  function next () {
+    addToHistory(currentSong);
+    play(nextInQueue());
+  };
 
+  function previous () {
+    addToQueue(currentSong);
+    play(lastPlayed());
+  };
 
-   // Views
+  function nextInQueue () {
+    if (userQueue.length > 0) {
+      return userQueue.shift()
+    } else if (defaultQueue.length > 0) {
+      return defaultQueue.shift()
+    } else {
+      return 
+    }
+  };
 
-   ui: {
-      play: $('#play'),
-      pause: $('#pause'),
-      next: $('#next'),
-      previous: $('#previous'),
+  function loadMediaPlayers () {
 
-      repeat: $('#repeat'),
-      shuffle: $('#shuffle'),
+    // Youtube
+    youtubePlayer().init(function(){
 
-      progress: $('#progress'),
-      buffered: $('#buffered'),
-      currentTime: $('#currentTime'),
-      songDuration: $('#songDuration'),
-      songTitle: $('#songTitle')
-   },
+    });
 
-   addUIListener: function() {
+    // Soundcloud
+    // ....
 
-      $('#controls a').on('click', function(e){
-         
-         var id = $(this).attr('id');
+  }
 
-         if (id === 'progressBar') {
-            console.log(e.pageX);
-            console.log($(this).offset());
-            console.log($(this).width());
-            
-            var xOffset = e.pageX - $(this).offset().left,
-                ratio = xOffset/$(this).width(),
-                seconds = Math.round(ratio*embed.getDuration());
+  function addUIListener () {
 
-                console.log(seconds);
-            return player.progressBar(seconds)
-         };
+  }
 
-         return player[id]();
+  function addToHistory(song) {
+    playHistory.unshift(song);
+  }
 
-      });
+  function lastPlayed() {
+    return playHistory.shift();
+  }
 
-   },
+  function queueSong () {
 
-   updateUI: {
-      
-      all: function () {
+  }
 
-      },
+  function removeSong () {
 
-      play: function() {
-         player.ui.play.hide();
-         player.ui.pause.show();
-      },
+  }
 
-      pause: function() {
-         player.ui.pause.hide();
-         player.ui.play.show();
-      },
+  function init () {
+    addUIListener();      
+    loadMediaPlayers();
+  }
 
-      repeat: function () {
-         player.ui.repeat.toggleClass('enabled')   
-      },
+  return {
+    init: init,
+    play: play,
+    pause: pause,
+    next: next,
+    previous: previous,
 
-      shuffle: function () {
-         player.ui.shuffle.toggleClass('enabled')   
-      },
+    queueSong: queueSong,
+    removeSong: removeSong
+  }
 
-      progressBar: function() {
-
-         var currentTime = embed.getCurrentTime(),
-             duration = embed.getDuration(),
-             progressPercent = currentTime/duration*100,
-             bufferedPercent = embed.getVideoLoadedFraction()*100,
-             mins = Math.floor(currentTime / 60),
-             seconds = helper.pad(Math.floor(currentTime % 60),2);
-
-         player.ui.progress.width(progressPercent + '%');
-         player.ui.buffered.width(bufferedPercent + '%');
-         player.ui.currentTime.text(mins + ':' + seconds);
-
-         player.currentSongProgress = currentTime;
-      },
-
-      songTitle: function() {
-         player.ui.songTitle.text(player.currentSong.prettyTitle);
-      },
-
-      songDuration: function () {
-         player.ui.songDuration.text(player.currentSong.prettyDuration);
-      }
-
-
-   },
-
-   onStateChange: function(e){
-
-      switch (e) {
-         case 0: // song ended
-            this.next();
-         case 1: // playing
-         case 2: // paused
-         case 3: // buffering
-            console.log('player is buffering');
-         case 4: // video queued
-      }
-
-     // Playing
-     if (e === 1) {
-       var updateProgressBar = setInterval(player.updateUI.progressBar, 50);
-     }
-
-     // song finished
-     if (e === 0) {
-       clearInterval(updateProgressBar);
-       player.next();
-     }
-
-     // Paused
-     if (e === 2) {
-       $('#pause').hide();
-       $('#play').show();
-       clearInterval(updateProgressBar);
-     }
-
-    },
-
-    render: function () {
-
-   }
-
-}
-
-function onYouTubePlayerReady (playerID) {
-  embed.addEventListener('onStateChange', 'player.onStateChange');
 };
-
-
-
-//       seekTo(seconds)
-
-//       setVolume
-//       getVolume()
-//       getVideoLoadedFraction() // between 0 and 1
-//       getPlayerState // unstarted (-1), ended (0), playing (1), paused (2), buffering (3), video cued (5).
-//       getCurrentTime() // elapsed seconds
-
-//       player.getDuration()
-
-//       player.addEventListener(event:String, listener:String):Void
-
-//       onStateChange //-1 (unstarted)
-// 0 (ended)
-// 1 (playing)
-// 2 (paused)
-// 3 (buffering)
-// 5 (video cued).
-
-//       onError
-
-//       mute
