@@ -127,6 +127,6 @@ var helper = {
       if (a.length == 1) {
           duration = duration + parseInt(a[0]);
       }
-      return duration
+      return duration*1000
    }      
 };
