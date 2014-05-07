@@ -161,6 +161,26 @@ perhaps pass the title to translate api?
 Perhaps build an 'explorer UI' 
 where one song is put in center ('like radio')
 
+# Song Model
+
+   id: // string, formed from source ID and source prefix
+   title: // string
+   duration: // int, song duratio in milliseconds
+   genre: // string or null, song's artwork
+   thumbnail: // string or null, song's artwork
+
+   source: // string
+   sourceID: // string, indicates song's id on source website
+   url: // string, refers to song's page on source website
+           
+   listens: // int
+   popularity:  // float between 0 and 1
+
+   pretty: 
+      duration: // string, e.g '3:40'
+      listens: // string, e.g. '10k'
+      title: // string
+
 # Name ideas
 
 Good Unknown
@@ -175,6 +195,55 @@ unfound
 soundless
 undersound
 songsearch
+
+tuuune - .com!!!
+ununu
+tunedune
+soontune
+moontune
+lunetune
+tunetune
+newtune
+boxtune
+boptune
+diftune
+dibtune
+ebbtune
+tabtune
+fabtune
+getune
+findtune
+tunemap
+maptune
+hiptune
+hoptune
+tunehub
+testune
+babetune
+baretune
+goodtune
+cultune
+dustune
+easytune
+tunefort
+
+finetune
+
+nutune
+
+plutune
+neptune
+
+anytune
+opportune
+bigtune
+
+tinytune
+
+fortune
+4tune
+
+tootune
 sounnnd
 not40
 notforty
