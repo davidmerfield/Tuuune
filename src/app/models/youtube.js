@@ -1,24 +1,11 @@
-// should return a song from video
-// Possible model for song info
-// {
-//   id: SOURCENAME_SOURCEID, // id from source with prefix
-//   title: STR,
-//   duration: INT,
-//   listens: INT,
-//   popularity: INT (0-1),
-//   artwork: URL,
-//   characteristics: {
-//     genre: STR
-//     cover: BOOL
-//     foreign: BOOL  
-//   }
-// }
-
-
 var youtube = function () {
 
   var key = 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4',
-      baseURL = 'https://www.googleapis.com/youtube/v3/';
+      baseURL = 'https://www.googleapis.com/youtube/v3/',
+      videoURL = 'https://www.youtube.com/watch?v=',
+
+      sourceName = 'youtube',
+      prefix = 'YT_'; // used to store videos retrieved
 
   function getSongs (userOptions, callback) {
 
@@ -34,8 +21,8 @@ var youtube = function () {
     getVideoIDs(options, function(videoIDs){
       
       getMetadata(videoIDs, function(videos){
-
-        return callback(videos);
+        console.log(filter(videos));
+        return callback(filter(videos));
 
        });
     });
@@ -119,21 +106,53 @@ var youtube = function () {
 
 
   function errorHandler (method, query, err) {
-     if (err !== 'success') {
-        console.log('YT API ERRRRRRRRRRROR: ')
-        console.log('Method: ' + method);
-        console.log('Query URL: ');
-        console.log(query);
-        console.log('Error: ');
-        console.log(err);
-        console.log('-----------------------------: ')            
-     } else {
-        // console.log('YT Api call succeeded: ' + query)
-     }
+    if (err !== 'success') {
+      // do shit
+    } else {
+      // console.log('YT Api call succeeded: ' + query)
+    }
   };
 
   function filter (videos) {
-    return videos
+    
+    var results = [],
+        maxDislikeRatio = 0.05, // ratio of likes + dislikes to views
+        minLikeRatio = 0.0025; // ratio of likes to dislikes
+
+    for (var i in videos) {
+      
+      var video = videos[i],
+          likes = parseInt(video.statistics.likeCount),
+          dislikes = parseInt(video.statistics.dislikeCount),
+          views = parseInt(video.statistics.viewCount);
+
+      if (dislikes / likes > maxDislikeRatio) {
+        continue
+      }
+
+      if ((likes + dislikes) / views < minLikeRatio) {
+        continue
+      }
+
+      results.push({
+
+        id: prefix + video.id,
+        title: video.snippet.title,
+        thumbnail: video.snippet.thumbnails.medium.url,
+        duration: helper.parseYTDuration(video.contentDetails.duration),
+        
+        source: sourceName,
+        sourceID: video.id,
+        url: videoURL + video.id,
+                
+        listens: views,
+        popularity: likes / views
+
+      });
+
+    }
+
+    return results
   };
 
   return {
