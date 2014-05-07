@@ -1,3 +1,16 @@
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, b, ul, ol, li, section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  position: relative;
+  -webkit-box-sizing: border-box; 
+  -moz-box-sizing: border-box; 
+  box-sizing: border-box; 
+}
+
 .hide {display: none!important;}
 
 body {
@@ -86,6 +99,7 @@ font-family: 'Avenir Next';
   text-decoration: none;
   color: #535136;
 }
+
 #join {
   display: inline-block;
   float: right;
@@ -100,17 +114,24 @@ font-family: 'Avenir Next';
 }
 
 section {
-  width: 660px;
+  width: 48em;
   margin: 1em auto
 }
 
-#discover {margin: 0 auto;border-top: none;padding-bottom: 10em}
+#discover {margin: 3em auto;border-top: none;padding-bottom: 10em}
 #options, #results, #advanced {margin: 0 auto}
 
-#options {  font-size: 0.88em;border-top: none;
+
+#options {
+  padding: 1em 0;
 }
+#results {
+  border-top: 1px solid rgba(0,0,0,0.2);
+}
+
 #toggleAdvanced {
   float: right;
+  display: none;
   margin-top: 6px;
   text-decoration: none;
   border-bottom: 2px solid #aeaee9;
@@ -122,11 +143,6 @@ section {
 
 #advanced label {
   display: block;
-}
-
-section {
-  border-top: 1px solid rgba(0,0,0,0.2);
-  padding: 1em 0;
 }
 
 #results {
@@ -148,47 +164,46 @@ section {
   background-size: 24px;
 }
 
-.result {
-  clear: both;
-  width: 100%;
+.song {
+  width: 16em;
+  padding: 1em;
+  float: left;
   text-decoration: none;
   color: #000;
   display: block;
   position: relative;
-  min-height: 60px;
-  margin-bottom: 24px
 }
-.result:hover {
+
+.song:hover {
   background: rgba(255,168,0,0.1)
 }
 
-.result .title {
-  border-bottom: 2px solid rgba(0,0,255,0.25);
-  color: rgb(0,0,255);
-  max-width: 474px;
-  display: inline-block;
+.song .title {
+  height: 1.33em;
+  width: 100%;
   overflow: hidden;
-  height: 1.3em;
-  font-size: 1.15em;
+  display: block;
 }
 
-.result .stats {display: block}
-.result .views, .result .duration {
-  color: #aaa;
+.song .stats {display: block}
+.song .stats * {color: #aaa;
   font-size: 0.88em;
   font-family: 'Avenir Next Condensed'
 }
-.result 
-.thumbnail {
-  width: 60px;
-  height: 60px;
+
+.song .thumbnail {
+
+  width: 14em;
+  height: 14em;
   overflow: hidden;
   display: block;
   float: left;
-  margin-right: 12px
-}
+  margin-bottom: 0.66em;
+  background: #eee}
 
-.result .buttons {
+  .thumbnail img {height: 14em;text-align: center;margin-left:-5.5em}
+
+.song .buttons {
   display: none;
   position: absolute;
   right: 0;
@@ -196,7 +211,7 @@ section {
   width: 100px;
 }
 
-.result .buttons span {
+.song .buttons span {
   display: block;
   float: right;
   padding: 0 0.33em;
@@ -207,9 +222,6 @@ section {
   font-size: 0.88em;
 }
 
-.result:hover .buttons {display: block;}
-
-.thumbnail img {height: 84px;text-align: center;margin-top: -12px}
 #player {
   width: 100%;
   position: fixed;
@@ -316,7 +328,7 @@ section {
 }
 #songDuration {position: absolute;left:auto;right: -40px;}
 
-#embed {width: 0px;height: 0px;overflow: hidden;}
+#youtubeEmbed {width: 0px;height: 0px;overflow: hidden;}
 
 #controls a {color: blue;text-decoration: underline;cursor: pointer;}
 .thumb img {margin-left: -8px;height: 60px}
