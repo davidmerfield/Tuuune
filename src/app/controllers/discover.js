@@ -1,22 +1,21 @@
-// I get lots of interesting architecture problems due to the slow nature of the search
-// this could be greatly simplified if I only had to make one call to my server, which would
+// This could be greatly simplified if I only had to make one call to my server, which would
 // return say 20 songs instantly.
 
 var discover =  function (options, allSongs) {
 
   var allSongs = allSongs || [], // A list of the all the unique songs returned from search
       filteredSongs = [], // A subset of allSongs which passes the filter
-          
+      
+      results = document.getElementById('results'),
+
       options = options || {
         regionCode: 'US', // used to ensure songs are playable by user
         minResults: 20, 
         topicID: '/m/074ft', // all songs
-        likestoListens: 0.0025, // ratio of likes to views
-        dislikesToLikes: 0.05, // ratio of likes to dislikes
         minListens: 1000,
         maxListens: 100000,
-        maxDuration: 840,
-        minDuration: 60,
+        maxDuration: 840000,
+        minDuration: 60000,
         exclude: {
            foreign: true,
            covers: true,
@@ -99,11 +98,14 @@ var discover =  function (options, allSongs) {
 
   };
 
-  function getSongByID (id) {
+  function lookupSong (id) {
      for (var i in filteredSongs) {
         var song = filteredSongs[i];
         if (song.id && song.id === id) {
-           return [song, filteredSongs.slice(i)]
+           return {
+            'song': song,
+            'defaultQueue': filteredSongs.slice(i)
+          }
         }
      }
   };
@@ -135,6 +137,39 @@ var discover =  function (options, allSongs) {
 
   function addUIListener () {
 
+    $(document).on('playSong', function(e, data){
+       
+      var id = data.id;
+          song = lookupSong(id).song,
+          defaultQueue = lookupSong(id).defaultQueue;
+
+      Player().play(song, defaultQueue);
+       
+    });
+
+    $(document).on('queueSong', function(e, data){
+       
+    });
+
+    $(document).on('removeSong', function(e, data){
+       
+      // removeSongByID(data.id);
+
+    });
+
+    $(document).on('starSong', function(e, data){
+       
+      // var starredSongsKey = appPrefix + ':starred',
+      //     song = getSongByID(data.id);
+
+      // var starredSongs = JSON.parse(localStorage.get(savedSongsKey));
+      //     starredSongs.unshift(data.id);
+
+      // localStorage.set(savedSongsKey, savedSongs);
+      // localStorage.set(data.id, song);
+
+    });
+
     $('.option').on('change', function(){
 
        var name = $(this).attr('id');
@@ -160,85 +195,19 @@ var discover =  function (options, allSongs) {
 
     });     
 
-    // the three below will get reused
-     $('#results').on('click', '.result', function(){
-
-        var id = $(this).attr('id'),
-            song = getSongByID(id)[0],
-            defaultQueue = getSongByID(id)[1];
-
-        player.play(song);
-        player.makeQueue(defaultQueue);
-     })
-
-     $('#results').on('click', '.addToQueue', function(e){
-        e.preventDefault(); // stops click event bubbling to .result
-
-        var id = $(this).attr('id'),
-            song = getSongByID(id);
-
-        player.addToQueue(song);
-
-     });
-
-     $('#results').on('click', '.star', function(e){
-        e.preventDefault(); // stops click event bubbling to .result
-
-        var id = $(this).attr('id'),
-            starredSongsKey = appPrefix + ':starred',
-            song = getSongByID(id);
-
-        var starredSongs = JSON.parse(localStorage.get(savedSongsKey));
-            starredSongs.unshift(id);
-
-        localStorage.set(savedSongsKey, savedSongs);
-        localStorage.set(id, song);
-
-     });
-
-     $('#results').on('click', '.removeFromResults', function(e){
-        e.preventDefault(); // stops click event bubbling to .result
-
-        var results = $(this).parentsUntil('.result');
-            id = result.attr('id');
-
-        removeSongByID(id);
-
-     });
   };
 
-  var resultTemplate = 
-    '<a class="result" href="#" id="{{id}}">' +
-      '<span class="thumbnail"><img src="{{snippet.thumbnails.default.url}}" /></span>' +
-      '<span class="title">{{prettyTitle}} </span> ' +
-      '<span class="buttons">' +
-        '<span class="removeFromResults">x Hide</span>' +
-        '<span class="star">* Star</span>' +
-        '<span class="addToQueue">+ Queue</span>' +
-      '</span>' + 
-      '<span class="stats">' +
-        '<span class="duration">{{prettyDuration}} &#8226; </span>' +
-        '<span class="views">{{prettyViewCount}} listens &#8226; </span>' +
-        '<span class="views">{{statistics.likeCount}} likes &#8226; </span>' +
-        '<span class="views">{{statistics.dislikeCount}} dislikes</span>' +
-      '</span>' +
-    '</a>';
-
   function render (classname) {
+    results.setAttribute('class', '');
+    
+    var html = '';
+    
+    for (var i in filteredSongs) {
+      var song = filteredSongs[i];
+      html += Song().render(song);
+    }
 
-     // if songs by the same artist are returned, shuffle their location
-     // easiest way to do this would be to check the uplaoder
-     $('#results').attr('class', classname);
-
-     var html = '';
-
-     for (var i in filteredSongs) {
-       var song =  filteredSongs[i];
-       html += Mustache.render(resultTemplate, song);
-     };
-
-     $('#results').html(html);
-
+    results.innerHTML = html;
   };
 
   return {
