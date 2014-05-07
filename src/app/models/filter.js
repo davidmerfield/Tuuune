@@ -4,6 +4,8 @@ var filter = function (songs, options) {
 
    var results = [],
        bannedWords = [
+         '#', '@',
+
          'live', 'radio', 'choir', 'medley', 'monologue',
          'university', 'college', 'encore', 'duet',
          'moshcam', 'premiere', 'dvd', 'Eurovision', 'sxsw',
@@ -57,77 +59,55 @@ var filter = function (songs, options) {
 
    for (var i in songs) {
 
-      var song = songs[i],
-          listens = song.statistics.viewCount,
-          dislikes = song.statistics.dislikeCount,
-          likes = song.statistics.likeCount;
-
-      song.duration = helper.parseYTDuration(song.contentDetails.duration);
+      var song = songs[i];
 
       // Check if video has too few or too many views 
-      if (listens > options.maxListens ||
-         listens < options.minListens) {
+      if (song.listens > options.maxListens ||
+          song.listens < options.minListens) {
          continue
       }
       
-      // Check if video is well liked
-      if (dislikes / likes > options.dislikesToLikes) {
-         continue
-      } 
-
       // ignore non english songs
-      if(nonEnglish && nonEnglish.test(song.snippet.title)) {
-         continue
-      }
-
-      // Check video has enough likes
-      if (likes / listens < options.likestoListens){
+      if(nonEnglish && nonEnglish.test(song.title)) {
          continue
       }
 
       // skip banned words
-      if (hasBanned(song.snippet.title, bannedWords)) {
+      if (hasBanned(song.title, bannedWords)) {
+         continue
+      }
+
+      // Song title contains a number
+      if (/\d/.test(song.title)) {
+         continue
+      }
+
+      // Song title is very long
+      if (song.title.length > 120) {
          continue
       }
 
       // probably not a song
-      if (song.snippet.title.indexOf('#') > -1 ||
-         song.snippet.title.indexOf('@') > -1 ) {
-         continue
-      }
-
-      // probably not a song
-      if (song.snippet.title.indexOf(' - ') === -1) {
+      if (song.title.indexOf(' - ') === -1) {
          continue
       }
 
       // Ignore too short or too long videos
       if (song.duration < options.minDuration ||
-         song.duration > options.maxDuration)  {
+          song.duration > options.maxDuration)  {
          continue
       };
 
-      // Tidy up title string      
-      song.prettyTitle = helper.tidyTitle(song.snippet.title);
-
-      // Song title contains a number
-      if (/\d/.test(song.prettyTitle)) {
-         continue
-      }
-
-      // Probably not great
-      if (song.prettyTitle.length > 90) {
-         continue
-      }
-
       // Make pretty duration
-      var mins = Math.floor(song.duration / 60),
-          seconds = helper.pad(Math.floor(song.duration % 60),2);
+      var mins = Math.floor(song.duration / 60000),
+          seconds = helper.pad(Math.floor((song.duration/1000) % 60),2);
 
-      song.prettyDuration = mins + ':' + seconds;
-
-      // Make pretty viewcount
-      song.prettyViewCount = Math.round(listens/1000) + 'k';
+      // Tidy up title string      
+      song.pretty = {
+         title: helper.tidyTitle(song.title),
+         duration: mins + ':' + seconds,
+         listens: Math.round(song.listens/1000) + 'k'
+      }
 
       // passed tests, add to queue
       results.push(song);        
