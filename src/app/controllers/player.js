@@ -82,20 +82,15 @@ var Player = function () {
 
   }
 
-  function init () {
-    addUIListener();      
-    loadMediaPlayers();
-  }
 
-  return {
-    init: init,
-    play: play,
-    pause: pause,
-    next: next,
-    previous: previous,
+  this.play = play;
+  this.pause = pause;
+  this.next = next;
+  this.previous = previous;
+  this.progressBar = progressBar;
 
-    queueSong: queueSong,
-    removeSong: removeSong
-  }
+  this.setState = setState;
+
+  return
 
 };
