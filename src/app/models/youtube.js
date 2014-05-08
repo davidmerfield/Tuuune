@@ -21,7 +21,6 @@ var youtube = function () {
     getVideoIDs(options, function(videoIDs){
       
       getMetadata(videoIDs, function(videos){
-        console.log(filter(videos));
         return callback(filter(videos));
 
        });

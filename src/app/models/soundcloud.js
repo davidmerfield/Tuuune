@@ -15,7 +15,6 @@ var soundcloud = function () {
     SC.initialize({client_id: key});
 
     SC.get('/tracks', {limit: pageSize, created_at: {from: after, to: before}}, function(tracks) {
-       console.log(filter(tracks));
        return callback(filter(tracks))
     });
 
