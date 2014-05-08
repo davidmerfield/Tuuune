@@ -1,6 +1,10 @@
-var Player = function () {
+function Player () {
 
-  var currentSong = {},
+  var currentSong,
+      
+      mediaPlayer,
+      availablePlayers = {},
+
       userQueue = [],
       defaultQueue = [],
       playHistory = [],
@@ -10,19 +14,40 @@ var Player = function () {
         shuffle: false
       };
 
+  init();
+
+  function init () {
+    addUIListener();      
+    loadMediaPlayers();
+  }
+
   function play (song, nextSongs) {
+
+    mediaPlayer = youtubePlayer;
     
     if (song) {
-      currentSong = song
+
+      currentSong = song;
+      mediaPlayer().play(currentSong);
+
+      $('#songTitle').text(currentSong.title);
+      $('#songDuration').text(currentSong.pretty.duration);
+
+    } else {
+      mediaPlayer().play();      
     }
 
     if (nextSongs) {
+
+
+      console.log('NEW Default QUEUE');
+      console.log(nextSongs);
+
       defaultQueue = nextSongs
     }
 
-    if (song.source === 'youtube') {
-      youtubePlayer().play(currentSong)
-    }
+    $('#play').hide();
+    $('#pause').show();
     
   }
 
