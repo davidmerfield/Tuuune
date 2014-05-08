@@ -201,7 +201,7 @@ section {
   margin-bottom: 0.66em;
   background: #eee}
 
-  .thumbnail img {height: 14em;text-align: center;margin-left:-5.5em}
+  .thumbnail img {height: 14em;text-align: center}
 
 .song .buttons {
   display: none;
