@@ -96,7 +96,72 @@ function Player () {
 
   }
 
+  function updateProgressBar () {};
 
+  function setState (val) {
+
+    switch (val) {
+      case 0: // song ended
+        next();
+      case 1: // playing
+        console.log('player is player');
+        setInterval(function(){
+
+          console.log('updating progress bar');
+
+          var progress = mediaPlayer().getProgress(),
+              currentTime = progress.currentTime,
+
+              mins = Math.floor(currentTime / 60),
+              seconds = helper.pad(Math.floor(currentTime % 60),2);
+
+          $('#currentTime').text(mins + ':' + seconds);
+          $('#buffered').width(progress.bufferedPercent + '%');
+          $('#progress').width(progress.playedPercent + '%');
+
+        }, 100);
+      case 2: // paused
+        console.log('player is paused');
+      case 3: // buffering
+        console.log('player is buffering');
+      case 4: // video queued
+    }
+
+  }
+
+  function progressBar(e) {
+
+      var xOffset = e.pageX - $('#progressBar').offset().left,
+          ratio = xOffset/$('#progressBar').width(),
+          seconds = Math.round(ratio*currentSong.duration/1000);
+
+      console.log(seconds);
+
+      return mediaPlayer().seekTo(seconds);
+   
+  }
+
+  function addUIListener () {
+    $('#controls a').click(function(e){
+      
+      var method = $(this).attr('id');
+
+      switch (method) {
+        case "progressBar":
+          progressBar(e);break;
+        case "play":
+          play();break;
+        case "pause":
+          pause();break;
+        case "next":
+          next();break;
+        case "previous":
+          previous();break;
+      }
+
+      return false;
+
+    })
   }
 
   function addToHistory(song) {
