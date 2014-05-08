@@ -47,13 +47,5 @@ var youtubePlayer = function () {
 
 youtubePlayer.stateChange = function(e) {
   console.log('Youtube player state changed');
-  switch (e) {
-    case 0: // song ended
-      Player().next();
-    case 1: // playing
-    case 2: // paused
-    case 3: // buffering
-      console.log('player is buffering');
-    case 4: // video queued
-  }
+  player.setState(e);
 }
