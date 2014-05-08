@@ -87,25 +87,22 @@ var discover =  function (options, allSongs) {
     }
   };
 
-  function getSongsAfter(id) {
-
-    for (var i in filteredSongs) {
-       var song = filteredSongs[i];
-       if (song.id && song.id === id) {
-          return [song, filteredSongs.slice(i)]
-       }
-    }
-
-  };
-
   function lookupSong (id) {
      for (var i in filteredSongs) {
+
         var song = filteredSongs[i];
+
         if (song.id && song.id === id) {
-           return {
+          
+          i++;
+
+          var nextSongs = filteredSongs.slice(i);
+
+          return {
             'song': song,
-            'defaultQueue': filteredSongs.slice(i)
+            'defaultQueue': nextSongs
           }
+
         }
      }
   };
@@ -140,10 +137,11 @@ var discover =  function (options, allSongs) {
     $(document).on('playSong', function(e, data){
        
       var id = data.id;
-          song = lookupSong(id).song,
-          defaultQueue = lookupSong(id).defaultQueue;
+          songInfo = lookupSong(id);
+          song = songInfo.song,
+          defaultQueue = songInfo.defaultQueue;
 
-      Player().play(song, defaultQueue);
+      player.play(song, defaultQueue);
        
     });
 
