@@ -52,16 +52,25 @@ function Player () {
   }
 
   function pause () {
-    mediaPlayer.pauseVideo()
+
+    $('#play').show();
+    $('#pause').hide();
+
+    youtubePlayer().pause();
+    
   }
 
   function next () {
+
     addToHistory(currentSong);
-    play(nextInQueue());
+
+    var nextSong = nextInQueue();
+
+    play(nextSong);
   };
 
   function previous () {
-    addToQueue(currentSong);
+    defaultQueue.unshift(currentSong);
     play(lastPlayed());
   };
 
@@ -87,7 +96,6 @@ function Player () {
 
   }
 
-  function addUIListener () {
 
   }
 
