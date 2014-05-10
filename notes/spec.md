@@ -227,6 +227,9 @@ dustune
 easytune
 tunefort
 
+music roulette
+song roulette
+
 finetune
 
 nutune
