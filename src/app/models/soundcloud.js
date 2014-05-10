@@ -22,6 +22,8 @@ var soundcloud = function () {
 
    function filter(songs) {
       
+      console.log(songs);
+
       var results = [],
           savesToPlays = 0.0;
 
@@ -32,11 +34,15 @@ var soundcloud = function () {
 
         if (song.track_type === 'live') {
             continue
-        }
+        };
+
+        if (!song.artwork_url) {
+          continue
+        };
 
         if (saves/song.playback_count < savesToPlays) {
           continue
-        }
+        };
 
         if (!song.streamable) {
           continue
@@ -52,7 +58,7 @@ var soundcloud = function () {
            
            source: sourceName,
            sourceID: song.id,
-           url: song.permalink_url,
+           url: song.uri,
                    
            listens: song.playback_count,
            popularity: saves / song.playback_count
