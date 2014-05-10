@@ -14,63 +14,28 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, b, ul, ol, li, section {
 .hide {display: none!important;}
 
 body {
-  width:  100%;
-  height: 100%;
-  margin: 0;
-  font-family: 'Avenir Next',sans-serif;
-  padding-bottom: 60px;
+  font: 400 1em / 1.33em 'Open Sans', sans-serif;
 }
 
 header {
-  width: 100%;
-  background: #000;
-  border-bottom: 4px solid #dbd7a8;
-  height: 56px;
-  border-top: none;
-  padding: 0;
-  margin: 0;
-  display: none;
+  border-bottom: 1px solid #dbd7a8;
 }
 
 h1 {
-  font-family: 'Avenir Next Condensed';
-  font-style: italic;
-  color: black;
-  margin-top: 2em;
-  line-height: 56px;
-  padding: 0 14px;
-  width: 660px;
-  color: #fff;
-  margin: 0 auto;
-  text-transform: uppercase;
-  border-bottom: 4px solid #ffe900;
+  color: #232323;
+  font-size: 1.5em;
+  font-weight: 700;
+  margin: 2em 0;
 }
-h1 em {
-  font-family: 'Avenir Next';
-  font-size: 0.6em;
-  color: #aaa;
-  text-transform: none;
-  font-weight: normal;
-}
-#loginPrompt {
-  background: #fff9bc;
-  color: #535136;
-  height: 48px;
-  padding: 0 1em;
-  border-top: none;
-  line-height: 48px;
-  font-size: 0.88em;
-  position: relative;
-  top: 0;
-  margin: 0 auto;
-  display: none;
-  }
 
 select {
-font-size: 14px;
-background: #f4f4f4;
-border: 1px solid #aaa;
-font-family: 'Avenir Next';
+  border: 1px solid rgba(0,0,0,0.33);
+  font: normal 1em/1.33em 'Open Sans', sans-serif;
+  outline: none;
+}
+
+select:focus {
+  outline: none;
 }
 
 #type a {
@@ -328,7 +293,8 @@ section {
 }
 #songDuration {position: absolute;left:auto;right: -40px;}
 
-#youtubeEmbed {width: 0px;height: 0px;overflow: hidden;}
+#embeds {width: 0px;height: 0px;overflow: hidden;position: absolute;top: -1000px;left: -1000px};
+
 
 #controls a {color: blue;text-decoration: underline;cursor: pointer;}
 .thumb img {margin-left: -8px;height: 60px}
