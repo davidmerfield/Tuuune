@@ -2,7 +2,7 @@ var Song = function () {
 
    var template = 
       '<a class="song" href="#" id="{{id}}">' +
-         '<span class="thumbnail"><img src="{{thumbnail}}" /></span>' +
+         '<span class="thumbnail" style="background: url({{thumbnail}}) no-repeat center center;background-size: cover"><img src="" /></span>' +
          '<span class="title">{{pretty.title}} </span> ' +
          '<span class="buttons">' +
            '<span class="removeSong">x Hide</span>' +
