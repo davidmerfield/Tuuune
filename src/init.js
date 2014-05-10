@@ -7,6 +7,5 @@ $(function() {
    discover().init();
    Song().init();
    
-
    
 });
