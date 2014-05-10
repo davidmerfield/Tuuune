@@ -60,7 +60,7 @@ function Player () {
         bindEvents();
       }
 
-      $('#songTitle').text(currentSong.title);
+      $('#songTitle').text(currentSong.pretty.title);
       $('#songDuration').text(currentSong.pretty.duration);
 
       return mediaPlayer.play(currentSong);
