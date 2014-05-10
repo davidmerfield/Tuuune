@@ -1,25 +1,23 @@
 <!DOCTYPE html>
   <head>
     <title>Music Finder</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>    
     <link rel="stylesheet" href="./style.css">
     <script type="text/javascript" src="./js/libraries.js"></script>
     <script type="text/javascript" src="./js/app.js"></script>
   </head>
   <body>
       <header>
-        <h1>Uncharted</h1>
+        <section>
+          <h1>Music Finder</h1>
+        </section>  
       </header>  
-      <section id="loginPrompt">
-              Uncharted is a search engine for the internet's best undiscovered music.
-              <a href="#" id="join">Join</a>
-              <a href="#" id="login">Log in</a>
-      </section>
       <section id="discover">
          <section id="options">
             Find songs with <select id="maxListens" class="option" category="filter">
-               <option value="100000">under 100k listens</option>
-               <option value="10000">under 10k listens</option>
-               <option value="1000">under 1k listens</option>
+               <option value="100000">under 100,000 listens</option>
+               <option value="10000">under 10,000 listens</option>
+               <option value="1000">under 1,000 listens</option>
             </select> 
             in  <select id="topicID" class="option" category="search">
                <option value="/m/074ft">any genre</option>
@@ -62,6 +60,7 @@
          </section>    
       </section>      
       <section id="player">
+        <section id="embeds"></section>
         <section id="controls">
            <a id="previous" href="#">Previous</a>
            <a id="play" href="#">Play</a>
@@ -71,15 +70,11 @@
            <a id="shuffle" href="#" class=" ">Shuffle?</a>
            <a id="repeat" href="#" class=" ">Repeat?</a>
            <a id="progressBar" href="#">
-              <span id="buffered"></span>
               <span id="progress"></span>
               <span id="currentTime">0:00</span>
               <span id="songDuration">0:00</span>
            </a>
-           <div id="youtubeEmbed">
-              <p>You will need Flash 8 or better to view this content.</p>
-           </div>           
-        </section>
+       </section>
       </section>  
     </body>
   </html>
