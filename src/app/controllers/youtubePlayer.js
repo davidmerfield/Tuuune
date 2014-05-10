@@ -1,21 +1,54 @@
-var youtubePlayer = function () {
+var youtubePlayer = (function(){
 
-  function init (callback) {
+  var youtubeEmbed;
 
-    var params = {allowScriptAccess: "always"};
+  function init (playerID, callback) {
+
+    // Build the container which will house the youtube player
+    var embedContainer = document.createElement('div');
+        embedContainer.className = 'mediaEmbed';
+        embedContainer.id = playerID;
+
+    var embeds = document.getElementById('embeds');
+        embeds.appendChild(embedContainer);
+
+    // This function takes the embed container and swaps it
+    // for an embed element. When it's done it calls 
+    // onYouTubePlayerReady
 
     swfobject.embedSWF(
-      "http://www.youtube.com/v/pYVW0I-NnDc&enablejsapi=1&playerapiid=youtubeEmbed",
-      "youtubeEmbed", "425", "365", "8", null, null, params
+      "http://www.youtube.com/v/pYVW0I-NnDc&enablejsapi=1&playerapiid=" + playerID,
+      playerID, "425", "365", "8", null, null, {allowScriptAccess: "always"}
     );
 
-    window.onYouTubePlayerReady = function (playerID) {
+    return onYouTubePlayerReady = function (playerID) {
+      
+      youtubeEmbed = document.getElementById(playerID);
+      youtubeEmbed.className = 'mediaEmbed';
 
-      console.log('Youtube player loaded.');
-      youtubeEmbed.addEventListener('onStateChange', 'youtubePlayer.stateChange');
-      callback();
+      youtubeEmbed.addEventListener('onStateChange', 'youtubePlayer.eventHandler');
+      
+
+      callback('Youtube player loaded.');
     };
-  }
+  };
+
+  function eventHandler (eventID) {
+
+    var eventName = (function(){
+      switch (eventID) {
+        case -1: return 'unstarted';
+        case  0: return 'finished';
+        case  1: return 'playing';
+        case  2: return 'paused';
+        case  3: return 'buffering';
+        case  5: return 'queued';
+      };
+    }());
+
+    $(this).trigger(eventName);
+
+  };
 
   function play (song) {
     if (song) {
@@ -24,45 +57,32 @@ var youtubePlayer = function () {
     else {
       youtubeEmbed.playVideo()
     }
-  }
+  };
 
   function pause () {
-    youtubeEmbed.pauseVideo()
-  }
+    return youtubeEmbed.pauseVideo()
+  };
 
   function stop () {
-    youtubeEmbed.stopVideo()
-  }
+    return youtubeEmbed.stopVideo()
+  };
 
   function seekTo(seconds) {
-    youtubeEmbed.seekTo(seconds, true);
-  }
+    return youtubeEmbed.seekTo(seconds, true);
+  };
 
-  function getProgress() {
-
-    var currentTime = youtubeEmbed.getCurrentTime(),
-        mins = Math.floor(currentTime / 60),
-        seconds = helper.pad(Math.floor(currentTime % 60),2);
-
-    return {
-      currentTime: currentTime,
-      duration: youtubeEmbed.getDuration(),
-      playedPercent: currentTime/youtubeEmbed.getDuration()*100,
-      bufferedPercent: youtubeEmbed.getVideoLoadedFraction()*100
-    }
-  }
+  function getCurrentTime() {
+    return youtubeEmbed.getCurrentTime();
+  };
 
   return {
     init: init,
     play: play,
     pause: pause,
-    getProgress: getProgress,
-    seekTo: seekTo
-  }
+    stop: stop,
+    seekTo: seekTo,
+    eventHandler: eventHandler,
+    getCurrentTime: getCurrentTime
+  };
 
-};
-
-youtubePlayer.stateChange = function(e) {
-  console.log('Youtube player state changed');
-  player.setState(e);
-}
+}());
