@@ -1,3 +1,5 @@
+// :D
+
 function Player () {
 
   var currentSong,
@@ -17,37 +19,55 @@ function Player () {
   init();
 
   function init () {
-    addUIListener();      
-    loadMediaPlayers();
+    loadMediaPlayers(function(status){
+      
+      console.log(status);
+
+      addUIListener();
+    });
   }
 
   function play (song, nextSongs) {
 
-    mediaPlayer = youtubePlayer;
-    
-    if (song) {
-
-      currentSong = song;
-      mediaPlayer().play(currentSong);
-
-      $('#songTitle').text(currentSong.title);
-      $('#songDuration').text(currentSong.pretty.duration);
-
-    } else {
-      mediaPlayer().play();      
-    }
-
-    if (nextSongs) {
-
-
-      console.log('NEW Default QUEUE');
-      console.log(nextSongs);
-
-      defaultQueue = nextSongs
+    if (!song && !currentSong && !nextSongs) {
+      return
     }
 
     $('#play').hide();
     $('#pause').show();
+
+    if (nextSongs) {
+      defaultQueue = nextSongs
+    };
+
+    if (song) {
+
+      if (currentSong) {
+        unbindEvents();
+        mediaPlayer.stop();
+      };
+
+      currentSong = song;
+      drawProgressBar(true);
+
+      if (song.source === 'youtube') {
+        mediaPlayer = youtubePlayer;
+        bindEvents();
+      }
+
+      if (song.source === 'soundcloud') {
+        mediaPlayer = soundcloudPlayer
+        bindEvents();
+      }
+
+      $('#songTitle').text(currentSong.title);
+      $('#songDuration').text(currentSong.pretty.duration);
+
+      return mediaPlayer.play(currentSong);
+
+    };
+    
+    return mediaPlayer.play();
     
   }
 
@@ -56,7 +76,7 @@ function Player () {
     $('#play').show();
     $('#pause').hide();
 
-    youtubePlayer().pause();
+    mediaPlayer.pause();
     
   }
 
@@ -84,50 +104,64 @@ function Player () {
     }
   };
 
-  function loadMediaPlayers () {
+  function loadMediaPlayers (callback) {
 
-    // Youtube
-    youtubePlayer().init(function(){
+    youtubePlayer.init('YT_EMBED', function(status){
 
+      soundcloudPlayer.init('SC_EMBED', function(status){
+      
+        return callback('All players ready');
+      });
+    
     });
 
-    // Soundcloud
-    // ....
+  };
 
-  }
+  function drawProgressBar(reset) {
 
-  function updateProgressBar () {};
+    if (reset) {
+      $('#currentTime').text('0:00');
+      $('#progress').width('0%');
+      return 
+    };
 
-  function setState (val) {
+    var currentTime = mediaPlayer.getCurrentTime();
+        playedPercent = (currentTime/currentSong.duration)*100*1000,
 
-    switch (val) {
-      case 0: // song ended
-        next();
-      case 1: // playing
-        console.log('player is player');
-        setInterval(function(){
+        mins = Math.floor(currentTime / 60),
+        seconds = helper.pad(Math.floor(currentTime % 60),2);
 
-          console.log('updating progress bar');
+    $('#currentTime').text(mins + ':' + seconds);
+    $('#progress').width(playedPercent + '%');
 
-          var progress = mediaPlayer().getProgress(),
-              currentTime = progress.currentTime,
+  };
 
-              mins = Math.floor(currentTime / 60),
-              seconds = helper.pad(Math.floor(currentTime % 60),2);
+  function unbindEvents () {
+    $(mediaPlayer).off('finished', 'playing', 'paused');
+  };
 
-          $('#currentTime').text(mins + ':' + seconds);
-          $('#buffered').width(progress.bufferedPercent + '%');
-          $('#progress').width(progress.playedPercent + '%');
+  function bindEvents () {
+    
+    var progressInterval;
 
-        }, 100);
-      case 2: // paused
-        console.log('player is paused');
-      case 3: // buffering
-        console.log('player is buffering');
-      case 4: // video queued
-    }
+    $(mediaPlayer).on('finished', function(){
+      console.log('SONG FINISHED ---- PLAYER EVENT');
+      clearInterval(progressInterval);
+      drawProgressBar(true);
+      next();
+    });
 
-  }
+    $(mediaPlayer).on('playing', function(){
+      console.log('SONG PLAYING ---- PLAYER EVENT');
+      progressInterval = setInterval(drawProgressBar, 100);
+    });
+
+    $(mediaPlayer).on('paused', function(){
+      console.log('SONG PAUSED ---- PLAYER EVENT');
+      clearInterval(progressInterval);
+    });
+
+  };
 
   function progressBar(e) {
 
@@ -135,13 +169,12 @@ function Player () {
           ratio = xOffset/$('#progressBar').width(),
           seconds = Math.round(ratio*currentSong.duration/1000);
 
-      console.log(seconds);
-
-      return mediaPlayer().seekTo(seconds);
+      return mediaPlayer.seekTo(seconds);
    
-  }
+  };
 
   function addUIListener () {
+    
     $('#controls a').click(function(e){
       
       var method = $(this).attr('id');
@@ -161,12 +194,13 @@ function Player () {
 
       return false;
 
-    })
-  }
+    });
+
+  };
 
   function addToHistory(song) {
     playHistory.unshift(song);
-  }
+  };
 
   function lastPlayed() {
     return playHistory.shift();
@@ -187,7 +221,6 @@ function Player () {
   this.previous = previous;
   this.progressBar = progressBar;
 
-  this.setState = setState;
 
   return
 
