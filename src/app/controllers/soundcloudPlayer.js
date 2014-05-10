@@ -1,8 +1,17 @@
 var soundcloudPlayer = (function(SC){
 
-   var widget, soundcloudEmbed,
+   var embed,
        currentTime,
-       checkCurrentTime = false;
+
+       exports = {
+         init: init,
+         play: play,
+         pause: pause,
+         stop: stop,
+         seekTo: seekTo,
+         eventHandler: eventHandler,
+         getCurrentTime: getCurrentTime
+      };
 
    function init (playerID, callback) {
       
@@ -14,7 +23,7 @@ var soundcloudPlayer = (function(SC){
       var embeds = document.getElementById('embeds');
           embeds.appendChild(embedContainer);
 
-      widget = SC.Widget(embedContainer);
+      embed = SC.Widget(embedContainer);
       
       bindEvents();
 
@@ -24,7 +33,7 @@ var soundcloudPlayer = (function(SC){
 
    function setCurrentTime () {
 
-      widget.getPosition(function(position){
+      embed.getPosition(function(position){
 
          currentTime = position/1000;
       });
@@ -48,7 +57,7 @@ var soundcloudPlayer = (function(SC){
          }());
 
          if (eventName) {
-            $(soundcloudPlayer).trigger(eventName);
+            $(exports).trigger(eventName);
          };
 
       };
@@ -61,39 +70,32 @@ var soundcloudPlayer = (function(SC){
 
          var eventName = SC.Widget.Events[eventKey];
 
-         widget.bind(eventName, eventHandler(eventName));
+         embed.bind(eventName, eventHandler(eventName));
 
       };
-   }
+   };
 
    function play (song) {
       if (song) {
-         widget.load(song.url, {auto_play: true});
+         embed.load(song.url, {auto_play: true});
          currentTime = 0;
       } else {
-         widget.play();
+         embed.play();
       }
-   }
+   };
 
    function pause () {
-      widget.pause();
-   }
+      embed.pause();
+   };
 
    function stop () {
-      widget.pause();
-   }
+      embed.pause();
+   };
 
    function seekTo (seconds) {
-      widget.seekTo(seconds*1000);
-   }
+      embed.seekTo(seconds*1000);
+   };
 
-   return {
-      init: init,
-      play: play,
-      pause: pause,
-      stop: stop,
-      seekTo: seekTo,
-      getCurrentTime: getCurrentTime
-   }
+   return exports
 
 }(SC));

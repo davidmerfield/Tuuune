@@ -1,6 +1,16 @@
 var youtubePlayer = (function(){
 
-  var youtubeEmbed;
+  var embed,
+
+      exports = {
+        init: init,
+        play: play,
+        pause: pause,
+        stop: stop,
+        seekTo: seekTo,
+        eventHandler: eventHandler,
+        getCurrentTime: getCurrentTime
+      };
 
   function init (playerID, callback) {
 
@@ -12,9 +22,7 @@ var youtubePlayer = (function(){
     var embeds = document.getElementById('embeds');
         embeds.appendChild(embedContainer);
 
-    // This function takes the embed container and swaps it
-    // for an embed element. When it's done it calls 
-    // onYouTubePlayerReady
+    // This function swaps the embed container with a YT player
 
     swfobject.embedSWF(
       "http://www.youtube.com/v/pYVW0I-NnDc&enablejsapi=1&playerapiid=" + playerID,
@@ -23,10 +31,10 @@ var youtubePlayer = (function(){
 
     return onYouTubePlayerReady = function (playerID) {
       
-      youtubeEmbed = document.getElementById(playerID);
-      youtubeEmbed.className = 'mediaEmbed';
+      embed = document.getElementById(playerID);
+      embed.className = 'mediaEmbed';
 
-      youtubeEmbed.addEventListener('onStateChange', 'youtubePlayer.eventHandler');
+      embed.addEventListener('onStateChange', 'youtubePlayer.eventHandler');
       
 
       callback('Youtube player loaded.');
@@ -46,43 +54,35 @@ var youtubePlayer = (function(){
       };
     }());
 
-    $(this).trigger(eventName);
+    $(exports).trigger(eventName);
 
   };
 
   function play (song) {
     if (song) {
-      youtubeEmbed.loadVideoById(song.sourceID)
+      embed.loadVideoById(song.sourceID)
     }
     else {
-      youtubeEmbed.playVideo()
+      embed.playVideo()
     }
   };
 
   function pause () {
-    return youtubeEmbed.pauseVideo()
+    return embed.pauseVideo()
   };
 
   function stop () {
-    return youtubeEmbed.stopVideo()
+    return embed.stopVideo()
   };
 
   function seekTo(seconds) {
-    return youtubeEmbed.seekTo(seconds, true);
+    return embed.seekTo(seconds, true);
   };
 
   function getCurrentTime() {
-    return youtubeEmbed.getCurrentTime();
+    return embed.getCurrentTime();
   };
 
-  return {
-    init: init,
-    play: play,
-    pause: pause,
-    stop: stop,
-    seekTo: seekTo,
-    eventHandler: eventHandler,
-    getCurrentTime: getCurrentTime
-  };
+  return exports
 
 }());
