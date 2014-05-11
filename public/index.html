@@ -8,10 +8,17 @@
   </head>
   <body>
       <header>
-        <section>
-          <h1>Music Finder</h1>
-        </section>  
-      </header>  
+        <section></section>  
+      </header>
+      <section class="sidebar">
+        <nav>
+          <a href="#" class="icon discover" id="discoverNav">Discover</a>
+          <a href="#" class="icon starred" id="starredNav">Starred</a>
+        </nav>
+      </section>
+      <section id="starred" style="display:none">
+        <h1>Starred Songs</h1>
+      </section>
       <section id="discover">
          <section id="options">
             Find songs with <select id="maxListens" class="option" category="filter">

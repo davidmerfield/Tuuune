@@ -15,11 +15,26 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, b, ul, ol, li, section {
 
 body {
   font: 400 1em / 1.33em 'Open Sans', sans-serif;
+  padding-top: 60px;
 }
 
 header {
   display: none;
   border-bottom: 1px solid #dbd7a8;
+}
+
+.sidebar {margin: 0 auto}
+nav {
+  position: fixed;
+  width: 12em;
+  margin: 1em 0 0 -12em
+}
+
+nav a {
+  display: block;
+  line-height: 2em;
+  text-decoration: none;
+  color: #1181ff
 }
 
 h1 {
@@ -84,15 +99,22 @@ section {
   margin: 1em auto
 }
 
-#discover {margin: 3em auto;border-top: none;padding-bottom: 10em}
+#discover {margin: 0 auto;border-top: none;padding-bottom: 10em}
 #options, #results, #advanced {margin: 0 auto}
 
 
 #options {
   padding: 1em 0;
+  position: fixed;
+  z-index: 1;
+  background: #fff;
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.3)
 }
 #results {
   border-top: 1px solid rgba(0,0,0,0.2);
+  z-index: 0;
+  padding-top: 4em
 }
 
 #toggleAdvanced {
@@ -131,8 +153,8 @@ section {
 }
 
 .song {
-  width: 16em;
-  padding: 1em;
+  width: 12em;
+  padding: 0.75em;
   float: left;
   text-decoration: none;
   color: #000;
@@ -159,15 +181,15 @@ section {
 
 .song .thumbnail {
 
-  width: 14em;
-  height: 14em;
+  width: 10.5em;
+  height: 10.5em;
   overflow: hidden;
   display: block;
   float: left;
   margin-bottom: 0.66em;
   background: #eee}
 
-  .thumbnail img {height: 14em;text-align: center}
+  .thumbnail img {height: 10.5;text-align: center}
 
 .song .buttons {
   display: none;
@@ -191,7 +213,7 @@ section {
 #player {
   width: 100%;
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
   right: 0;
   margin: 0;
