@@ -116,7 +116,7 @@ var youtube = function () {
     
     var results = [],
         maxDislikeRatio = 0.025, // ratio of dislikes to likes
-        minLikeRatio = 0.005; // ratio of likes to views
+        minLikeRatio = 0.0025; // ratio of likes to views
 
     for (var i in videos) {
       
