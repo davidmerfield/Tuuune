@@ -1,11 +1,10 @@
 // :D
 
-function Player () {
+var player = (function() {
 
   var currentSong,
       
       mediaPlayer,
-      availablePlayers = {},
 
       userQueue = [],
       defaultQueue = [],
@@ -14,9 +13,15 @@ function Player () {
       options = {
         repeat: false,
         shuffle: false
-      };
+      },
 
-  init();
+      exports = {
+        init: init,
+        play: play,
+        pause: pause,
+        next: next,
+        previous: previous
+      };
 
   function init () {
     loadMediaPlayers(function(status){
@@ -204,24 +209,16 @@ function Player () {
 
   function lastPlayed() {
     return playHistory.shift();
-  }
+  };
 
   function queueSong () {
 
-  }
+  };
 
   function removeSong () {
 
-  }
+  };
 
+  return exports
 
-  this.play = play;
-  this.pause = pause;
-  this.next = next;
-  this.previous = previous;
-  this.progressBar = progressBar;
-
-
-  return
-
-};
+}());

@@ -2,7 +2,7 @@ $(function() {
 
    var appPrefix = 'musicfinder';
 
-   window.player = new Player();
+   player.init();
    
    discover().init();
    Song().init();
