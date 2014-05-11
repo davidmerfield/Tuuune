@@ -16,19 +16,19 @@ var youtubePlayer = (function(){
 
     // Build the container which will house the youtube player
     var embedContainer = document.createElement('div');
-        embedContainer.className = 'mediaEmbed';
         embedContainer.id = playerID;
 
     var embeds = document.getElementById('embeds');
         embeds.appendChild(embedContainer);
 
-    // This function swaps the embed container with a YT player
-
+    // This swaps the embed container with a YT player
     swfobject.embedSWF(
       "http://www.youtube.com/v/pYVW0I-NnDc&enablejsapi=1&playerapiid=" + playerID,
       playerID, "425", "365", "8", null, null, {allowScriptAccess: "always"}
     );
 
+    // The youtube embed will call this in the context 
+    // of window when it's ready to recieve calls.
     return onYouTubePlayerReady = function (playerID) {
       
       embed = document.getElementById(playerID);
@@ -39,23 +39,6 @@ var youtubePlayer = (function(){
 
       callback('Youtube player loaded.');
     };
-  };
-
-  function eventHandler (eventID) {
-
-    var eventName = (function(){
-      switch (eventID) {
-        case -1: return 'unstarted';
-        case  0: return 'finished';
-        case  1: return 'playing';
-        case  2: return 'paused';
-        case  3: return 'buffering';
-        case  5: return 'queued';
-      };
-    }());
-
-    $(exports).trigger(eventName);
-
   };
 
   function play (song) {
@@ -81,6 +64,23 @@ var youtubePlayer = (function(){
 
   function getCurrentTime() {
     return embed.getCurrentTime();
+  };
+
+  function eventHandler (eventID) {
+
+    var eventName = (function(){
+      switch (eventID) {
+        case -1: return 'unstarted';
+        case  0: return 'finished';
+        case  1: return 'playing';
+        case  2: return 'paused';
+        case  3: return 'buffering';
+        case  5: return 'queued';
+      };
+    }());
+
+    $(exports).trigger(eventName);
+
   };
 
   return exports
