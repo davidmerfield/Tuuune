@@ -1,7 +1,7 @@
 var youtubePlayer = (function(){
 
   var embed,
-
+      
       exports = {
         init: init,
         play: play,
@@ -13,6 +13,11 @@ var youtubePlayer = (function(){
       };
 
   function init (playerID, callback) {
+
+    if (typeof playerID === 'function') {
+      var callback = playerID,
+          playerID = 'YC_EMBED';
+    };
 
     // Build the container which will house the youtube player
     var embedContainer = document.createElement('div');
@@ -29,14 +34,13 @@ var youtubePlayer = (function(){
 
     // The youtube embed will call this in the context 
     // of window when it's ready to recieve calls.
-    return onYouTubePlayerReady = function (playerID) {
+    return window.onYouTubePlayerReady = function (playerID) {
       
       embed = document.getElementById(playerID);
       embed.className = 'mediaEmbed';
 
       embed.addEventListener('onStateChange', 'youtubePlayer.eventHandler');
       
-
       callback('Youtube player loaded.');
     };
   };

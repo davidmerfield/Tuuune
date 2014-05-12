@@ -15,6 +15,11 @@ var soundcloudPlayer = (function(SC){
 
    function init (playerID, callback) {
       
+      if (typeof playerID === 'function') {
+        var callback = playerID,
+            playerID = 'SC_EMBED';
+      };
+
       var embedContainer = document.createElement('iframe');
           embedContainer.id = playerID;
           embedContainer.src = "https://w.soundcloud.com/player/?url=";
