@@ -14,9 +14,21 @@ Last.fm?
 
 Prefer other sources over YouTube since their API TOS prohibit hiding their music player.
 
+look into using google's people also search for feature
+spotify's related artists
+
 # Target
 
 8tracks users and designers.mx
+
+make sharing music all about helping the artist and the song.
+
+the fact that the song is 'hosted' on our site is a secondary feature.
+
+PEOPLE LOVE SHARING MUSIC
+RIGHT? I DO
+
+noone has really made that work
 
 # Explore features
 
@@ -195,6 +207,8 @@ unfound
 soundless
 undersound
 songsearch
+
+Questo
 
 tuuune - .com!!!
 ununu
