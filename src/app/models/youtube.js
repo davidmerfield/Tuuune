@@ -115,8 +115,8 @@ var youtube = function () {
   function filter (videos) {
     
     var results = [],
-        maxDislikeRatio = 0.025, // ratio of dislikes to likes
-        minLikeRatio = 0.0025; // ratio of likes to views
+        maxDislikeRatio = 0.015, // ratio of dislikes to likes
+        minLikeRatio = 0.0075; // ratio of likes to views
 
     for (var i in videos) {
       
