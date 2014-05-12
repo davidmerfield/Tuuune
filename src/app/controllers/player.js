@@ -3,7 +3,7 @@
 var player = (function() {
 
   var currentSong,
-      
+
       mediaPlayer,
 
       userQueue = [],
@@ -24,13 +24,26 @@ var player = (function() {
       };
 
   function init () {
-    loadMediaPlayers(function(status){
+    
+    var players = [youtubePlayer, soundcloudPlayer];
+
+    loadMediaPlayers(players, function(status){
       
       console.log(status);
 
       addUIListener();
     });
   }
+
+  function loadMediaPlayers (players, callback) {
+    
+    if (players.length === 0) {return callback('All players loaded')};
+
+    players[0].init(function(status){
+      loadMediaPlayers(players.slice(1), callback)
+    });
+
+  };
 
   function play (song, nextSongs) {
 
@@ -107,19 +120,6 @@ var player = (function() {
     } else {
       return 
     }
-  };
-
-  function loadMediaPlayers (callback) {
-
-    youtubePlayer.init('YT_EMBED', function(status){
-
-      soundcloudPlayer.init('SC_EMBED', function(status){
-      
-        return callback('All players ready');
-      });
-    
-    });
-
   };
 
   function drawProgressBar(reset) {
