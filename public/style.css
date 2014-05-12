@@ -23,7 +23,11 @@ header {
   border-bottom: 1px solid #dbd7a8;
 }
 
-.sidebar {margin: 0 auto}
+.sidebar {
+  margin: 0 auto;
+  display: none;
+}
+
 nav {
   position: fixed;
   width: 12em;
