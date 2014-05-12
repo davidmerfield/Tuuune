@@ -6,13 +6,15 @@ var player = (function() {
 
       mediaPlayer,
 
-      userQueue = [],
-      defaultQueue = [],
-      playHistory = [],
-
       options = {
         repeat: false,
         shuffle: false
+      },
+
+      queue = {
+        user: [],
+        auto: [],
+        history: []
       },
 
       exports = {
