@@ -5,8 +5,9 @@ var Song = function () {
          '<span class="thumbnail" style="background: url({{thumbnail}}) no-repeat center center;background-size: cover"><img src="" /></span>' +
          '<span class="title">{{pretty.title}} </span> ' +
          '<span class="buttons">' +
-           '<span class="removeSong">x Hide</span>' +
-           '<span class="starSong">* Star</span>' +
+           '<span class="playSong">Play</span>' +
+           '<span class="removeSong">Hide</span>' +
+           '<span class="starSong">Star</span>' +
            '<span class="queueSong">+ Queue</span>' +
          '</span>' + 
          '<span class="stats">' +
@@ -18,24 +19,25 @@ var Song = function () {
 
    function init () {
 
-      $('body').on('click', '.song', function(e){
-         $(document).trigger('playSong', [{id:$(this).attr('id')}]);
+      $('body').on('click', '.playSong', function(e){
+         $(document).trigger('playSong', [{id:$(this).parent().parent().attr('id')}]);
          return false;
       });
 
        $('body').on('click', '.queueSong', function(e){
           e.preventDefault(); // stops click event bubbling to .result
-          $(document).trigger('queueSong', [{id:$(this).attr('id')}]);
+          $(document).trigger('queueSong', [{id:$(this).parent().parent().attr('id')}]);
        });
 
        $('body').on('click', '.starSong', function(e){
           e.preventDefault(); // stops click event bubbling to .result
-          $(document).trigger('starSong', [{id:$(this).attr('id')}]);
+          $(document).trigger('starSong', [{id:$(this).parent().parent().attr('id')}]);
        });
 
        $('body').on('click', '.removeSong', function(e){
           e.preventDefault(); // stops click event bubbling to .result
-          $(document).trigger('removeSong', [{id:$(this).attr('id')}]);
+          $(document).trigger('removeSong', [{id:$(this).parent().parent().attr('id')}]);
+          $(this).parent().parent().remove();
        });
    };
 

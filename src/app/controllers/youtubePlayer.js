@@ -1,7 +1,7 @@
 var youtubePlayer = (function(){
 
   var embed,
-      
+
       exports = {
         init: init,
         play: play,
@@ -11,7 +11,7 @@ var youtubePlayer = (function(){
         eventHandler: eventHandler,
         getCurrentTime: getCurrentTime
       };
-
+      
   function init (playerID, callback) {
 
     if (typeof playerID === 'function') {
