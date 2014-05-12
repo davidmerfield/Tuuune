@@ -12,6 +12,7 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, b, ul, ol, li, section {
 }
 
 .hide {display: none!important;}
+.clear {width: 100%;clear: both;height: 0}
 
 body {
   font: 400 1em / 1.33em 'Open Sans', sans-serif;
@@ -142,7 +143,17 @@ section {
   min-height: 200px;
   position: relative;
   overflow: visible;
-  padding-bottom: 30em
+  padding-bottom: 30em;
+}
+
+#loadMore {
+  display: block;
+  clear: both;
+  width: 100%;
+  background: #eee;
+  padding: 1em;
+  text-align: center;
+  border: 1px solid #ccc;
 }
 
 #results.empty:before {
@@ -170,6 +181,7 @@ section {
   background: rgba(255,168,0,0.1)
 }
 
+
 .song .title {
   height: 1.33em;
   width: 100%;
@@ -177,7 +189,7 @@ section {
   display: block;
 }
 
-.song .stats {display: block}
+.song .stats {display: block;max-height: 1.33em;overflow: hidden;}
 .song .stats * {color: #aaa;
   font-size: 0.88em;
   font-family: 'Avenir Next Condensed'
@@ -198,20 +210,67 @@ section {
 .song .buttons {
   display: none;
   position: absolute;
-  right: 0;
-  top: 0;
-  width: 100px;
+  right: 0.75em;
+  top: 0.75em;
+  left: 0.75em;
+  height: 10.5em;
+  background: rgba(0,0,0,0.5);
 }
 
+
 .song .buttons span {
-  display: block;
-  float: right;
-  padding: 0 0.33em;
-  border: 2px solid #aaa;
+  border: 2px solid #bbb;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.6);
+  text-shadow: 0 1px 0 rgba(0,0,0,0.6);
   border-radius: 4px;
-  margin: 0.3em 0 0 0;
-  color: #444;
-  font-size: 0.88em;
+  color: #bbb;
+  font-size: 1em;
+  line-height: 1.5em;
+  padding: 0 0.5em;
+}
+
+
+.song .buttons span:hover {
+  border-color: #fff;
+  color: #fff
+}
+.song .buttons .playSong {
+  width: 5em;
+  height: 5em;
+  line-height: 5em;
+  position: absolute;
+  padding: 0;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  border-width: 4px;
+  margin: -2.5em 0 0 -2.5em;
+  border-radius: 5em;
+}
+
+.song .buttons .queueSong {
+  position: absolute;
+  bottom: 0.5em;
+  left: 50%;
+  width: 5.5em;
+  margin-left: -2.75em;
+}
+
+.song .buttons .removeSong {
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+}
+
+.song .buttons .starSong {
+  position: absolute;
+  top: 0.5em;
+  left: 0.5em;
+  display: none;
+}
+
+.song:hover .buttons {
+  display: block;
 }
 
 #player {
