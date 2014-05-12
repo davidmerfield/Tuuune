@@ -10,7 +10,7 @@ var discover =  function (options, allSongs) {
 
       options = options || {
         regionCode: 'US', // used to ensure songs are playable by user
-        minResults: 20, 
+        minResults: 10, 
         topicID: '/m/074ft', // all songs
         minListens: 1000,
         maxListens: 100000,
@@ -39,6 +39,9 @@ var discover =  function (options, allSongs) {
         // Indicate this source has responded
         searchedSources.push(source);
         
+        // Add news songs to auto queue
+        player.addToAutoQueue(filter(songs, options));
+
         // append new songs to list of every song retrieved
         allSongs = addNew(songs).to(allSongs);
         
@@ -64,6 +67,8 @@ var discover =  function (options, allSongs) {
         return searchForSongs(callback)
       } 
 
+      $('#loadMore').show();
+
       return callback('Found ' + filteredSongs.length + ' songs!') 
 
     };    
@@ -74,14 +79,14 @@ var discover =  function (options, allSongs) {
     for (var i in allSongs) {
         var song = allSongs[i];
         if (song.id && song.id === id) {
-          allSongs = allSongs.splice(i,1);
+          allSongs.splice(i,1);
           break 
         }
     };      
     for (var i in filteredSongs) {
        var song = filteredSongs[i];
        if (song.id && song.id === id) {
-        filteredSongs = filteredSongs.splice(i,1);
+        filteredSongs.splice(i,1);
          break 
        }
     }
@@ -146,11 +151,21 @@ var discover =  function (options, allSongs) {
     });
 
     $(document).on('queueSong', function(e, data){
+
+      console.log(data.id);
+
+      var id = data.id;
+          songInfo = lookupSong(id);
+          song = songInfo.song;
+
+      player.addToQueue('user', song);
        
     });
 
     $(document).on('removeSong', function(e, data){
        
+       removeSongByID(data.id);
+
       // removeSongByID(data.id);
 
     });
@@ -166,6 +181,14 @@ var discover =  function (options, allSongs) {
       // localStorage.set(savedSongsKey, savedSongs);
       // localStorage.set(data.id, song);
 
+    });
+
+    $('#loadMore').on('click', function(){
+      options.minResults+=10;
+      $(this).hide();
+      searchForSongs(function(){
+
+      });
     });
 
     $('.option').on('change', function(){
