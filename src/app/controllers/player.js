@@ -22,7 +22,9 @@ var player = (function() {
         play: play,
         pause: pause,
         next: next,
-        previous: previous
+        previous: previous,
+        addToQueue: addToQueue,
+        addToAutoQueue: addToAutoQueue
       };
 
   function init () {
@@ -32,15 +34,21 @@ var player = (function() {
     loadMediaPlayers(players, function(status){
       
       console.log(status);
-
+      
       addUIListener();
+
     });
   }
 
   function loadMediaPlayers (players, callback) {
     
-    if (players.length === 0) {return callback('All players loaded')};
+    if (players.length === 0) {
+      return callback('All players loaded')
+    };
 
+    // Init adds the controllable embed for 
+    // each media player to the DOM then binds
+    // the player's event listener
     players[0].init(function(status){
       loadMediaPlayers(players.slice(1), callback)
     });
@@ -57,7 +65,7 @@ var player = (function() {
     $('#pause').show();
 
     if (nextSongs) {
-      defaultQueue = nextSongs
+      queue.auto = nextSongs
     };
 
     if (song) {
@@ -101,27 +109,51 @@ var player = (function() {
   }
 
   function next () {
-
     addToHistory(currentSong);
-
-    var nextSong = nextInQueue();
-
-    play(nextSong);
+    play(nextInQueue());
   };
 
   function previous () {
-    defaultQueue.unshift(currentSong);
+    addToQueue('auto', currentSong);
     play(lastPlayed());
   };
 
+
+  function addToHistory(song) {
+    queue.history.unshift(song);
+  };
+
+  function lastPlayed() {
+  };
+
+  function addToQueue (song) {
+    queue.user.unshift(song);
+    return console.log('Please specify a queue to add the songs to');
+  };
+
+  function addToAutoQueue (songs) {
+    queue.auto = queue.auto.concat(songs);
+  };
+
+  function lastPlayed () {
+    return queue.history.shift();
+  };
+
   function nextInQueue () {
-    if (userQueue.length > 0) {
-      return userQueue.shift()
-    } else if (defaultQueue.length > 0) {
-      return defaultQueue.shift()
-    } else {
-      return 
+    
+    // Check if the user has queued any songs
+    if (queue.user.length > 0) {
+      return queue.user.shift()
     }
+
+    // Check if there are any songs which should auto play
+    if (queue.auto.length > 0) {
+      return queue.auto.shift()
+    }
+
+    // Otherwise
+    return false
+    
   };
 
   function drawProgressBar(reset) {
@@ -205,21 +237,6 @@ var player = (function() {
 
   };
 
-  function addToHistory(song) {
-    playHistory.unshift(song);
-  };
-
-  function lastPlayed() {
-    return playHistory.shift();
-  };
-
-  function queueSong () {
-
-  };
-
-  function removeSong () {
-
-  };
 
   return exports
 
