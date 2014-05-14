@@ -1,18 +1,18 @@
 // This could be greatly simplified if I only had to make one call to my server, which would
 // return say 20 songs instantly.
 
-var discover =  function (options, allSongs) {
+var discover =  (function () {
 
   var allSongs = allSongs || [], // A list of the all the unique songs returned from search
       filteredSongs = [], // A subset of allSongs which passes the filter
       
-      results = document.getElementById('results'),
+      results,
 
       options = options || {
         regionCode: 'US', // used to ensure songs are playable by user
         minResults: 10, 
         topicID: '/m/074ft', // all songs
-        minListens: 1000,
+        minListens: 0,
         maxListens: 100000,
         maxDuration: 840000,
         minDuration: 60000,
@@ -21,8 +21,34 @@ var discover =  function (options, allSongs) {
            covers: true,
            remixes: true,
         }
-      };
+      },
+
+      exports = {
+        init: init,
+        hide: hide
+      }
       
+  function init () {
+    
+    $('#discover').show();
+    
+    results = document.getElementById('results');
+
+    // Listen to changes to options inputs
+    addUIListener();
+
+    // Find songs
+    searchForSongs(function(message){
+      console.log(message);
+    });
+
+  };
+
+  function hide () {
+    $('#discover').hide();
+    $('.option').unbind('on');
+  };
+
   function searchForSongs (callback) {
 
     var sources = [youtube, soundcloud], // references to the modules
@@ -171,15 +197,12 @@ var discover =  function (options, allSongs) {
     });
 
     $(document).on('starSong', function(e, data){
-       
-      // var starredSongsKey = appPrefix + ':starred',
-      //     song = getSongByID(data.id);
 
-      // var starredSongs = JSON.parse(localStorage.get(savedSongsKey));
-      //     starredSongs.unshift(data.id);
+      var id = data.id;
+          songInfo = lookupSong(id);
+          song = songInfo.song;
 
-      // localStorage.set(savedSongsKey, savedSongs);
-      // localStorage.set(data.id, song);
+       starred.star(song);
 
     });
 
@@ -231,21 +254,5 @@ var discover =  function (options, allSongs) {
     results.innerHTML = html;
   };
 
-  return {
-    init: function () {
-      
-      // Listen to changes to options inputs
-      addUIListener();
-
-      // Find songs
-      searchForSongs(function(message){
-        console.log(message);
-      });
-
-    },
-    detach: function() {
-      $('.option').unbind('on');
-    }
-
-  }
-};
+  return exports
+}());
