@@ -106,7 +106,7 @@ var filter = function (songs, options) {
       song.pretty = {
          title: helper.tidyTitle(song.title),
          duration: mins + ':' + seconds,
-         listens: Math.round(song.listens/1000) + 'k'
+         listens: Math.ceil(song.listens/1000) + 'k'
       }
 
       // passed tests, add to queue
