@@ -110,6 +110,9 @@ var player = (function() {
   }
 
   function next () {
+
+    $(exports).trigger('nextSong');
+    
     addToHistory(currentSong);
     play(nextInQueue());
   };
