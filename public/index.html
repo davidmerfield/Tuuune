@@ -11,14 +11,17 @@
         <section></section>  
       </header>
       <section class="sidebar">
-        <nav>
-          <a href="#" class="icon discover" id="discoverNav">Discover</a>
-          <a href="#" class="icon starred" id="starredNav">Starred</a>
-          <a href="#" class="icon queue" id="queueNav">Queue</a>
-        </nav>
+        <section id="nav">
+          <a href="#" class="icon discover" data-view="discover">Discover</a>
+          <a href="#" class="icon starred" data-view="starred">Starred</a>
+          <a href="#" class="icon queue" data-view="queue">Queue</a>
+          <a href="#" class="icon history" data-view="history">History</a>
+        </section>
       </section>
       <section id="starred" style="display:none">
         <h1>Starred Songs</h1>
+        <section class="songList"></section>
+      </section>
       <section id="history" style="display:none">
         <h1>Play history</h1>
         <section class="songList"></section>
