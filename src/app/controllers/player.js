@@ -24,7 +24,8 @@ var player = (function() {
         next: next,
         previous: previous,
         addToQueue: addToQueue,
-        addToAutoQueue: addToAutoQueue
+        addToAutoQueue: addToAutoQueue,
+        getQueue: getQueue
       };
 
   function init () {
@@ -135,6 +136,9 @@ var player = (function() {
     queue.auto = queue.auto.concat(songs);
   };
 
+  function getQueue () {
+    return helper.duplicate(queue);
+  }
   function lastPlayed () {
     return queue.history.shift();
   };
