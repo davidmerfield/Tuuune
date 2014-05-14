@@ -25,7 +25,7 @@ var soundcloud = function () {
       console.log(songs);
 
       var results = [],
-          savesToPlays = 0.0;
+          savesToPlays = 0.01;
 
       for (var i in songs) {
          
