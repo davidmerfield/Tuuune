@@ -26,16 +26,15 @@ header {
 
 .sidebar {
   margin: 0 auto;
-  display: none;
 }
 
-nav {
+#nav {
   position: fixed;
   width: 12em;
   margin: 1em 0 0 -12em
 }
 
-nav a {
+#nav a {
   display: block;
   line-height: 2em;
   text-decoration: none;
@@ -266,11 +265,69 @@ section {
   position: absolute;
   top: 0.5em;
   left: 0.5em;
-  display: none;
 }
 
 .song:hover .buttons {
   display: block;
+}
+
+.songList .song {
+  width: 100%;
+  height: 4.5em;
+  border-top: 1px solid rgba(0,0,0,0.2)
+}
+
+.songList .song .stats {
+  float: left;
+  line-height: 3em;
+  height: 3em;
+  max-height: 3em;
+}
+
+.songList .song .buttons {
+  position: absolute;
+  background: none;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.songList .song .buttons .playSong {
+  position: absolute;
+  font-size: 0.5em;
+  left: 2em;
+  right: auto;
+  top: 2em;
+  bottom: 0;
+  margin: 0
+}
+
+.songList .song .buttons .removeSong {
+  display: none;
+}
+
+.songList .song .buttons .starSong,
+.songList .song .buttons .queueSong  {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  float: right;
+}
+.songList .song .thumbnail {
+  float: left;
+  width: 3em;
+  height: 3em;
+}
+
+.songList .song .title {
+  float: left;
+  width: 44%;
+  line-height: 3em;
+  margin: 0 1em;
+  height: 3em;
 }
 
 #player {
