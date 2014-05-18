@@ -7,23 +7,8 @@ var nav = (function () {
          setCurrentView: setCurrentView
        };
 
-   function setCurrentView (name) {
-
-      console.log('setting view to ' + name);
-
-      if (currentView) {currentView.hide()};
-
-      currentView = views[name];
-      
-      console.log('current view is ' + currentView);
-
-      currentView.init();
-
-
-   };
-
    function init (name){
-      
+    
       views = {
          starred: starred,
          discover: discover,
@@ -31,9 +16,28 @@ var nav = (function () {
          history: history
       };
 
-      if (name) {setCurrentView(name)};
+      if (name) {
+         setCurrentView(name)
+      } else {
+         console.log('PLEASE DEFINE A VIEW TO START WITH')
+      };
 
       addListener();
+
+   };
+
+   function setCurrentView (name) {
+
+      if (currentView) {
+         currentView.hide()
+      };
+
+      currentView = views[name];
+      
+      console.log('current view is ' + currentView);
+
+      currentView.init();
+
 
    };
 
