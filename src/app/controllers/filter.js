@@ -114,7 +114,8 @@ var filter = function (songs, options) {
 
    };
    
-   console.log('PASSED SONGS: ' + results.length);   
+   console.log('PASSED SONGS: ' + results.length); 
+     
    return results
 
    function hasBanned (string, phrases) {
