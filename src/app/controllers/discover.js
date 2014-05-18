@@ -31,16 +31,18 @@ var discover =  (function () {
   function init () {
     
     $('#discover').show();
-    
+
     results = document.getElementById('results');
 
     // Listen to changes to options inputs
     addUIListener();
 
-    // Find songs
-    searchForSongs(function(message){
-      console.log(message);
-    });
+    if (filteredSongs.length < options.minResults) {
+      // Find songs
+      searchForSongs(function(message){
+        console.log(message);
+      });      
+    }
 
   };
 
