@@ -16,13 +16,13 @@ module.exports = function(grunt) {
             },
             files: {
                'public/js/libraries.js': [
-                  'src/libraries/*.js',
+                  'src/libraries/**/*.js',
                ],
                'public/js/app.js': [
-                  'src/util/*.js',
-                  'src/app/models/*.js',
-                  'src/app/views/*.js',
-                  'src/app/controllers/*.js',
+                  'src/util/**/*.js',
+                  'src/app/models/**/*.js',
+                  'src/app/views/**/*.js',
+                  'src/app/controllers/**/*.js',
                   'src/init.js'
                ]
             }
