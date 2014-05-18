@@ -7,7 +7,5 @@ $(function() {
    player.init();
    
    Song().init();
-      
-   starred.reset();
-   
+         
 });
