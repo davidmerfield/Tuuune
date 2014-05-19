@@ -49,6 +49,7 @@ var discover =  (function () {
   function hide () {
     $('#discover').hide();
     $('.option').unbind('on');
+    $(Song).off();
   };
 
   function searchForSongs (callback) {
@@ -167,7 +168,7 @@ var discover =  (function () {
 
   function addUIListener () {
 
-    $(document).on('playSong', function(e, data){
+    $(Song).on('playSong', function(e, data){
        
       var id = data.id;
           songInfo = lookupSong(id);
@@ -178,7 +179,7 @@ var discover =  (function () {
        
     });
 
-    $(document).on('queueSong', function(e, data){
+    $(Song).on('queueSong', function(e, data){
 
       console.log(data.id);
 
@@ -190,7 +191,7 @@ var discover =  (function () {
        
     });
 
-    $(document).on('removeSong', function(e, data){
+    $(Song).on('removeSong', function(e, data){
        
        removeSongByID(data.id);
 
@@ -198,7 +199,7 @@ var discover =  (function () {
 
     });
 
-    $(document).on('starSong', function(e, data){
+    $(Song).on('starSong', function(e, data){
 
       var id = data.id;
           songInfo = lookupSong(id);
@@ -250,7 +251,7 @@ var discover =  (function () {
     
     for (var i in filteredSongs) {
       var song = filteredSongs[i];
-      html += Song().render(song);
+      html += Song.render(song);
     }
 
     results.innerHTML = html;
