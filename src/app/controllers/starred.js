@@ -16,13 +16,54 @@ var starred = (function(){
       $('#starred').show();
 
       var songs = getSongs();
-
+      
+      addUIListeners();
+      
       render(songs);  
 
    };
 
    function hide () {
       $('#starred').hide();
+      $(Song).off();
+   };
+
+
+  function addUIListeners () {
+    
+    $(Song).on('playSong', function(e, data){
+      
+      console.log('PLAYER SONG CALLED');
+
+      var id = data.id,
+          songs = getSongs(),
+          song = songs[id],
+          defaultQueue = songs; // NO
+
+      player.play(song, defaultQueue);
+       
+    });
+
+    $(Song).on('queueSong', function(e, data){
+
+      var id = data.id,
+          songs = getSongs(),
+          song = songs[id];
+
+      player.addToQueue('user', song);
+       
+    });
+
+    $(Song).on('starSong', function(e, data){
+
+      var id = data.id;
+          songInfo = lookupSong(id);
+          song = songInfo.song;
+
+       starred.star(song);
+
+    });
+
    };
 
    function reset() {
@@ -70,16 +111,12 @@ var starred = (function(){
 
       if (songs) {
 
-         console.log(songs);
-
          var html = '';
 
          for (var i in songs) {
            var song = songs[i];
-           html += Song().render(song);
+           html += Song.render(song);
          }
-
-         console.log(html);
 
          $('#starred .songList').html(html);
 

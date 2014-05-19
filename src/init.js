@@ -6,6 +6,6 @@ $(function() {
 
    player.init();
    
-   Song().init();
+   Song.init();
          
 });

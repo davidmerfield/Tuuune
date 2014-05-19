@@ -21,12 +21,12 @@ var queue = (function(){
 
       for (var i in queue.user) {
         var song = queue.user[i];
-        html += Song().render(song);
+        html += Song.render(song);
       }
 
       for (var i in queue.auto) {
         var song = queue.auto[i];
-        html += Song().render(song);
+        html += Song.render(song);
       }
 
       console.log(html);

@@ -25,7 +25,7 @@ var history = (function(){
 
       for (var i in queue.history) {
         var song = queue.history[i];
-        html += Song().render(song);
+        html += Song.render(song);
       }
 
       $('#history .songList').html(html);
