@@ -47,7 +47,7 @@ var youtubePlayer = (function(){
 
   function play (song) {
     if (song) {
-      embed.loadVideoById(song.sourceID)
+      embed.loadVideoById(song.source.id)
     }
     else {
       embed.playVideo()

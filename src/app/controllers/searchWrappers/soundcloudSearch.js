@@ -47,22 +47,27 @@ var soundcloud = function () {
       }
 
       // Perpahs this should be an object contructor
-      results.push({
+      results.push(newSong({
 
-        id: prefix + song.id,
+        id: song.id,
+        
+        prefix: prefix,
+        
+        sourceName: sourceName,
+
         title: song.title,
         thumbnail: song.artwork_url,
         duration: song.duration,
 
-        source: sourceName,
         sourceID: song.id,
         url: song.uri,
 
         listens: song.playback_count,
         popularity: saves / song.playback_count,
 
-        isStarred: false
-      });
+      }));
+
+
     }
 
     return results

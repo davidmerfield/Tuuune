@@ -133,24 +133,27 @@ var youtube = function () {
         continue
       }
 
-      results.push({
+      results.push(newSong({
 
-        id: prefix + video.id,
+        id: video.id,
+        prefix: prefix,
+        sourceName: sourceName,
+
         title: video.snippet.title,
+        
         thumbnail: video.snippet.thumbnails.medium.url,
         duration: helper.parseYTDuration(video.contentDetails.duration),
         
-        source: sourceName,
-        sourceID: video.id,
         url: videoURL + video.id,
                 
         listens: views,
         popularity: likes / views,
 
-        isStarred: false
 
-      });
+    }));
 
+
+      
     }
 
     return results

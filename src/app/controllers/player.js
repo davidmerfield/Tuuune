@@ -79,12 +79,12 @@ var player = (function() {
       currentSong = song;
       drawProgressBar(true);
 
-      if (song.source === 'youtube') {
+      if (song.source.name === 'youtube') {
         mediaPlayer = youtubePlayer;
         bindEvents();
       }
 
-      if (song.source === 'soundcloud') {
+      if (song.source.name === 'soundcloud') {
         mediaPlayer = soundcloudPlayer
         bindEvents();
       }

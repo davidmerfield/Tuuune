@@ -98,17 +98,6 @@ var filter = function (songs, options) {
          continue
       };
 
-      // Make pretty duration
-      var mins = Math.floor(song.duration / 60000),
-          seconds = helper.pad(Math.floor((song.duration/1000) % 60),2);
-
-      // Tidy up title string      
-      song.pretty = {
-         title: helper.tidyTitle(song.title),
-         duration: mins + ':' + seconds,
-         listens: Math.ceil(song.listens/1000) + 'k'
-      }
-
       // passed tests, add to queue
       results.push(song);        
 

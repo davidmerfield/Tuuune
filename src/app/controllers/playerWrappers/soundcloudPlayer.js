@@ -82,7 +82,7 @@ var soundcloudPlayer = (function(SC){
 
    function play (song) {
       if (song) {
-         embed.load(song.url, {auto_play: true});
+         embed.load(song.source.url, {auto_play: true});
          currentTime = 0;
       } else {
          embed.play();

@@ -19,7 +19,6 @@ var nav = (function () {
       if (name) {
          setCurrentView(name)
       } else {
-         console.log('PLEASE DEFINE A VIEW TO START WITH')
       };
 
       addListener();
@@ -33,9 +32,7 @@ var nav = (function () {
       };
 
       currentView = views[name];
-      
-      console.log('current view is ' + currentView);
-
+   
       currentView.init();
 
 

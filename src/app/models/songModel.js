@@ -1,4 +1,4 @@
-var songModel = function(data) {
+var newSong = function(data) {
 
    // Make pretty duration
    var mins = Math.floor(data.duration / 60000),
@@ -9,7 +9,7 @@ var songModel = function(data) {
      id: data.prefix + data.id,
 
      source: {
-      name: data.prefix,
+      name: data.sourceName,
       id: data.id,
       url: data.url
      },
@@ -21,10 +21,12 @@ var songModel = function(data) {
      listens: data.listens,
      popularity: data.popularity,
 
+     isStarred: false,
+
      pretty: {
-      title: helper.tidyTitle(song.title),
+      title: helper.tidyTitle(data.title),
       duration: mins + ':' + seconds,
-      listens: Math.ceil(song.listens/1000) + 'k'
+      listens: Math.ceil(data.listens/1000) + 'k'
      }
 
    };
