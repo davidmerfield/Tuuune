@@ -1,113 +1,126 @@
 var starred = (function(){
    
-   var storageKey = 'musicFinder:starred';
+  var viewId = 'starred',
+      
+      storageKey = 'musicFinder:starred',
 
-   var exports = {
+      starredSongs = [],
+
+      exports = {
          init: init,
          hide: hide,
          star: star,
-         unstar: unstar,
          reset: reset,
          getSongs: getSongs
-       };
-   
-   function init () {
-
-      $('#starred').show();
-
-      var songs = getSongs();
-      
-      addUIListeners();
-      
-      render(songs);  
-
-   };
-
-   function hide () {
-      $('#starred').hide();
-      $(Song).off();
-   };
-
-
-  function addUIListeners () {
-    
-    $(Song).on('playSong', function(e, data){
-      
-      console.log('PLAYER SONG CALLED');
-
-      var id = data.id,
-          songs = getSongs(),
-          song = songs[id],
-          defaultQueue = songs; // NO
-
-      player.play(song, defaultQueue);
-       
-    });
-
-    $(Song).on('queueSong', function(e, data){
-
-      var id = data.id,
-          songs = getSongs(),
-          song = songs[id];
-
-      player.addToQueue('user', song);
-       
-    });
-
-    $(Song).on('starSong', function(e, data){
-
-      var id = data.id;
-          songInfo = lookupSong(id);
-          song = songInfo.song;
-
-       starred.star(song);
-
-    });
-
-   };
-
-   function reset() {
-      localStorage.removeItem(storageKey);
-   };
-
-   function getSongs () {
-      
-      var songs = localStorage.getItem(storageKey);
-
-      if (songs) {
-         return JSON.parse(songs);
-      } else {
-         setSongs({});
-         return {}
       };
 
-   };
+  function init () {
 
-   function setSongs (songs) {
-      return localStorage.setItem(storageKey, JSON.stringify(songs));
-   };
+     // Make the view visible
+     $('#' + viewId).show();
 
-   function star (song) {
-      
-      var songs = getSongs();
-          songs[song.id] = song;
+     // Ensure the controller listens to the UI
+     bindEventHandlers();
 
-         setSongs(songs);
+     // Render starred songs
+     render(getSongs());  
 
    };
 
-   function unstar (song) {
+  function hide () {
 
-      var songs = getSongs();
+    $('#' + viewId).hide();
 
-          delete songs[song.id];
+    unbindEventHandlers();
 
-          setSongs(songs);
+  };
+
+  function reset() {
+     localStorage.removeItem(storageKey);
+  };
+
+  function bindEventHandlers () {
+    $(Song).on('playSong', playSong);
+    $(Song).on('queueSong', queueSong);
+    $(Song).on('starSong', starSong);
+  };
+
+  function unbindEventHandlers () {   
+    $(Song).off();
+  };
+
+  function playSong (e, data) {
+
+    var song = Song.get(data.id, getSongs()),
+        defaultQueue = Song.getSongsAfter(song, getSongs());
+
+    player.play(song, defaultQueue);
+
+  }; 
+
+  function queueSong (e, data) {
+    
+    var song = Song.get(data.id, getSongs());
+
+    player.addToQueue('user', song);
+
+  };
+
+  function starSong (e, data) {
+    
+    var song = Song.get(data.id, getSongs());
 
 
-   };
+    star(song);
+
+  };
+
+ 
+  function star (song) {
+
+  var starredSongs = getSongs();
+
+  console.log(starredSongs);
+
+  for (var i in starredSongs) {
+  
+    if (starredSongs[i].id && starredSongs[i].id === song.id) {
+      console.log('song is already starred');
+      starredSongs.splice(i, 1);
+      setSongs(starredSongs);
+      render(starredSongs);
+      return false
+    }
+  }
+
+  starredSongs.push(song);
+  setSongs(starredSongs);
+  render(starredSongs);
+  return true
+  };
+
+
+  function getSongs () {
+
+    var starredSongs = localStorage.getItem(storageKey);
+
+    if (starredSongs) {
+      return JSON.parse(starredSongs);
+    } else {
+      setSongs([]);
+      return []
+    };
+
+  };
+
+  function setSongs (songs) {
+    return localStorage.setItem(storageKey, JSON.stringify(songs));
+  };
+
 
    function render(songs) {
+
+    console.log(songs);
 
       if (songs) {
 
