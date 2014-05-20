@@ -234,6 +234,10 @@ section {
   border-color: #fff;
   color: #fff
 }
+
+.song .buttons .starSong.starred {
+  color: yellow
+}
 .song .buttons .playSong {
   width: 5em;
   height: 5em;

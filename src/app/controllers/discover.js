@@ -63,8 +63,6 @@ var discover =  (function () {
 
   function render (classname) {
     
-    console.log(filteredSongs);
-    
     results.setAttribute('class', '');
     
     var html = '';

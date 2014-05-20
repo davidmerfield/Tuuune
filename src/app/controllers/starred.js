@@ -23,8 +23,10 @@ var starred = (function(){
      // Ensure the controller listens to the UI
      bindEventHandlers();
 
+     starredSongs = getSongs();
+
      // Render starred songs
-     render(getSongs());  
+     render(starredSongs);  
 
    };
 
@@ -68,51 +70,64 @@ var starred = (function(){
   };
 
   function starSong (e, data) {
-    
-    var song = Song.get(data.id, getSongs());
 
+    var song = Song.get(data.id, starredSongs);
+    
     if (song.isStarred) {
       unstar(song);
     } else {
       star(song);
+
     };
 
   };
 
  
   function star (song) {
-
+    
     song.isStarred = true;
 
-    var starredSongs = getSongs();
-    starredSongs.push(song);
-    setSongs(starredSongs);
+    var songs = getSongs();
+
+    for (var i in songs) {
+      if (songs[i].id && songs[i].id === song.id) {
+        return 
+      }
+    };
+
+    songs.push(song);
+    setSongs(songs);
+    render(songs);
+
   };
 
   function unstar (song) {
 
     song.isStarred = false;
 
-    var starredSongs = getSongs();
+    var songs = getSongs();
 
-    for (var i in starredSongs) {
+    for (var i in songs) {
     
-      if (starredSongs[i].id && starredSongs[i].id === song.id) {
-        starredSongs.splice(i, 1);
-        setSongs(starredSongs);
-        return false
+      if (songs[i].id && songs[i].id === song.id) {
+
+        songs.splice(i, 1);
+        setSongs(songs);
+
       }
     };
+
+    render(songs);
 
 
   };
 
   function getSongs () {
 
-    var starredSongs = localStorage.getItem(storageKey);
+    var songs = localStorage.getItem(storageKey);
 
-    if (starredSongs) {
-      return JSON.parse(starredSongs);
+    if (songs) {
+      return JSON.parse(songs);
     } else {
       setSongs([]);
       return []
