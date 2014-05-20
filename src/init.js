@@ -4,6 +4,7 @@ $(function() {
 
    nav.init('discover');
 
+   
    player.init();
    
    Song.init();
