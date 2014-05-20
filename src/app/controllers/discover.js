@@ -179,7 +179,11 @@ var discover =  (function () {
     
     var song = Song.get(data.id, filteredSongs);
 
-    starred.star(song);
+    if (song.isStarred) {
+      starred.unstar(song);
+    } else {
+      starred.star(song);
+    };
 
   };
 

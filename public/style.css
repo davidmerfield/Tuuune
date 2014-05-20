@@ -229,7 +229,8 @@ section {
 }
 
 
-.song .buttons span:hover {
+.song .buttons span:hover,
+.song .buttons .starSong.starred {
   border-color: #fff;
   color: #fff
 }

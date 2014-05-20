@@ -59,8 +59,9 @@ var soundcloud = function () {
         url: song.uri,
 
         listens: song.playback_count,
-        popularity: saves / song.playback_count
+        popularity: saves / song.playback_count,
 
+        isStarred: false
       });
     }
 

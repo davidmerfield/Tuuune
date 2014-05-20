@@ -17,7 +17,7 @@ var Song = (function(){
          '<span class="buttons">' +
            '<span class="playSong">Play</span>' +
            '<span class="removeSong">Hide</span>' +
-           '<span class="starSong">Star</span>' +
+           '<span class="starSong {{#isStarred}} starred {{/isStarred}}">&#9733;</span>' +
            '<span class="queueSong">+ Queue</span>' +
          '</span>' + 
          '<span class="stats">' +
@@ -40,6 +40,7 @@ var Song = (function(){
        });
 
        $('body').on('click', '.starSong', function(e){
+          $(this).toggleClass('starred');
           e.preventDefault(); // stops click event bubbling to .result
           $(exports).trigger('starSong', [{id:$(this).parent().parent().attr('id')}]);
        });

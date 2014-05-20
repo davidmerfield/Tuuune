@@ -10,6 +10,7 @@ var starred = (function(){
          init: init,
          hide: hide,
          star: star,
+         unstar: unstar,
          reset: reset,
          getSongs: getSongs
       };
@@ -70,35 +71,41 @@ var starred = (function(){
     
     var song = Song.get(data.id, getSongs());
 
-
-    star(song);
+    if (song.isStarred) {
+      unstar(song);
+    } else {
+      star(song);
+    };
 
   };
 
  
   function star (song) {
 
-  var starredSongs = getSongs();
+    song.isStarred = true;
 
-  console.log(starredSongs);
-
-  for (var i in starredSongs) {
-  
-    if (starredSongs[i].id && starredSongs[i].id === song.id) {
-      console.log('song is already starred');
-      starredSongs.splice(i, 1);
-      setSongs(starredSongs);
-      render(starredSongs);
-      return false
-    }
-  }
-
-  starredSongs.push(song);
-  setSongs(starredSongs);
-  render(starredSongs);
-  return true
+    var starredSongs = getSongs();
+    starredSongs.push(song);
+    setSongs(starredSongs);
   };
 
+  function unstar (song) {
+
+    song.isStarred = false;
+
+    var starredSongs = getSongs();
+
+    for (var i in starredSongs) {
+    
+      if (starredSongs[i].id && starredSongs[i].id === song.id) {
+        starredSongs.splice(i, 1);
+        setSongs(starredSongs);
+        return false
+      }
+    };
+
+
+  };
 
   function getSongs () {
 

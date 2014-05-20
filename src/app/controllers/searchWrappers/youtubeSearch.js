@@ -145,7 +145,9 @@ var youtube = function () {
         url: videoURL + video.id,
                 
         listens: views,
-        popularity: likes / views
+        popularity: likes / views,
+
+        isStarred: false
 
       });
 
