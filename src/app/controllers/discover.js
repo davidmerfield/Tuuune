@@ -1,13 +1,13 @@
-// This could be greatly simplified if I only had to make one call to my server, which would
-// return say 20 songs instantly.
-
 var discover =  (function () {
 
-  var allSongs = allSongs || [], // A list of the all the unique songs returned from search
-      filteredSongs = [], // A subset of allSongs which passes the filter
-      
-      results,
+  var viewId = 'discover',
 
+      allSongs = allSongs || [], 
+      // Contains all the songs retrieved from the web
+
+      filteredSongs = [],
+      // Contains all the songs which pass the current filter
+      
       options = options || {
         regionCode: 'US', // used to ensure songs are playable by user
         minResults: 10, 
@@ -23,33 +23,79 @@ var discover =  (function () {
         }
       },
 
+      // These contain methods we want to expose
       exports = {
         init: init,
         hide: hide
-      }
+      };
       
   function init () {
     
-    $('#discover').show();
+    // in future perhaps build
+    // the view at this point
 
-    results = document.getElementById('results');
+    show();
+    
+  };
 
-    // Listen to changes to options inputs
-    addUIListener();
+  function show () {
 
-    if (filteredSongs.length < options.minResults) {
-      // Find songs
-      searchForSongs(function(message){
-        console.log(message);
-      });      
-    }
+    // Make the view visible
+    $('#' + viewId).show();
 
+    // Ensure the controller listens to the UI
+    bindEventHandlers();
+
+    // Determine whether or not to search for songs
+    if (needMoreSongs()) {
+
+      searchForSongs(function(message){console.log(message)});
+    };
   };
 
   function hide () {
-    $('#discover').hide();
-    $('.option').unbind('on');
+
+    $('#' + viewId).hide();
+
+    unbindEventHandlers();
+
+  };
+
+  function render (classname) {
+    
+    results.setAttribute('class', '');
+    
+    var html = '';
+    
+    for (var i in filteredSongs) {
+      var song = filteredSongs[i];
+      html += Song.render(song);
+    }
+
+    results.innerHTML = html;
+
+  };
+
+  function bindEventHandlers () {
+
+    $(Song).on('playSong', playSong);
+    $(Song).on('queueSong', queueSong);
+    $(Song).on('removeSong', removeSong);
+    $(Song).on('starSong', starSong);
+
+    $('#loadMore').on('click', loadMore);
+
+    $('.option').on('change', setOptions);     
+
+  };
+
+  function unbindEventHandlers () {
+    
     $(Song).off();
+    
+    $('#loadMore').off();
+
+    $('.option').off();
   };
 
   function searchForSongs (callback) {
@@ -72,7 +118,7 @@ var discover =  (function () {
         player.addToAutoQueue(filter(songs, options));
 
         // append new songs to list of every song retrieved
-        allSongs = addNew(songs).to(allSongs);
+        allSongs = Song.add(songs, allSongs);
         
         // refilter all songs
         filteredSongs = filter(allSongs, options);
@@ -92,7 +138,7 @@ var discover =  (function () {
     function searchComplete () {
 
       // Determine if we need to keep searching
-      if (filteredSongs.length < options.minResults) {
+      if (needMoreSongs()) {
         return searchForSongs(callback)
       } 
 
@@ -104,157 +150,75 @@ var discover =  (function () {
 
   }; 
 
-  function removeSongByID (id) {
-    for (var i in allSongs) {
-        var song = allSongs[i];
-        if (song.id && song.id === id) {
-          allSongs.splice(i,1);
-          break 
-        }
-    };      
-    for (var i in filteredSongs) {
-       var song = filteredSongs[i];
-       if (song.id && song.id === id) {
-        filteredSongs.splice(i,1);
-         break 
-       }
+  function playSong (e, data) {
+
+    var song = Song.get(data.id, filteredSongs),
+        defaultQueue = Song.getSongsAfter(song, filteredSongs);
+
+    player.play(song, defaultQueue);
+
+  }; 
+
+  function queueSong (e, data) {
+    
+    var song = Song.get(data.id, filteredSongs);
+
+    player.addToQueue('user', song);
+
+  };
+
+  function removeSong (e, data) {
+    
+    Song.drop(data.id, allSongs);
+
+    filteredSongs = filter(allSongs, options);
+
+  };
+
+  function starSong (e, data) {
+    
+    var song = Song.get(data.id, filteredSongs);
+
+    starred.star(song);
+
+  };
+
+  function loadMore () {
+    options.minResults += 10;
+
+    $(this).hide();
+
+    searchForSongs(function(message){console.log(message)});        
+
+  };
+
+  function setOptions () {
+
+    var name = $(this).attr('id');
+
+    if (name === 'maxListens') {
+       options.maxListens = parseInt($(this).val())
+    } else {
+       options[name] = $(this).val();
     }
-  };
 
-  function lookupSong (id) {
-     for (var i in filteredSongs) {
+    // refilter and rerender with new options
+    filteredSongs = filter(allSongs, options);
 
-        var song = filteredSongs[i];
-
-        if (song.id && song.id === id) {
-          
-          i++;
-
-          var nextSongs = filteredSongs.slice(i);
-
-          return {
-            'song': song,
-            'defaultQueue': nextSongs
-          }
-
-        }
-     }
-  };
-
-  // Used to ensure no duplicatea are added to array
-  function addNew (newArray) {
-
-    return {
-      to: function (oldArray) {
-        
-        if (newArray.length === 0) {return oldArray};
-
-        var newItem = newArray.pop();
-
-        for (var i in oldArray) {
-          if (newItem.id === oldArray[i].id) {
-            // ignore this item we have it already
-            return addNew(newArray).to(oldArray)
-          }
-        }
-
-        // item is unique, add it to old items
-        oldArray.push(newItem);
-        return addNew(newArray).to(oldArray)
-  
-      }
-    }
-  };
-
-  function addUIListener () {
-
-    $(Song).on('playSong', function(e, data){
-       
-      var id = data.id;
-          songInfo = lookupSong(id);
-          song = songInfo.song,
-          defaultQueue = songInfo.defaultQueue;
-
-      player.play(song, defaultQueue);
-       
-    });
-
-    $(Song).on('queueSong', function(e, data){
-
-      console.log(data.id);
-
-      var id = data.id;
-          songInfo = lookupSong(id);
-          song = songInfo.song;
-
-      player.addToQueue('user', song);
-       
-    });
-
-    $(Song).on('removeSong', function(e, data){
-       
-       removeSongByID(data.id);
-
-      // removeSongByID(data.id);
-
-    });
-
-    $(Song).on('starSong', function(e, data){
-
-      var id = data.id;
-          songInfo = lookupSong(id);
-          song = songInfo.song;
-
-       starred.star(song);
-
-    });
-
-    $('#loadMore').on('click', function(){
-      options.minResults+=10;
-      $(this).hide();
-      searchForSongs(function(){
-
+    if (needMoreSongs()) {
+      render('searching');
+      searchForSongs(function(response){
+        render('done');
+        console.log(response);
       });
-    });
-
-    $('.option').on('change', function(){
-
-       var name = $(this).attr('id');
-
-       if (name === 'maxListens') {
-          options.maxListens = parseInt($(this).val())
-       } else {
-          options[name] = $(this).val();
-       }
-
-       // refilter and rerender with new options
-       filteredSongs = filter(allSongs, options);
-
-       if (filteredSongs.length < options.minResults) {
-         render('searching');
-         searchForSongs(function(response){
-           render('done');
-           console.log(response);
-         });
-       } else {
-         render('done')
-       }
-
-    });     
+    } else {
+      render('done')
+    }
 
   };
 
-  function render (classname) {
-    results.setAttribute('class', '');
-    
-    var html = '';
-    
-    for (var i in filteredSongs) {
-      var song = filteredSongs[i];
-      html += Song.render(song);
-    }
-
-    results.innerHTML = html;
+  function needMoreSongs () {
+    return filteredSongs.length < options.minResults
   };
 
   return exports
