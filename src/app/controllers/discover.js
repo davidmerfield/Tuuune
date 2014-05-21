@@ -2,10 +2,10 @@ var discover =  (function () {
 
   var viewId = 'discover',
 
-      allSongs = allSongs || [], 
+      allSongs = new SongList, 
       // Contains all the songs retrieved from the web
 
-      filteredSongs = [],
+      filteredSongs = new SongList,
       // Contains all the songs which pass the current filter
       
       options = options || {
@@ -63,17 +63,28 @@ var discover =  (function () {
 
   function render (classname) {
     
-    results.setAttribute('class', '');
-    
-    var html = '';
-    
-    for (var i in filteredSongs) {
+    // refilter and rerender with new options
+    filteredSongs.add(filter(allSongs, options));
+
+    results.innerHTML = '';
+
+    for (var i = 0; i < filteredSongs.length; i++) {
       var song = filteredSongs[i];
-      html += Song.render(song);
-    }
+      results.appendChild(Song.render(song));
+    };
 
-    results.innerHTML = html;
+    if (needMoreSongs()) {
+      
+      results.classname = 'searching';
+      
+      searchForSongs(function(response){
 
+        render('done');
+        console.log(response);
+
+      });
+
+    };
   };
 
   function bindEventHandlers () {
@@ -84,7 +95,6 @@ var discover =  (function () {
     $(Song).on('starSong', starSong);
 
     $('#loadMore').on('click', loadMore);
-
     $('.option').on('change', setOptions);     
 
   };
@@ -94,7 +104,6 @@ var discover =  (function () {
     $(Song).off();
     
     $('#loadMore').off();
-
     $('.option').off();
   };
 
@@ -103,6 +112,9 @@ var discover =  (function () {
     var sources = [youtube, soundcloud], // references to the modules
         searchedSources = []; // will contain list of sources which have responded
 
+    // Hide the button which calls this function
+    $('#loadMore').hide();
+        
     // go through each source and 
     for (var i in sources) {
       
@@ -118,42 +130,25 @@ var discover =  (function () {
         player.addToAutoQueue(filter(songs, options));
 
         // append new songs to list of every song retrieved
-        allSongs = Song.add(songs, allSongs);
+        allSongs.add(songs);
         
-        // refilter all songs
-        filteredSongs = filter(allSongs, options);
-
         // Re-render new results
         render();
 
         // When all sources have replied
         if (searchedSources.length === sources.length) {
-          return searchComplete();
+          return callback('Found ' + filteredSongs.length + ' songs!') 
         }
 
       });
 
     };
-
-    function searchComplete () {
-
-      // Determine if we need to keep searching
-      if (needMoreSongs()) {
-        return searchForSongs(callback)
-      } 
-
-      $('#loadMore').show();
-
-      return callback('Found ' + filteredSongs.length + ' songs!') 
-
-    };    
-
   }; 
 
   function playSong (e, data) {
 
-    var song = Song.get(data.id, filteredSongs),
-        defaultQueue = Song.getSongsAfter(song, filteredSongs);
+    var song = filteredSongs.find(data.id),
+        defaultQueue = filteredSongs.findAfter(data.id);
 
     player.play(song, defaultQueue);
 
@@ -161,7 +156,7 @@ var discover =  (function () {
 
   function queueSong (e, data) {
     
-    var song = Song.get(data.id, filteredSongs);
+    var song = filteredSongs.find(data.id);
 
     player.addToQueue('user', song);
 
@@ -169,15 +164,14 @@ var discover =  (function () {
 
   function removeSong (e, data) {
     
-    Song.drop(data.id, allSongs);
-
-    filteredSongs = filter(allSongs, options);
+    allSongs.remove(data.id);
+    filteredSongs.remove(data.id);
 
   };
 
   function starSong (e, data) {
     
-    var song = Song.get(data.id, filteredSongs);
+    var song = filteredSongs.find(data.id);
 
     if (song.isStarred) {
       starred.unstar(song);
@@ -188,9 +182,8 @@ var discover =  (function () {
   };
 
   function loadMore () {
+    
     options.minResults += 10;
-
-    $(this).hide();
 
     searchForSongs(function(message){console.log(message)});        
 
@@ -206,18 +199,7 @@ var discover =  (function () {
        options[name] = $(this).val();
     }
 
-    // refilter and rerender with new options
-    filteredSongs = filter(allSongs, options);
-
-    if (needMoreSongs()) {
-      render('searching');
-      searchForSongs(function(response){
-        render('done');
-        console.log(response);
-      });
-    } else {
-      render('done')
-    }
+    render();
 
   };
 
