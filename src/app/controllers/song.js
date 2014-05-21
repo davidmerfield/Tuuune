@@ -29,15 +29,10 @@ var Song = (function(){
 
    function init () {
 
-      $('body').on('click', '.playSong', function(e){
-         $(exports).trigger('playSong', [{id:$(this).parent().parent().attr('id')}]);
-         return false;
-      });
-
-       $('body').on('click', '.queueSong', function(e){
-          e.preventDefault(); // stops click event bubbling to .result
-          $(exports).trigger('queueSong', [{id:$(this).parent().parent().attr('id')}]);
-       });
+      $('body').on('click', '.song .buttons span', function(e){
+         
+         var className = $(this).attr('class'),
+             id = $(this).parent().parent().attr('id');
 
        $('body').on('click', '.starSong', function(e){
           $(this).toggleClass('starred');
