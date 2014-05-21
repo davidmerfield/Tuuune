@@ -12,9 +12,9 @@ var player = (function() {
       },
 
       queue = {
-        user: [],
-        auto: [],
-        history: []
+        user: new SongList,
+        auto: new SongList,
+        history: new SongList
       },
 
       exports = {
