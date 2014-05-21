@@ -7,6 +7,9 @@ function SongList () {
       // Adds array of new songs to song list
       songs.add = function (newSongs){
 
+         // Check if this was the last song to add
+         if (newSongs.length === 0) {return this};
+
          var newSong = newSongs.shift();
 
          // We check all the songs on the list
@@ -20,9 +23,6 @@ function SongList () {
 
          // Since the song is not already on the list
          this.push(newSong);
-
-         // Check if this was the last song to add
-         if (newSongs.length === 0) {return this};
 
          // Otherwise call this again
          return this.add(newSongs);
