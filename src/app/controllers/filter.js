@@ -1,7 +1,5 @@
 var filter = function (songs, options) {
 
-   console.log('ALL SONGS: ' + songs.length);
-
    var results = [],
        bannedWords = [
          '#', '@',
@@ -57,7 +55,7 @@ var filter = function (songs, options) {
       var nonEnglish = new RegExp("[^\x00-\x7F]+");
    }
 
-   for (var i in songs) {
+   for (var i = 0; i < songs.length; i++) {
 
       var song = songs[i];
 
@@ -102,9 +100,7 @@ var filter = function (songs, options) {
       results.push(song);        
 
    };
-   
-   console.log('PASSED SONGS: ' + results.length); 
-     
+        
    return results
 
    function hasBanned (string, phrases) {
