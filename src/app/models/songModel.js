@@ -32,4 +32,12 @@ var newSong = function(data) {
    };
 
    return song
-}
+};
+
+function isSong (song) {
+
+  // test if song has desired attributes
+  
+  return true
+
+};
