@@ -11,8 +11,7 @@ var Song = (function(){
    };
 
    var template = 
-      '<a class="song" href="#" id="{{id}}">' +
-         '<span class="thumbnail" style="background: url({{thumbnail}}) no-repeat center center;background-size: cover"><img src="" /></span>' +
+        '<span class="thumbnail" style="background: url({{thumbnail}}) no-repeat center center;background-size: cover"><img src="" /></span>' +
          '<span class="title">{{pretty.title}} </span> ' +
          '<span class="buttons">' +
            '<span class="playSong">Play</span>' +
@@ -24,8 +23,7 @@ var Song = (function(){
            '<span class="duration">{{pretty.duration}} &#8226; </span>' +
            '<span class="views">{{pretty.listens}} listens &#8226; </span>' +
            '<span class="source">{{source.name}}</span>' +
-         '</span>' +
-      '</a>';
+         '</span>';
 
    function init () {
 
@@ -34,21 +32,32 @@ var Song = (function(){
          var className = $(this).attr('class'),
              id = $(this).parent().parent().attr('id');
 
-       $('body').on('click', '.starSong', function(e){
+        if (className === 'starSong') {
           $(this).toggleClass('starred');
-          e.preventDefault(); // stops click event bubbling to .result
-          $(exports).trigger('starSong', [{id:$(this).parent().parent().attr('id')}]);
-       });
+        };
 
-       $('body').on('click', '.removeSong', function(e){
-          e.preventDefault(); // stops click event bubbling to .result
-          $(exports).trigger('removeSong', [{id:$(this).parent().parent().attr('id')}]);
+        if (className === 'removeSong') {
           $(this).parent().parent().remove();
-       });
+        };
+        
+        e.preventDefault(); // stops click event bubbling to .result
+ 
+        $(exports).trigger(className, [{id: id}]);
+
+         return false; // stops window scrolling to top
+ 
+      });
+
    };
 
    function render(song) {
-      return Mustache.render(template, song);
+
+      var songNode = document.createElement('a');
+          songNode.className = 'song';
+          songNode.id = song.id;
+          songNode.innerHTML = Mustache.render(template, song);
+
+      return songNode;
    };
 
    function get (id, songlist) {
