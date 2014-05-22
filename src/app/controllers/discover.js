@@ -1,13 +1,14 @@
 var discover =  (function () {
 
   var viewId = 'discover',
-
-      allSongs = new SongList, 
-      // Contains all the songs retrieved from the web
+      results,
 
       filteredSongs = new SongList,
-      // Contains all the songs which pass the current filter
-      
+      // Contains all the songs which pass the user's filter
+
+      allSongs = new SongList,
+      // Contains all the songs retrieved from the web
+
       options = options || {
         regionCode: 'US', // used to ensure songs are playable by user
         minResults: 10, 
