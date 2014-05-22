@@ -15,30 +15,12 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, b, ul, ol, li, section {
 .clear {width: 100%;clear: both;height: 0}
 
 body {
-  font: 400 1em / 1.33em 'Open Sans', sans-serif;
-  padding-top: 60px;
-}
-
-header {
-  display: none;
-  border-bottom: 1px solid #dbd7a8;
+  font: 400 1em / 1.33em 'Droid Sans Mono', sans-serif;
+  padding-top: 4em;
 }
 
 .sidebar {
   margin: 0 auto;
-}
-
-#nav {
-  position: fixed;
-  width: 12em;
-  margin: 1em 0 0 -12em
-}
-
-#nav a {
-  display: block;
-  line-height: 2em;
-  text-decoration: none;
-  color: #1181ff
 }
 
 h1 {
@@ -50,7 +32,7 @@ h1 {
 
 select {
   border: 1px solid rgba(0,0,0,0.33);
-  font: normal 1em/1.33em 'Open Sans', sans-serif;
+  font: normal 1em/1.33em 'Droid Sans Mono', sans-serif;
   outline: none;
 }
 
@@ -100,7 +82,22 @@ select:focus {
 
 section {
   width: 48em;
-  margin: 1em auto
+  margin: 1em auto;
+}
+
+header {
+  width: 48em;
+  margin: 0 auto;
+}
+  
+header a {
+  position: fixed;
+  margin: -4em 0 0 -10em;
+  z-index: 1;
+  line-height: 4em;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 #discover {margin: 0 auto;border-top: none;padding-bottom: 10em}
@@ -355,7 +352,7 @@ section {
   right: 0;
   margin: 0;
   padding: 0;
-  height: 60px;
+  height: 4em;
   background: #000;
   color: #fff
 }
@@ -458,3 +455,52 @@ section {
 
 #controls a {color: blue;text-decoration: underline;cursor: pointer;}
 .thumb img {margin-left: -8px;height: 60px}
+
+a i {
+  font-style: normal;
+  width: 2em;
+  display: block;
+  float: left;
+  text-align: center;
+}
+
+
+#nav {
+  position: fixed;
+  width: 10em;
+  margin: 1em 0 0 -12em
+}
+
+#nav a {
+  display: block;
+  line-height: 2em;
+  opacity: 0.9;
+  color: blue;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+#nav a b {
+  border-bottom: 1px solid rgba(0,0,0,0)
+}
+#nav a:hover {
+  border-color: #000
+}
+#nav a:hover b {
+  border-bottom-color: blue
+}
+
+#nav a:focus {
+  position: relative;
+  top: 1px;
+  opacity: 1;
+}
+
+#nav a.selected {
+  opacity: 1;
+  color: #000;
+}
+
+#nav a.selected b {
+  border-bottom-color: rgba(0,0,0,0)
+}
