@@ -1,6 +1,8 @@
 var starred = (function(){
    
   var viewId = 'starred',
+
+      starredSongs,
       
       storageKey = 'musicFinder:starred',
 
@@ -14,6 +16,8 @@ var starred = (function(){
       };
 
   function init () {
+
+    starredSongs = savedSongs();
 
      // Make the view visible
      $('#' + viewId).show();
@@ -39,10 +43,14 @@ var starred = (function(){
   };
 
   function bindEventHandlers () {
+    
+    Song.addListener(viewId, starredSongs);
 
   };
 
   function unbindEventHandlers () {   
+
+    Song.removeListener(viewId);
 
   };
   
@@ -94,9 +102,9 @@ var starred = (function(){
 
   function render() {
 
-    var songs = new SongList(savedSongs());
-
-        songsHTML = songs.render();
+    starredSongs = savedSongs();
+    
+    songsHTML = starredSongs.render();
 
     $('#' + viewId + ' .songList').html(songsHTML);
 
