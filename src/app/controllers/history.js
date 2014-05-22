@@ -30,6 +30,7 @@ var history = (function(){
        render();
     });
 
+
   };
 
   function unbindEventHandlers () {

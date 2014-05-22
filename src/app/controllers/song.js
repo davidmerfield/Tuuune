@@ -34,14 +34,14 @@ var Song = (function(){
 
       if (isStarred === 'starred') {
         
-        song.isStarred = false;
         starred.unstar(song);
+        
         el.attr('data-isStarred', '');
 
       } else {
 
-        song.isStarred = true;
         starred.star(song);
+        
         el.attr('data-isStarred', 'starred')
       };
 

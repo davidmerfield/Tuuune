@@ -4,6 +4,8 @@ $(function() {
 
    nav.init('discover');
 
+   starred.reset();
+
    player.init();
          
 });
