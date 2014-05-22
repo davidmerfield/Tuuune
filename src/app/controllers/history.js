@@ -1,37 +1,50 @@
 var history = (function(){
    
-   var exports = {
+   var viewId = 'history',
+       
+       exports = {
          init: init,
          hide: hide
        };
    
-   function init () {
-      $('#history').show();
+  function init () {
+      
+      $('#' + viewId).show();
+
+      // Ensure the controller listens to the UI
+      bindEventHandlers();
+      
       render();
-      $(player).on('nextSong', function(){
-         render();
-      });
-
    };
 
-   function hide () {
-      $('#history').hide();
-   };
+  function hide () {
+    $('#' + viewId).hide();
 
-   function render() {
-      var queue = player.getQueue();
+    // Stop listening to click events in the view
+    unbindEventHandlers();
+  };
 
-      var html = '';
+  function bindEventHandlers() {
 
-      for (var i in queue.history) {
-        var song = queue.history[i];
-        html += Song.render(song);
-      }
+    $(player).on('songChange', function(){
+       render();
+    });
 
-      $('#history .songList').html(html);
+  };
 
-   };
+  function unbindEventHandlers () {
+    $(player).off();
+  };
 
-   return exports
+  function render() {
+
+    var songHistory = player.history;
+        songHistoryHTML = songHistory.render();
+
+    $('#history .songList').html(songHistoryHTML);
+
+  };
+
+  return exports
 
 }());
