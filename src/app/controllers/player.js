@@ -1,45 +1,51 @@
-// :D
-
 var player = (function() {
 
-  var currentSong,
+  var mediaPlayer, // e.g. Youtube
+      
+      currentSong, // The song currently being played
+      
+      // Contains the songs which will play next
+      queue = {
+        user: new SongList,
+        auto: new SongList
+      },
 
-      mediaPlayer,
+      // Contains the song the user has played
+      playHistory = new SongList,
 
       options = {
         repeat: false,
         shuffle: false
       },
 
-      queue = {
-        user: new SongList,
-        auto: new SongList,
-        history: new SongList
-      },
-
       exports = {
         init: init,
+
         play: play,
         pause: pause,
         next: next,
         previous: previous,
-        addToQueue: addToQueue,
-        addToAutoQueue: addToAutoQueue,
-        getQueue: getQueue
+
+        history: playHistory,
+        queue: getQueue,
+        addToQueue: addToQueue
       };
 
   function init () {
     
     var players = [youtubePlayer, soundcloudPlayer];
 
-    loadMediaPlayers(players, function(status){
-      
-      console.log(status);
-      
-      addUIListener();
+    bindEventHanders();
 
+    loadMediaPlayers(players, function(status){
+        
+      console.log(status);
     });
-  }
+  };
+
+  function hide () {
+    unbindEventHandlers();
+  };
 
   function loadMediaPlayers (players, callback) {
     
@@ -47,103 +53,50 @@ var player = (function() {
       return callback('All players loaded')
     };
 
-    // Init adds the controllable embed for 
-    // each media player to the DOM then binds
-    // the player's event listener
+    // Init adds each media player to the DOM
     players[0].init(function(status){
       loadMediaPlayers(players.slice(1), callback)
     });
 
   };
 
-  function play (song, nextSongs) {
+  function play (newSong, defaultQueue) {
 
-    if (!song && !currentSong && !nextSongs) {
-      return
-    }
+    // We've got nothing to play
+    if (!newSong && !currentSong && !defaultQueue) {return};
 
-    $('#play').hide();
-    $('#pause').show();
+    // Play the currently loaded song
+    if (!newSong && currentSong) {return mediaPlayer.play()};
 
-    if (nextSongs) {
-      queue.auto = nextSongs
-    };
+    // Store the default queue to find the next songs from
+    if (defaultQueue) {queue.auto = defaultQueue};
 
-    if (song) {
+    // Prepare the player to play the new song
+    if (newSong) {
 
-      if (currentSong) {
-        unbindEvents();
-        mediaPlayer.stop();
-      };
+      // Make sure we use the correct player to play the song
+      setCurrentPlayer(newSong.source.name);
 
-      currentSong = song;
-      drawProgressBar(true);
+      // Store the new song as the current song
+      setCurrentSong(newSong);
 
-      if (song.source.name === 'youtube') {
-        mediaPlayer = youtubePlayer;
-        bindEvents();
-      }
-
-      if (song.source.name === 'soundcloud') {
-        mediaPlayer = soundcloudPlayer
-        bindEvents();
-      }
-
-      $('#songTitle').text(currentSong.pretty.title);
-      $('#songDuration').text(currentSong.pretty.duration);
-
+      // Start playing the new song
       return mediaPlayer.play(currentSong);
 
     };
-    
-    return mediaPlayer.play();
-    
+        
   }
 
   function pause () {
-
-    $('#play').show();
-    $('#pause').hide();
-
-    mediaPlayer.pause();
-    
+    mediaPlayer.pause();    
   }
 
   function next () {
 
-    $(exports).trigger('nextSong');
-    
-    addToHistory(currentSong);
-    play(nextInQueue());
-  };
+    var nextSong = nextInQueue();
 
-  function previous () {
-    addToQueue('auto', currentSong);
-    play(lastPlayed());
-  };
-
-
-  function addToHistory(song) {
-    queue.history.unshift(song);
-  };
-
-  function lastPlayed() {
-  };
-
-  function addToQueue (song) {
-    queue.user.unshift(song);
-    return console.log('Please specify a queue to add the songs to');
-  };
-
-  function addToAutoQueue (songs) {
-    queue.auto = queue.auto.concat(songs);
-  };
-
-  function getQueue () {
-    return helper.duplicate(queue);
-  }
-  function lastPlayed () {
-    return queue.history.shift();
+    if (nextSong) {play(nextSong)};
+        
   };
 
   function nextInQueue () {
@@ -153,14 +106,54 @@ var player = (function() {
       return queue.user.shift()
     }
 
+    var defaultQueue = queue.auto.findAfter(currentSong.id);
+
     // Check if there are any songs which should auto play
-    if (queue.auto.length > 0) {
-      return queue.auto.shift()
+    if (defaultQueue.length > 0) {
+      return defaultQueue.shift()
     }
 
     // Otherwise
     return false
     
+  };
+
+  function previous () {
+
+    var previousSong = lastPlayed();
+
+    if (previousSong) {play(previousSong)};
+  };
+
+  function lastPlayed() {
+
+    if (playHistory.length > 1) {
+      return playHistory[1] 
+    };
+    
+    var previousSongs = queue.auto.findBefore(currentSong.id);
+
+    if (previousSongs.length > 0) {
+       return previousSongs.pop();
+    };
+
+    return false
+
+  };
+
+  function getQueue () {
+
+    var userQueue = queue.user,
+        defaultQueue = new SongList(queue.auto.findAfter(currentSong.id));
+
+    return {
+      user: userQueue,
+      auto: defaultQueue
+    };
+  };
+
+  function addToQueue (song) {
+    queue.user.unshift(song);
   };
 
   function drawProgressBar(reset) {
@@ -182,47 +175,84 @@ var player = (function() {
 
   };
 
-  function unbindEvents () {
-    $(mediaPlayer).off('finished', 'playing', 'paused');
+  function dropCurrentPlayer () {
+    
+    mediaPlayer.stop();
+
+    $(mediaPlayer).off();
+    
+    mediaPlayer = undefined;
+
   };
 
-  function bindEvents () {
-    
-    var progressInterval;
+  function setCurrentSong (song) {
 
+    currentSong = song;
+
+    $('#songTitle').text(currentSong.pretty.title);
+    $('#songDuration').text(currentSong.pretty.duration);
+
+    drawProgressBar(true);
+
+    // add last played song to history
+    playHistory.unshift(currentSong);
+
+    // we emit this event so the history view knows when to rerender
+    $(exports).trigger('songChange');
+
+  };
+
+  function setCurrentPlayer (playerName) {
+    
+    if (currentSong && playerName !== currentSong.source.name) {
+      dropCurrentPlayer();
+    };
+
+    if (currentSong && playerName === currentSong.source.name) {
+      return
+    };
+
+    if (playerName === 'youtube') {
+      mediaPlayer = youtubePlayer;
+    };
+
+    if (playerName === 'soundcloud') {
+      mediaPlayer = soundcloudPlayer;
+    };
+
+    var progressInterval;
+    
     $(mediaPlayer).on('finished', function(){
       console.log('SONG FINISHED ---- PLAYER EVENT');
+      $('#play').show();
+      $('#pause').hide();
       clearInterval(progressInterval);
       drawProgressBar(true);
       next();
     });
 
     $(mediaPlayer).on('playing', function(){
+      $('#play').hide();
+      $('#pause').show();
       console.log('SONG PLAYING ---- PLAYER EVENT');
       progressInterval = setInterval(drawProgressBar, 100);
     });
 
     $(mediaPlayer).on('paused', function(){
       console.log('SONG PAUSED ---- PLAYER EVENT');
+      
+      $('#play').show();
+      $('#pause').hide();
+
+
       clearInterval(progressInterval);
     });
 
   };
 
-  function progressBar(e) {
+  function bindEventHanders () {
 
-      var xOffset = e.pageX - $('#progressBar').offset().left,
-          ratio = xOffset/$('#progressBar').width(),
-          seconds = Math.round(ratio*currentSong.duration/1000);
-
-      return mediaPlayer.seekTo(seconds);
-   
-  };
-
-  function addUIListener () {
-    
-    $('#controls a').click(function(e){
-      
+    $('#controls a').on('click', function(e){
       var method = $(this).attr('id');
 
       switch (method) {
@@ -239,12 +269,26 @@ var player = (function() {
       }
 
       return false;
-
     });
 
   };
 
+  function unbindEventHandlers () {
+    $('#controls a').off();
+  };
+
+  function progressBar(e) {
+
+      var xOffset = e.pageX - $('#progressBar').offset().left,
+          ratio = xOffset/$('#progressBar').width(),
+          seconds = Math.round(ratio*currentSong.duration/1000);
+
+      return mediaPlayer.seekTo(seconds);
+   
+  };
 
   return exports
 
 }());
+
+// :D
