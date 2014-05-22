@@ -4,15 +4,13 @@ var starred = (function(){
       
       storageKey = 'musicFinder:starred',
 
-      starredSongs = [],
-
       exports = {
          init: init,
          hide: hide,
          star: star,
          unstar: unstar,
          reset: reset,
-         getSongs: getSongs
+         savedSongs: savedSongs
       };
 
   function init () {
@@ -23,10 +21,8 @@ var starred = (function(){
      // Ensure the controller listens to the UI
      bindEventHandlers();
 
-     starredSongs = getSongs();
-
      // Render starred songs
-     render(starredSongs);  
+     render();  
 
    };
 
@@ -43,61 +39,30 @@ var starred = (function(){
   };
 
   function bindEventHandlers () {
-    $(Song).on('playSong', playSong);
-    $(Song).on('queueSong', queueSong);
-    $(Song).on('starSong', starSong);
+
   };
 
   function unbindEventHandlers () {   
-    $(Song).off();
-  };
-
-  function playSong (e, data) {
-
-    var song = Song.get(data.id, getSongs()),
-        defaultQueue = Song.getSongsAfter(song, getSongs());
-
-    player.play(song, defaultQueue);
-
-  }; 
-
-  function queueSong (e, data) {
-    
-    var song = Song.get(data.id, getSongs());
-
-    player.addToQueue('user', song);
 
   };
+  
+  function isStarred (id) {
 
-  function starSong (e, data) {
+    var songs = savedSongs();
 
-    var song = Song.get(data.id, starredSongs);
-    
-    if (song.isStarred) {
-      unstar(song);
-    } else {
-      star(song);
-
-    };
-
+    return songs.find(id)
   };
 
- 
   function star (song) {
-    
+
     song.isStarred = true;
 
-    var songs = getSongs();
+    var songs = savedSongs();
+        songs.unshift(song);
 
-    for (var i in songs) {
-      if (songs[i].id && songs[i].id === song.id) {
-        return 
-      }
-    };
+    console.log(songs);
 
-    songs.push(song);
     setSongs(songs);
-    render(songs);
 
   };
 
@@ -105,32 +70,20 @@ var starred = (function(){
 
     song.isStarred = false;
 
-    var songs = getSongs();
+    var songs = savedSongs();
+        songs.remove(song.id);
 
-    for (var i in songs) {
-    
-      if (songs[i].id && songs[i].id === song.id) {
-
-        songs.splice(i, 1);
-        setSongs(songs);
-
-      }
-    };
-
-    render(songs);
-
-
+    setSongs(songs);
   };
 
-  function getSongs () {
+  function savedSongs () {
 
     var songs = localStorage.getItem(storageKey);
 
     if (songs) {
-      return JSON.parse(songs);
+      return new SongList(JSON.parse(songs));
     } else {
-      setSongs([]);
-      return []
+      return new SongList([])
     };
 
   };
@@ -139,26 +92,16 @@ var starred = (function(){
     return localStorage.setItem(storageKey, JSON.stringify(songs));
   };
 
+  function render() {
 
-   function render(songs) {
+    var songs = new SongList(savedSongs());
 
-    console.log(songs);
+        songsHTML = songs.render();
 
-      if (songs) {
+    $('#' + viewId + ' .songList').html(songsHTML);
 
-         var html = '';
+  };
 
-         for (var i in songs) {
-           var song = songs[i];
-           html += Song.render(song);
-         }
-
-         $('#starred .songList').html(html);
-
-      }
-
-   };
-
-   return exports
+  return exports
 
 }());
