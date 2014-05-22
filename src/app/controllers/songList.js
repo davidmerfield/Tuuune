@@ -1,32 +1,38 @@
-function SongList () {
+function SongList (songs) {
 
-   return (function () {
+   var template = 
+      '<a href="#" class="song" id="{{id}}">' +
+        '<span class="thumbnail" style="background: url({{thumbnail}}) no-repeat center center;background-size: cover"><img src="" /></span>' +
+         '<span class="title">{{pretty.title}} </span> ' +
+         '<span class="buttons">' +
+           '<span class="playSong">Play</span>' +
+           '<span class="removeSong">Hide</span>' +
+           '<span class="starSong" data-isStarred="{{#isStarred}}starred{{/isStarred}}">&#9733;</span>' +
+           '<span class="queueSong">+ Queue</span>' +
+         '</span>' + 
+         '<span class="stats">' +
+           '<span class="duration">{{pretty.duration}} &#8226; </span>' +
+           '<span class="views">{{pretty.listens}} listens &#8226; </span>' +
+           '<span class="source">{{source.name}}</span>' +
+         '</span>' +
+      '</a>';
 
-      var songs = [];
+   return (function (songs) {
 
+      var songs = songs || [];
+      
       // Adds array of new songs to song list
       songs.add = function (newSongs){
 
-         // Check if this was the last song to add
-         if (newSongs.length === 0) {return this};
-
-         var newSong = newSongs.shift();
-
-         // We check all the songs on the list
-         for (var i = 0; i < this.length; i++){
+         for (var i = 0; i < newSongs.length; i++) {
             
-            // and ignore the new song if its already in the list         
-            if (this[i].id === newSong.id) {
-               return this.add(newSongs);
+            var newSong = newSongs[i];
+
+            if (!this.find(newSong.id)) {
+               this.push(newSong);
             };
+
          };
-
-         // Since the song is not already on the list
-         this.push(newSong);
-
-         // Otherwise call this again
-         return this.add(newSongs);
-         
       };
 
       // Returns the song which has the passed id
@@ -39,21 +45,33 @@ function SongList () {
             };
          };
 
-         return this
+         return false
+
+      };
+
+      // Returns the list up to the song with the passed id
+      songs.findBefore = function (id) {
+         
+         for (var i = 0; i < this.length; i++){
+            if (this[i].id === id) {
+               return this.slice(0, i);
+            };
+         };
+
+         return false
 
       };
 
       // Returns the rest of the list after the song with the passed id
       songs.findAfter = function (id) {
          
-         for (var i = 0; i < this.length; i++){
-            
+         for (var i = 0; i < this.length; i++){            
             if (this[i].id === id) {
                return this.slice(i + 1, this.length);
             };
          };
 
-         return this
+         return false
       };
 
       // Remove a song from the list
@@ -68,14 +86,36 @@ function SongList () {
          return this
       };
       
+      songs.set = function(newSongs) {
+         this.splice(0,this.length);
+         for (var i = 0; i < newSongs.length; i++) {
+            this.push(newSongs[i]);
+         };
+
+         return this
+      };
+
       // Remove all the songs on the list
       songs.reset = function () {
         this.splice(0,this.length)
-       };
+      };
+
+      // 
+      songs.render = function () {
+         
+         var html = '';
+         
+         for (var i = 0; i < this.length; i++){
+            html += Mustache.render(template, this[i]);
+         };
+
+         return html
+
+      };
 
       return songs
 
-   }());
+   }(songs));
 };
 
 // HI DAVID blah blah, lets kiss. you can touch my boobs for 6 seconds.
