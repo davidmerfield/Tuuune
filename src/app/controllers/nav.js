@@ -27,6 +27,12 @@ var nav = (function () {
 
    function setCurrentView (name) {
 
+      console.log(name);
+
+      $('#nav a').attr('class', '');
+      $("#nav a[data-view='" + name + "']").attr('class', 'selected');
+
+      
       if (currentView) {
          currentView.hide()
       };
@@ -34,7 +40,6 @@ var nav = (function () {
       currentView = views[name];
    
       currentView.init();
-
 
    };
 
