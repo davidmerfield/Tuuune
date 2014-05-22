@@ -1,40 +1,60 @@
 var queue = (function(){
    
-   var exports = {
+   var viewId = 'queue',
+       
+       exports = {
          init: init,
          hide: hide
        };
    
-   function init () {
-      $('#queue').show();
+  function init () {
+      
+      $('#' + viewId).show();
+
+      // Ensure the controller listens to the UI
+      bindEventHandlers();
+      
       render();
    };
 
-   function hide () {
-      $('#queue').hide();
-   };
+  function hide () {
+    $('#' + viewId).hide();
 
-   function render() {
-      var queue = player.getQueue();
+    // Stop listening to click events in the view
+    unbindEventHandlers();
+  };
 
-      var html = '';
+  function bindEventHandlers() {
+    
+    $(player).on('songChange', function(){
+       render();
+    });
 
-      for (var i in queue.user) {
-        var song = queue.user[i];
-        html += Song.render(song);
-      }
+  };
 
-      for (var i in queue.auto) {
-        var song = queue.auto[i];
-        html += Song.render(song);
-      }
+  function unbindEventHandlers () {
 
-      console.log(html);
+    $(player).off();
 
-      $('#queue .songList').html(html);
+  };
 
-   };
+  function render() {
 
-   return exports
+    var songQueue = player.queue();
+    
+    console.log(songQueue);
+    
+    var defaultQueueHTML = songQueue.auto.render(),
+        userQueueHTML = songQueue.user.render(),
+        html = userQueueHTML + defaultQueueHTML;
+
+    console.log(html);
+    console.log(userQueueHTML);
+
+    $('#' + viewId + ' .songList').html(html);
+
+  };
+
+  return exports
 
 }());
