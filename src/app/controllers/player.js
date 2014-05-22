@@ -106,8 +106,11 @@ var player = (function() {
       return queue.user.shift()
     }
 
+    // this will return false if current song is removed from songlist
     var defaultQueue = queue.auto.findAfter(currentSong.id);
 
+    // check playhistory if this is the case, or go to start of songlist
+    
     // Check if there are any songs which should auto play
     if (defaultQueue.length > 0) {
       return defaultQueue.shift()
