@@ -27,7 +27,6 @@ var youtube = function () {
     });
   };
 
-
   function getVideoIDs (options, callback) {
 
      var videoIDs = [], 
@@ -116,7 +115,7 @@ var youtube = function () {
     
     var results = [],
         maxDislikeRatio = 0.015, // ratio of dislikes to likes
-        minLikeRatio = 0.0075; // ratio of likes to views
+        minLikeRatio = 0.0065; // ratio of likes to views
 
     for (var i in videos) {
       
