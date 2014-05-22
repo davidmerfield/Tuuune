@@ -31,15 +31,6 @@ var discover =  (function () {
       };
       
   function init () {
-    
-    // in future perhaps build
-    // the view at this point
-
-    show();
-    
-  };
-
-  function show () {
 
     // Make the view visible
     $('#' + viewId).show();
@@ -47,146 +38,139 @@ var discover =  (function () {
     // Ensure the controller listens to the UI
     bindEventHandlers();
 
-    // Determine whether or not to search for songs
-    if (needMoreSongs()) {
-
-      searchForSongs(function(message){console.log(message)});
-    };
+    // Used to hold the songs
+    results = document.getElementById('results');
+    
+    // Render any songs which we've already fetched
+    render(allSongs, true);
+    
+    // Hide the button which allows you to get more songs
+    $('#loadMore').hide();    
+  
+    // Find songs to populate the view
+    searchForSongs(function(message){
+    
+      // Show the button to get more songs
+      $('#loadMore').show();
+      
+      console.log(message);
+    });
   };
 
   function hide () {
 
+    // Make the view invisible
     $('#' + viewId).hide();
 
+    // Stop listening to click events in the view
     unbindEventHandlers();
-
   };
 
-  function render (classname) {
+  function render (songs, reset) {
+
+    // Remove existing songs from the results div
+    if (reset) {results.innerHTML = ''};
+
+    if (haveEnoughSongs()) {results.className = 'done'};
+
+    var songs = new SongList(songs),
+        songsHTML = songs.render();
     
-    // refilter and rerender with new options
-    filteredSongs.add(filter(allSongs, options));
-
-    results.innerHTML = '';
-
-    for (var i = 0; i < filteredSongs.length; i++) {
-      var song = filteredSongs[i];
-      results.appendChild(Song.render(song));
-    };
-
-    if (needMoreSongs()) {
-      
-      results.classname = 'searching';
-      
-      searchForSongs(function(response){
-
-        render('done');
-        console.log(response);
-
-      });
-
-    };
-  };
-
-  function bindEventHandlers () {
-
-    $(Song).on('playSong', playSong);
-    $(Song).on('queueSong', queueSong);
-    $(Song).on('removeSong', removeSong);
-    $(Song).on('starSong', starSong);
-
-    $('#loadMore').on('click', loadMore);
-    $('.option').on('change', setOptions);     
+    results.insertAdjacentHTML('beforeend', songsHTML);
 
   };
 
-  function unbindEventHandlers () {
-    
-    $(Song).off();
-    
-    $('#loadMore').off();
-    $('.option').off();
-  };
+  // This is used to find songs from the web
+  // it calls itself recursively until its found enough songs
+  // which pass the filter
 
   function searchForSongs (callback) {
 
-    var sources = [youtube, soundcloud], // references to the modules
-        searchedSources = []; // will contain list of sources which have responded
+    if (haveEnoughSongs()) {
+      return callback('We have enough songs');
+    };
 
-    // Hide the button which calls this function
-    $('#loadMore').hide();
-        
+    var sources = [youtube, soundcloud], // references to the modules
+        searchedSources = [];
+
     // go through each source and 
     for (var i in sources) {
       
       var source = sources[i]; // e.g. youtube
       
       // Find songs from this source
-      source().getSongs(options, function(songs){
+      source().getSongs(options, function(newSongs){
 
-        // Indicate this source has responded
+        // Indicate that the source has replied
         searchedSources.push(source);
-        
-        // Add news songs to auto queue
-        player.addToAutoQueue(filter(songs, options));
 
-        // append new songs to list of every song retrieved
-        allSongs.add(songs);
+        // Add new songs to list of all songs
+        allSongs.add(newSongs);
         
-        // Re-render new results
-        render();
+        // Find the new songs which pass the filter
+        var newFilteredSongs = filter(newSongs, options);
 
-        // When all sources have replied
+        // Add the new songs which pass the filter to the list of filtered songs
+        filteredSongs.add(newFilteredSongs);
+
+        // Render new songs which pass the filter
+        render(newFilteredSongs);
+
+        // We have heard from all the sources
         if (searchedSources.length === sources.length) {
-          return callback('Found ' + filteredSongs.length + ' songs!') 
-        }
+          return searchForSongs(callback);
+        };
 
       });
 
     };
   }; 
 
-  function playSong (e, data) {
+  function bindEventHandlers () {
 
-    var song = filteredSongs.find(data.id),
-        defaultQueue = filteredSongs.findAfter(data.id);
+    $('#loadMore').on('click', loadMore);
+    $('.option').on('change', setOptions);     
 
-    player.play(song, defaultQueue);
+    // Listen to songs
+    Song.addListener(viewId, filteredSongs);
 
-  }; 
-
-  function queueSong (e, data) {
-    
-    var song = filteredSongs.find(data.id);
-
-    player.addToQueue('user', song);
+    $('#' + viewId).on('removeSong', function(e, data){
+      allSongs.remove(data.id);
+    });
 
   };
 
-  function removeSong (e, data) {
-    
-    allSongs.remove(data.id);
-    filteredSongs.remove(data.id);
+  function unbindEventHandlers () {
+    $('#loadMore').off();
+    $('.option').off();
+
+    // 
+    Song.removeListener(viewId)
 
   };
 
-  function starSong (e, data) {
-    
-    var song = filteredSongs.find(data.id);
-
-    if (song.isStarred) {
-      starred.unstar(song);
-    } else {
-      starred.star(song);
-    };
-
+  function haveEnoughSongs() {
+    return filteredSongs.length > options.minResults;
   };
 
-  function loadMore () {
-    
+  function loadMore (e) {
+  
     options.minResults += 10;
+    
+    // Hide the button which allows you to get more songs
+    $('#loadMore').hide();    
+    
+    // Find songs to populate the view
+    searchForSongs(function(message){
+    
+      // Show the button to get more songs
+      $('#loadMore').show();
+      
+      console.log(message);
+    
+    });
 
-    searchForSongs(function(message){console.log(message)});        
+    return false
 
   };
 
@@ -200,12 +184,23 @@ var discover =  (function () {
        options[name] = $(this).val();
     }
 
-    render();
+    filteredSongs.set(filter(allSongs, options));
 
-  };
+    render(filteredSongs, true);
 
-  function needMoreSongs () {
-    return filteredSongs.length < options.minResults
+    // Hide the button which allows you to get more songs
+    $('#loadMore').hide();    
+
+    // Find songs to populate the view
+    searchForSongs(function(message){
+    
+      // Show the button to get more songs
+      $('#loadMore').show();
+
+      console.log(message);
+    
+    });
+
   };
 
   return exports
