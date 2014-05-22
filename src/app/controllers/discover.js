@@ -42,7 +42,7 @@ var discover =  (function () {
     results = document.getElementById('results');
     
     // Render any songs which we've already fetched
-    render(allSongs, true);
+    render(filteredSongs, true);
     
     // Hide the button which allows you to get more songs
     $('#loadMore').hide();    
