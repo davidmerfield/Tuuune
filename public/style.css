@@ -142,17 +142,28 @@ section {
   min-height: 200px;
   position: relative;
   overflow: visible;
-  padding-bottom: 30em;
+  padding-bottom: 3em;
+}
+
+#results:after {
+  content:"";
+  width: 100%;
+  height: 0;
+  display: block;
+  clear: both;
 }
 
 #loadMore {
-  display: block;
-  clear: both;
   width: 100%;
   background: #eee;
   padding: 1em;
   text-align: center;
   border: 1px solid #ccc;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  clear: both;
 }
 
 #results.empty:before {
@@ -229,15 +240,16 @@ section {
 }
 
 
-.song .buttons span:hover,
-.song .buttons .starSong.starred {
+.song .buttons span:hover{
   border-color: #fff;
   color: #fff
 }
 
-.song .buttons .starSong.starred {
+.song .buttons .starSong[data-isStarred="starred"] {
+  border-color: #fff;
   color: yellow
 }
+
 .song .buttons .playSong {
   width: 5em;
   height: 5em;
