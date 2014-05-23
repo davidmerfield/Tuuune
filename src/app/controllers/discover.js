@@ -66,6 +66,11 @@ var discover =  (function () {
     unbindEventHandlers();
   };
 
+  function reset () {
+    filteredSongs = new SongList;
+    init();
+  };
+
   function render (songs, reset) {
 
     // Remove existing songs from the results div
@@ -131,6 +136,8 @@ var discover =  (function () {
     $('#loadMore').on('click', loadMore);
     $('.option').on('change', setOptions);     
 
+    $('#resetResults').on('click', reset);
+    
     // Listen to songs
     Song.addListener(viewId, filteredSongs);
 
