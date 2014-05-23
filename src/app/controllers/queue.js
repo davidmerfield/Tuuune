@@ -2,13 +2,17 @@ var queue = (function(){
    
    var viewId = 'queue',
        
+       songQueue,
+
        exports = {
          init: init,
          hide: hide
        };
    
   function init () {
-      
+
+      songQueue = player.queue();
+
       $('#' + viewId).show();
 
       // Ensure the controller listens to the UI
@@ -30,6 +34,7 @@ var queue = (function(){
        render();
     });
 
+
   };
 
   function unbindEventHandlers () {
@@ -40,19 +45,8 @@ var queue = (function(){
 
   function render() {
 
-    var songQueue = player.queue();
-    
-    console.log(songQueue);
-    
-    var defaultQueueHTML = songQueue.auto.render(),
-        userQueueHTML = songQueue.user.render(),
-        html = userQueueHTML + defaultQueueHTML;
-
-    console.log(html);
-    console.log(userQueueHTML);
-
-    $('#userqueue').html(userQueueHTML);
-    $('#defaultqueue').html(defaultQueueHTML);
+    $('#userqueue').html(songQueue.user.render());
+    $('#defaultqueue').html(songQueue.auto.render());
 
   };
 
