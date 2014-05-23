@@ -51,7 +51,8 @@ var queue = (function(){
     console.log(html);
     console.log(userQueueHTML);
 
-    $('#' + viewId + ' .songList').html(html);
+    $('#userqueue').html(userQueueHTML);
+    $('#defaultqueue').html(defaultQueueHTML);
 
   };
 
