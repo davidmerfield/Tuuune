@@ -1,7 +1,9 @@
 var history = (function(){
    
    var viewId = 'history',
-       
+      
+      songHistory,
+
        exports = {
          init: init,
          hide: hide
@@ -9,6 +11,8 @@ var history = (function(){
    
   function init () {
       
+    songHistory = player.history;
+
       $('#' + viewId).show();
 
       // Ensure the controller listens to the UI
@@ -30,17 +34,18 @@ var history = (function(){
        render();
     });
 
+    Song.addListener(viewId, songHistory, ['starSong']);
 
   };
 
   function unbindEventHandlers () {
     $(player).off();
+    Song.removeListener(viewId);
   };
 
   function render() {
 
-    var songHistory = player.history;
-        songHistoryHTML = songHistory.render();
+    var songHistoryHTML = songHistory.render();
 
     $('#history .songList').html(songHistoryHTML);
 
