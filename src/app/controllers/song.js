@@ -48,7 +48,7 @@ var Song = (function(){
      }
    };
 
-   function addListener (view, songList) {
+   function addListener (view, songList, allowedEvents) {
 
     $('#' + view).on('click', '.song .buttons span', function(e){
       
@@ -56,11 +56,39 @@ var Song = (function(){
           className = $(this).attr('class'),
           song = songList.find(id);
 
+
+      if (allowedEvents && allowedEvents.indexOf(className) === -1) {
+        e.preventDefault();
+        return false
+      };
+
       eventHandlers[className](song, songList, $(this));
 
       $('#' + view).trigger(className, {id: id});
 
+      e.preventDefault();
+      return false
     });
+
+    $('#' + view).on('click', '.song',function(e){
+      
+      var id = $(this).attr('id'),
+          className = $(this).attr('class'),
+          song = songList.find(id);
+
+      if (allowedEvents && allowedEvents.indexOf(className) === -1) {
+        e.preventDefault();
+        return false
+      };
+
+      eventHandlers['playSong'](song, songList, $(this));
+
+      $('#' + view).trigger('playSong', {id: id});
+
+      e.preventDefault();
+      return false
+    });
+
 
    };
 
