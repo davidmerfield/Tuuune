@@ -105,7 +105,7 @@ header a {
   line-height: 2em;
   margin-right: 0.75em
 }
-#discover {margin: 0 auto;border-top: none;padding-bottom: 10em}
+#discover {margin: 0 auto;border-top: none;padding-bottom: 6em}
 #options, #results, #advanced {margin: 0 auto}
 
 
@@ -162,19 +162,20 @@ header a {
   text-align: center;
   border: 1px solid #ccc;
   position: absolute;
-  bottom: 0;
+  bottom: 3em;
   left: 0;
   right: 0;
   clear: both;
 }
 
-#results.empty:before {
+#results:empty:before {
   content: "";
   position: absolute;
-  top: 0;
-  left: -48px;
+  top: 10em;
+  left: 50%;
   width: 24px;
   height: 24px;
+  margin-left: -12px;
   background: url('./images/loader.gif') no-repeat center center;
   background-size: 24px;
 }
