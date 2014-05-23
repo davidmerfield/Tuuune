@@ -25,9 +25,9 @@ body {
 
 h1 {
   color: #232323;
-  font-size: 1.5em;
-  font-weight: 700;
-  margin: 2em 0;
+  font-size: 1.25em;
+  font-weight: bold;
+  margin: 0;
 }
 
 select {
@@ -100,6 +100,11 @@ header a {
   text-decoration: none;
 }
 
+#resetResults {
+  float: right;
+  line-height: 2em;
+  margin-right: 0.75em
+}
 #discover {margin: 0 auto;border-top: none;padding-bottom: 10em}
 #options, #results, #advanced {margin: 0 auto}
 
@@ -199,7 +204,6 @@ header a {
 .song .stats {display: block;max-height: 1.33em;overflow: hidden;}
 .song .stats * {color: #aaa;
   font-size: 0.88em;
-  font-family: 'Avenir Next Condensed'
 }
 
 .song .thumbnail {
@@ -285,17 +289,39 @@ header a {
   display: block;
 }
 
+.songList:after {
+  content: "";
+  width: 100%;
+  display: block;
+  clear: both;
+}
+
+.songList:empty {
+  border-top: 1px solid rgba(0,0,0,0.2)
+}
+
+.songList:empty:after {
+  content: 'No songs here!';
+  margin-top: 1em
+}
+
 .songList .song {
   width: 100%;
-  height: 4.5em;
-  border-top: 1px solid rgba(0,0,0,0.2)
+  height: 2.66em;
+  line-height: 2.66em;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  padding: 0
 }
 
 .songList .song .stats {
   float: left;
-  line-height: 3em;
-  height: 3em;
-  max-height: 3em;
+  line-height: 2.66em;
+  height: 2.66em;
+  max-height: 2.66em;
+  width: 20%;
+  float: right;
+  text-align: right;
+  margin-right: 0.75em
 }
 
 .songList .song .buttons {
@@ -305,43 +331,46 @@ header a {
   right: 0;
   left: 0;
   bottom: 0;
+  display: block;
+  height: 2.66em
 }
 
-.songList .song .buttons .playSong {
-  position: absolute;
-  font-size: 0.5em;
-  left: 2em;
-  right: auto;
-  top: 2em;
-  bottom: 0;
-  margin: 0
-}
-
-.songList .song .buttons .removeSong {
+.songList .song .buttons .playSong,
+.songList .song .buttons .removeSong,
+.songList .song .buttons .queueSong,
+.songList .song .stats .views,
+.songList .song .thumbnail {
   display: none;
 }
 
-.songList .song .buttons .starSong,
-.songList .song .buttons .queueSong  {
+.songList .song .buttons .starSong {
   position: relative;
   top: auto;
   left: auto;
   right: auto;
   bottom: auto;
-  float: right;
-}
-.songList .song .thumbnail {
+  display: block;
   float: left;
-  width: 3em;
-  height: 3em;
+  border: none;
+  box-shadow: none;
+  height: 2.66em;
+  line-height: 2.666em;
+  width: 3em
 }
+
+.songList .song .buttons .starSong[data-isStarred="starred"] {
+  color: black;
+  text-shadow: none;
+}
+
+#defaultqueue .song {opacity: 0.5}
 
 .songList .song .title {
   float: left;
-  width: 44%;
-  line-height: 3em;
-  margin: 0 1em;
-  height: 3em;
+  width: 72%;
+  line-height: 2.66em;
+  margin: 0 0 0 2.33em;
+  height: 2.666em;
 }
 
 #player {
@@ -458,7 +487,7 @@ header a {
 
 a i {
   font-style: normal;
-  width: 2em;
+  width: 2.5em;
   display: block;
   float: left;
   text-align: center;
@@ -468,26 +497,28 @@ a i {
 #nav {
   position: fixed;
   width: 10em;
-  margin: 1em 0 0 -12em
+  margin: 1em 0 0 -12.5em
 }
 
 #nav a {
   display: block;
   line-height: 2em;
+  margin-bottom: 0.1566em;
   opacity: 0.9;
-  color: blue;
   text-decoration: none;
   border-radius: 4px;
+  color: #000;
 }
 
 #nav a b {
   border-bottom: 1px solid rgba(0,0,0,0)
 }
+
 #nav a:hover {
-  border-color: #000
+  background: #f0f0f0
 }
+
 #nav a:hover b {
-  border-bottom-color: blue
 }
 
 #nav a:focus {
@@ -498,9 +529,10 @@ a i {
 
 #nav a.selected {
   opacity: 1;
-  color: #000;
+  background: #000;
+  color: #fff;
 }
 
 #nav a.selected b {
-  border-bottom-color: rgba(0,0,0,0)
+  border-bottom: 1px solid #000
 }

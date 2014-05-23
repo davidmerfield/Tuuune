@@ -24,8 +24,11 @@
         <section class="songList"></section>
       </section>
       <section id="queue" style="display:none">
-        <h1>Queued Songs</h1>
-        <section class="songList"></section>
+        <h1>Play queue</h1>
+        <section class="songList">
+          <section id="userqueue"></section>
+          <section id="defaultqueue"></section>
+        </section>
       </section>
       <section id="history" style="display:none">
         <h1>Play history</h1>
@@ -49,6 +52,7 @@
                <option value="/m/06by7">rock</option>
                <option value="/m/06cqb">reggae</option>
             </select>  
+            <a href="#" id="resetResults">Reload</a>
             <a href="#" id="toggleAdvanced">More options</a>
             <section id="advancedOptions" class="hide">
                <label>Uploaded during
