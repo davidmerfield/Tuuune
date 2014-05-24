@@ -2,7 +2,7 @@ var starred = (function(){
    
   var viewId = 'starred',
 
-      starredSongs = savedSongs(),
+      starredSongs = new SongList,
       
       storageKey = 'musicFinder:starred',
 
@@ -17,6 +17,8 @@ var starred = (function(){
 
   function init () {
 
+    starredSongs.add(savedSongs());
+    
      // Make the view visible
      $('#' + viewId).show();
 
@@ -27,7 +29,7 @@ var starred = (function(){
      render();  
 
    };
-  
+
   function hide () {
 
     $('#' + viewId).hide();
