@@ -39,6 +39,7 @@ var starred = (function(){
 
     unbindEventHandlers();
 
+    setSongs(starredSongs);
   };
 
   function reset() {

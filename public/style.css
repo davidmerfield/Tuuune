@@ -416,6 +416,23 @@ header a {
 
   #repeat {background-image: url('./images/repeat.png');}
 
+  #star {
+    float: right;
+    color: #797979;
+    line-height: 2.66em;
+    text-decoration: none;
+    font-size: 1.5em;
+    margin: 0 1em 0 0;
+  }
+
+  #star:hover {
+    color: #ccc
+  }
+
+  #star[data-isStarred="starred"] {
+    color: yellow
+  }
+
   #play, #pause {
     background: url('./images/play.png') no-repeat center center;
     width: 36px;

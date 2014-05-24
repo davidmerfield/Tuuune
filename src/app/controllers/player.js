@@ -256,6 +256,22 @@ var player = (function() {
 
   };
 
+  function star() {
+
+    console.log('HERERED');
+
+    if (!currentSong) {return};
+
+    if (currentSong.isStarred) {
+      starred.unstar(currentSong);
+      $('#controls #star').attr('data-isStarred', '');
+    } else {
+      $('#controls #star').attr('data-isStarred', 'starred');
+      starred.star(currentSong);
+    };
+
+  };
+
   function bindEventHanders () {
 
     $('#controls a').on('click', function(e){
@@ -272,6 +288,8 @@ var player = (function() {
           next();break;
         case "previous":
           previous();break;
+        case "star":
+          star();break;
       }
 
       return false;
