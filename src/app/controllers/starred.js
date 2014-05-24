@@ -62,6 +62,10 @@ var starred = (function(){
 
     song.isStarred = true;
 
+    // this should be instantiated
+    starredSongs.add(savedSongs());
+    // previously this was getting called and overwriting saved songs
+
     starredSongs.unshift(song);
 
     setSongs(starredSongs);
@@ -70,6 +74,9 @@ var starred = (function(){
   function unstar (song) {
 
     song.isStarred = false;
+
+    // remove the repetition here
+    starredSongs.add(savedSongs());
 
     starredSongs.remove(song.id);
 
