@@ -110,7 +110,7 @@ var player = (function() {
     var defaultQueue = queue.auto.findAfter(currentSong.id);
 
     // check playhistory if this is the case, or go to start of songlist
-    
+
     // Check if there are any songs which should auto play
     if (defaultQueue.length > 0) {
       return defaultQueue.shift()
@@ -145,6 +145,9 @@ var player = (function() {
   };
 
   function getQueue () {
+
+    // No song, no queue!
+    if (!currentSong) {return []};
 
     var userQueue = queue.user,
         defaultQueue = new SongList(queue.auto.findAfter(currentSong.id));
