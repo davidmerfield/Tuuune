@@ -1,4 +1,4 @@
-var history = (function(){
+var songHistory = (function(){
    
    var viewId = 'history',
       

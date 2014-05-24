@@ -13,7 +13,7 @@ var nav = (function () {
          starred: starred,
          discover: discover,
          queue: queue,
-         history: history
+         songHistory: songHistory
       };
 
       if (name) {
@@ -32,7 +32,6 @@ var nav = (function () {
       $('#nav a').attr('class', '');
       $("#nav a[data-view='" + name + "']").attr('class', 'selected');
 
-      
       if (currentView) {
          currentView.hide()
       };
