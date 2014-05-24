@@ -5,7 +5,7 @@ function SongList (songs) {
         '<span class="thumbnail" style="background: url({{thumbnail}}) no-repeat center center;background-size: cover"><img src="" /></span>' +
          '<span class="title">{{pretty.title}} </span> ' +
          '<span class="buttons">' +
-           '<span class="playSong">Play</span>' +
+           '<span class="playSong">&#9654;</span>' +
            '<span class="removeSong">Hide</span>' +
            '<span class="starSong" data-isStarred="{{#isStarred}}starred{{/isStarred}}">&#9733;</span>' +
            '<span class="queueSong">+ Queue</span>' +
@@ -20,7 +20,7 @@ function SongList (songs) {
    return (function (songs) {
 
       var songs = songs || [];
-      
+
       // Adds array of new songs to song list
       songs.add = function (newSongs){
 
@@ -76,7 +76,7 @@ function SongList (songs) {
 
       // Remove a song from the list
       songs.remove = function (id){
-        
+         
          for (var i = 0; i < this.length; i++){
             if (this[i].id === id) {
                this.splice(i,1)
