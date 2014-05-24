@@ -4,6 +4,9 @@ var starred = (function(){
 
       starredSongs = new SongList,
       
+      // Used to store unstarred songs
+      cache = new SongList,
+      
       storageKey = 'musicFinder:starred',
 
       exports = {
@@ -11,14 +14,14 @@ var starred = (function(){
          hide: hide,
          star: star,
          unstar: unstar,
-         reset: reset,
-         savedSongs: savedSongs
+         savedSongs: savedSongs,
+         cache: cache
       };
 
   function init () {
 
     starredSongs.add(savedSongs());
-    
+
      // Make the view visible
      $('#' + viewId).show();
 
@@ -68,6 +71,9 @@ var starred = (function(){
     song.isStarred = false;
 
     starredSongs.remove(song.id);
+
+    // In case the user restars an unstarred song
+    cache.unshift(song);
 
     setSongs(starredSongs);
   };

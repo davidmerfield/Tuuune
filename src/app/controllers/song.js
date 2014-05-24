@@ -56,6 +56,14 @@ var Song = (function(){
           className = $(this).attr('class'),
           song = songList.find(id);
 
+      if (!song && className === 'starSong') {
+        song = starred.cache.find(id);
+      };
+
+      if (!song) {
+        console.log('song not found in songlist');
+        return false
+      };
 
       if (allowedEvents && allowedEvents.indexOf(className) === -1) {
         e.preventDefault();
