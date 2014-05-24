@@ -34,7 +34,7 @@ var songHistory = (function(){
        render();
     });
 
-    Song.addListener(viewId, songHistory, ['starSong']);
+    Song.addListener(viewId, songHistory, {noDefaultQueue: true});
 
   };
 
