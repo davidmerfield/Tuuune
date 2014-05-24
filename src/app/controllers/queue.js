@@ -30,14 +30,19 @@ var queue = (function(){
 
   function bindEventHandlers() {
     
+    Song.addListener('userqueue', songQueue.user, {noDefaultQueue: true});
+    Song.addListener('defaultqueue', songQueue.auto, {noDefaultQueue: true});
+
     $(player).on('songChange', function(){
        render();
     });
 
-
   };
 
   function unbindEventHandlers () {
+
+    Song.removeListener('userqueue');
+    Song.removeListener('defaultqueue');
 
     $(player).off();
 
@@ -45,11 +50,10 @@ var queue = (function(){
 
   function render() {
 
-    songQueue = player.queue();
-
     if (!songQueue) {return}
 
     $('#userqueue').html(songQueue.user.render());
+
     $('#defaultqueue').html(songQueue.auto.render());
 
   };
