@@ -2,7 +2,7 @@ var starred = (function(){
    
   var viewId = 'starred',
 
-      starredSongs,
+      starredSongs = savedSongs(),
       
       storageKey = 'musicFinder:starred',
 
@@ -17,8 +17,6 @@ var starred = (function(){
 
   function init () {
 
-    starredSongs = savedSongs();
-
      // Make the view visible
      $('#' + viewId).show();
 
@@ -29,7 +27,7 @@ var starred = (function(){
      render();  
 
    };
-
+  
   function hide () {
 
     $('#' + viewId).hide();
@@ -43,50 +41,41 @@ var starred = (function(){
   };
 
   function bindEventHandlers () {
-    
     Song.addListener(viewId, starredSongs);
-
   };
 
   function unbindEventHandlers () {   
-
     Song.removeListener(viewId);
-
   };
   
   function isStarred (id) {
-
-    var songs = savedSongs();
-
-    return songs.find(id)
+    return starredSongs.find(id)
   };
 
   function star (song) {
 
     song.isStarred = true;
 
-    var songs = savedSongs();
-        songs.unshift(song);
+    starredSongs.unshift(song);
 
-    console.log(songs);
-
-    setSongs(songs);
-
+    setSongs(starredSongs);
   };
 
   function unstar (song) {
 
     song.isStarred = false;
 
-    var songs = savedSongs();
-        songs.remove(song.id);
+    starredSongs.remove(song.id);
 
-    setSongs(songs);
+    setSongs(starredSongs);
   };
 
   function savedSongs () {
 
     var songs = localStorage.getItem(storageKey);
+
+    console.log('getting songs');
+    console.log(songs);
 
     if (songs) {
       return new SongList(JSON.parse(songs));
@@ -97,13 +86,13 @@ var starred = (function(){
   };
 
   function setSongs (songs) {
+    console.log('setting songs');
+    console.log(songs);
     return localStorage.setItem(storageKey, JSON.stringify(songs));
   };
 
   function render() {
 
-    starredSongs = savedSongs();
-    
     songsHTML = starredSongs.render();
 
     $('#' + viewId + ' .songList').html(songsHTML);
