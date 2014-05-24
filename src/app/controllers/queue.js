@@ -45,6 +45,8 @@ var queue = (function(){
 
   function render() {
 
+    if (!songQueue) {return}
+      
     $('#userqueue').html(songQueue.user.render());
     $('#defaultqueue').html(songQueue.auto.render());
 

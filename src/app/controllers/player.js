@@ -147,7 +147,7 @@ var player = (function() {
   function getQueue () {
 
     // No song, no queue!
-    if (!currentSong) {return []};
+    if (!currentSong) {return false};
 
     var userQueue = queue.user,
         defaultQueue = new SongList(queue.auto.findAfter(currentSong.id));
@@ -159,7 +159,7 @@ var player = (function() {
   };
 
   function addToQueue (song) {
-    queue.user.unshift(song);
+    queue.user.push(song);
   };
 
   function drawProgressBar(reset) {
