@@ -48,25 +48,29 @@ var Song = (function(){
      }
    };
 
-   function addListener (view, songList, allowedEvents) {
+   function addListener (view, songList, options) {
+
+    var options = options || {};
 
     $('#' + view).on('click', '.song .buttons span', function(e){
-      
+        
       var id = $(this).parent().parent().attr('id'),
           className = $(this).attr('class'),
           song = songList.find(id);
+
 
       if (!song && className === 'starSong') {
         song = starred.cache.find(id);
       };
 
-      if (!song) {
-        console.log('song not found in songlist');
-        return false
+      if (options.noDefaultQueue && className === 'playSong') {
+        player.play(song);
+        e.preventDefault();
+        return false        
       };
 
-      if (allowedEvents && allowedEvents.indexOf(className) === -1) {
-        e.preventDefault();
+      if (!song) {
+        console.log('song not found in songlist');
         return false
       };
 
@@ -81,16 +85,15 @@ var Song = (function(){
     $('#' + view).on('click', '.song',function(e){
       
       var id = $(this).attr('id'),
-          className = $(this).attr('class'),
           song = songList.find(id);
-
-      if (allowedEvents && allowedEvents.indexOf(className) === -1) {
+      
+      if (options.noDefaultQueue) {
+        player.play(song);
         e.preventDefault();
-        return false
+        return false        
       };
 
       eventHandlers['playSong'](song, songList, $(this));
-
       $('#' + view).trigger('playSong', {id: id});
 
       e.preventDefault();
