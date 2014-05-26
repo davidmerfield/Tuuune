@@ -231,8 +231,6 @@ header a {
 
 
 .song .buttons span {
-  border: 2px solid #bbb;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.6);
   text-shadow: 0 1px 0 rgba(0,0,0,0.6);
   border-radius: 4px;
   color: #bbb;
@@ -253,17 +251,21 @@ header a {
 }
 
 .song .buttons .playSong {
-  width: 5em;
-  height: 5em;
-  line-height: 5em;
+  width: 2em;
+  border: 2px solid #bbb;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.6);
+  height: 2em;
+  line-height: 2em;
   position: absolute;
   padding: 0;
   text-align: center;
   top: 50%;
   left: 50%;
   border-width: 4px;
-  margin: -2.5em 0 0 -2.5em;
-  border-radius: 5em;
+  margin: -1.25em 0 0 -1em;
+  border-radius: 50%;
+  font-size: 3em;
+  text-indent: 0.2em;
 }
 
 .song .buttons .queueSong {
