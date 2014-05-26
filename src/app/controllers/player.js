@@ -195,6 +195,9 @@ var player = (function() {
 
     currentSong = song;
 
+    var isStarred = song.isStarred ? 'starred' : '';
+
+    $('#player #star').attr('data-isStarred', isStarred)
     $('#songTitle').text(currentSong.pretty.title);
     $('#songDuration').text(currentSong.pretty.duration);
 
