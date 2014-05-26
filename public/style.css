@@ -271,9 +271,14 @@ header a {
 .song .buttons .queueSong {
   position: absolute;
   bottom: 0.5em;
-  left: 50%;
-  width: 5.5em;
-  margin-left: -2.75em;
+  left: 0;
+  width: 100%;
+  margin-left: 0;
+  text-align: center;
+}
+
+.song .buttons .queueSong::first-letter {
+  font-weight: bold;
 }
 
 .song .buttons .removeSong {
