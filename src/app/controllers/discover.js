@@ -104,7 +104,7 @@ var discover =  (function () {
       var source = sources[i]; // e.g. youtube
       
       // Find songs from this source
-      source().getSongs(options, function(newSongs){
+      source.getSongs(options, function(newSongs){
 
         // Indicate that the source has replied
         searchedSources.push(source);
@@ -137,7 +137,7 @@ var discover =  (function () {
     $('.option').on('change', setOptions);     
 
     $('#resetResults').on('click', reset);
-    
+
     // Listen to songs
     Song.addListener(viewId, filteredSongs);
 

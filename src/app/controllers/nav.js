@@ -2,6 +2,7 @@ var nav = (function () {
 
    var currentView,
        views,
+       
        exports = {
          init: init,
          setCurrentView: setCurrentView
