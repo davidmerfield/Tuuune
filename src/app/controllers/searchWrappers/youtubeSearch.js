@@ -1,11 +1,15 @@
-var youtube = function () {
+var youtube = (function () {
 
   var key = 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4',
       baseURL = 'https://www.googleapis.com/youtube/v3/',
       videoURL = 'https://www.youtube.com/watch?v=',
 
       sourceName = 'youtube',
-      prefix = 'YT_'; // used to store videos retrieved
+      prefix = 'YT_', // used to store videos retrieved
+
+      exports = {
+        getSongs: getSongs
+      };
 
   function getSongs (userOptions, callback) {
 
@@ -158,7 +162,6 @@ var youtube = function () {
     return results
   };
 
-  return {
-    getSongs: getSongs
-  }
-}
+  return exports;
+  
+}());
