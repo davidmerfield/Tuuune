@@ -1,10 +1,14 @@
-var soundcloud = function () {
+var soundcloud = (function (SC) {
 
   var key = '4be98cd2ee41fa05bf2f530b3fe042b5',
       pageSize = 50,
 
       sourceName = 'soundcloud',
-      prefix = 'SC_'; // used to store videos retrieved
+      prefix = 'SC_', // used to store videos retrieved
+
+      exports = {
+        getSongs: getSongs
+      };
 
   function getSongs (userOptions, callback) {
 
@@ -73,7 +77,6 @@ var soundcloud = function () {
     return results
   };
 
-  return {
-    getSongs: getSongs
-  }
-}
+  return exports;
+
+}(SC));
