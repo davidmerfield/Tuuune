@@ -1,4 +1,4 @@
-var youtube = (function () {
+var youtubeSearch = (function () {
 
   var key = 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4',
       baseURL = 'https://www.googleapis.com/youtube/v3/',

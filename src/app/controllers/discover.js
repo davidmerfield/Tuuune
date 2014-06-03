@@ -95,7 +95,7 @@ var discover =  (function () {
       return callback('We have enough songs');
     };
 
-    var sources = [youtube], // references to the modules //soundcloud is disabled
+    var sources = [youtubeSearch, soundcloudSearch], // references to the modules //soundcloud is disabled
         searchedSources = [];
 
     // go through each source and 

@@ -1,4 +1,4 @@
-var soundcloud = (function (SC) {
+var soundcloudSearch = (function (SC) {
 
   var key = '4be98cd2ee41fa05bf2f530b3fe042b5',
       pageSize = 50,
@@ -67,7 +67,7 @@ var soundcloud = (function (SC) {
         url: song.uri,
 
         listens: song.playback_count,
-        
+
         popularity: {
           favourites: song.favoritings_count,
           downloads: song.download_count,
