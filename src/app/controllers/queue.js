@@ -50,6 +50,8 @@ var queue = (function(){
 
   function render() {
 
+    songQueue = player.queue();
+
     if (!songQueue) {return}
 
     $('#userqueue').html(songQueue.user.render());
