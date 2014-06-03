@@ -67,8 +67,12 @@ var soundcloud = (function (SC) {
         url: song.uri,
 
         listens: song.playback_count,
-        popularity: saves / song.playback_count,
-
+        
+        popularity: {
+          favourites: song.favoritings_count,
+          downloads: song.download_count,
+          comments: song.comment_count
+        }
       }));
 
 
