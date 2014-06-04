@@ -13,13 +13,13 @@ Filter
 - hide/group results from same artists
 
 Song Finder
+- Regenerates next results on like song?
 - DESIGN THE PAGE
-- add option to filter by date
-- Regenerates next results on like song
+- add option to filter by date?
 - Share song feature.
 
 Play queue 
-- behaviour for playing songs withiin the queue is a little funky.
+- behaviour for playing songs within the queue is a little funky.
 
 Player
 - Make playback quicker, Preload first song, Preload next song 
