@@ -278,12 +278,9 @@ tiptune - like
 songsilo
 soundhound
 
-# what if a colored UI was something you paid for
-
-IT MUST HAVE PERSONALITY
-
 # idea to get tons of spotify api access:
-
 app which tells you how hipster your music tastes are!!!!
 
-BRILLIANT
+# take lots of design cues from svpply
+- found by X user
+- select genre UI
