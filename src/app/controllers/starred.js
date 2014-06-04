@@ -98,7 +98,6 @@ var starred = (function(){
     } else {
       return new SongList([])
     };
-
   };
 
   function setSongs (songs) {
@@ -107,12 +106,52 @@ var starred = (function(){
     return localStorage.setItem(storageKey, JSON.stringify(songs));
   };
 
+  function getStats () {
+
+    var youtubeStats = {
+          'Total songs': 0,
+          'Total likes': 0,
+          'Total dislikes': 0,  
+          'Total listens': 0
+        };
+
+    for (var i = 0;i < starredSongs.length;i++) {
+      
+      var song = starredSongs[i];
+
+      if (song.source.name === 'youtube') {
+
+        youtubeStats['Total songs']++;
+        youtubeStats['Total likes'] += song.popularity.likes;
+        youtubeStats['Total dislikes'] += song.popularity.dislikes;
+        youtubeStats['Total listens'] += song.listens;
+
+      };
+
+    };
+
+    youtubeStats['Average likes'] = youtubeStats['Total likes']/youtubeStats['Total songs'];
+    youtubeStats['Average listens'] = youtubeStats['Total listens']/youtubeStats['Total songs'];
+    youtubeStats['Average likes/listens'] = youtubeStats['Total likes']/youtubeStats['Total listens'];
+
+    return youtubeStats
+  };
+
+  function makeStatsHtml (stats) {
+    var html = '';
+    for (var i in stats) {
+      html += '<p><b>' + i + ':</b> ' + stats[i] + '</p>';
+    };
+    return html
+  };
+
   function render() {
 
     songsHTML = starredSongs.render();
-
     $('#' + viewId + ' .songList').html(songsHTML);
 
+    statsHTML = makeStatsHtml(getStats());
+    $('#' + viewId + ' .stats').html(statsHTML);
   };
 
   return exports
