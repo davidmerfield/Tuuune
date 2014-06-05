@@ -8,9 +8,14 @@ Sources:
 Youtube Data API - have to show embed
 
 Future sources:
+
 Soundcloud Api
 Vimeo API
 Last.fm?
+Spotify is great for finding related artists
+REDDIT
+ - genre subreddits
+ - music subreddit
 
 Prefer other sources over YouTube since their API TOS prohibit hiding their music player.
 
