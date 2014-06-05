@@ -151,7 +151,7 @@ var starred = (function(){
     $('#' + viewId + ' .songList').html(songsHTML);
 
     statsHTML = makeStatsHtml(getStats());
-    $('#' + viewId + ' .stats').html(statsHTML);
+    $('#' + viewId + ' .listStats').html(statsHTML);
   };
 
   return exports
