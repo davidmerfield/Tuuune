@@ -4,20 +4,23 @@ Find good unknown music.
 
 Works by searching for songs with low number of listens but a very high like-to-view ratio. Or just a high ratio of 'responses,' positive or negative.
 
-Sources:
-Youtube Data API - have to show embed
-
-Future sources:
-
-Soundcloud Api
+Streaming sources:
+youtube
+soundcloud
 Vimeo API
-Last.fm?
-Spotify is great for finding related artists
+
+Search sources:
+Youtube Data API - have to show embed
+Soundcloud Api
+Last.fm
+Spotify - great for finding related artists
 REDDIT
  - genre subreddits
  - music subreddit
+PITCHFORK FRESH
+Various music blogs
 
-Prefer other sources over YouTube since their API TOS prohibit hiding their music player.
+Prefer soundcloud over YouTube since their API TOS prohibit hiding their music player.
 
 look into using google's people also search for feature
 spotify's related artists
@@ -25,15 +28,11 @@ spotify's related artists
 # Target
 
 8tracks users and designers.mx
-
 make sharing music all about helping the artist and the song.
-
 the fact that the song is 'hosted' on our site is a secondary feature.
-
-PEOPLE LOVE SHARING MUSIC
-RIGHT? I DO
-
-noone has really made that work
+PEOPLE LOVE SHARING MUSIC THEY FIND
+THEY HAVE TO FEEL LIKE THEY FOUND IT
+Set expectations for the search tool
 
 # Explore features
 
