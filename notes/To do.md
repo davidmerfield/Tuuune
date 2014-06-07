@@ -6,10 +6,13 @@ One page app which when opened generates list of awesome undiscovered songs from
 
 Filter
 - determine parameters for best results
-- return even number of results from all sources
+
 - take thumbnail into consideration
+
 - fix banned artists implementation
+- generate dictionary of popular artists from last.fm
 - check for popular duplicate/re upload
+
 - hide/group results from same artists
 
 Song Finder
