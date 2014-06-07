@@ -11,9 +11,9 @@ var discover =  (function () {
 
       options = options || {
         regionCode: 'US', // used to ensure songs are playable by user
-        minResults: 10, 
+        minResults: 40, 
         topicID: '/m/074ft', // all songs
-        minListens: 0,
+        minListens: 5000,
         maxListens: 100000,
         maxDuration: 840000,
         minDuration: 60000,
@@ -162,7 +162,7 @@ var discover =  (function () {
 
   function loadMore (e) {
   
-    options.minResults += 10;
+    options.minResults += 100;
     
     // Hide the button which allows you to get more songs
     $('#loadMore').hide();    
