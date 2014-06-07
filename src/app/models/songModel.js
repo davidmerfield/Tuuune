@@ -15,6 +15,7 @@ var newSong = function(data) {
      },
 
      title: data.title,
+     description: data.description,
      thumbnail: data.thumbnail,
      duration: data.duration,
 

@@ -15,6 +15,7 @@ function SongList (songs) {
            '<span class="views">{{pretty.listens}} listens &#8226; </span>' +
            '<span class="source">{{source.name}}</span>' +
          '</span>' +
+         '<span class="description">{{description}}</span>' +
       '</a>';
 
    return (function (songs) {
