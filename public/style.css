@@ -181,19 +181,19 @@ header a {
 }
 
 .song {
-  width: 12em;
+  width: 100%;
   padding: 0.75em;
-  float: left;
   text-decoration: none;
   color: #000;
   display: block;
   position: relative;
+  clear: both;
+  margin-bottom: 1em
 }
 
 .song:hover {
   background: rgba(255,168,0,0.1)
 }
-
 
 .song .title {
   height: 1.33em;
@@ -319,7 +319,7 @@ header a {
   height: 2.66em;
   line-height: 2.66em;
   border-top: 1px solid rgba(0,0,0,0.1);
-  padding: 0
+  padding: 0;
 }
 
 .songList .song .stats {
@@ -348,7 +348,8 @@ header a {
 .songList .song .buttons .removeSong,
 .songList .song .buttons .queueSong,
 .songList .song .stats .views,
-.songList .song .thumbnail {
+.songList .song .thumbnail,
+.songList .song .description {
   display: none;
 }
 
