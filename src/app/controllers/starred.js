@@ -130,9 +130,10 @@ var starred = (function(){
 
     };
 
-    youtubeStats['Average likes'] = youtubeStats['Total likes']/youtubeStats['Total songs'];
-    youtubeStats['Average listens'] = youtubeStats['Total listens']/youtubeStats['Total songs'];
-    youtubeStats['Average likes/listens'] = youtubeStats['Total likes']/youtubeStats['Total listens'];
+    youtubeStats['Mean likes'] = youtubeStats['Total likes']/youtubeStats['Total songs'];
+    youtubeStats['Mean listens'] = youtubeStats['Total listens']/youtubeStats['Total songs'];
+    youtubeStats['Mean dislikes/likes'] = youtubeStats['Total dislikes']/youtubeStats['Total likes'];
+    youtubeStats['Mean reactions/listens'] = (youtubeStats['Total likes'] + youtubeStats['Total dislikes'])/youtubeStats['Total listens'];
 
     return youtubeStats
   };
