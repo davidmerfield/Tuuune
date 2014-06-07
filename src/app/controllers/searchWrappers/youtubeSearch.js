@@ -118,8 +118,8 @@ var youtubeSearch = (function () {
   function filter (videos) {
     
     var results = [],
-        maxDislikeRatio = 0.015, // ratio of dislikes to likes
-        minLikeRatio = 0.0065; // ratio of likes to views
+        maxDislikeRatio = 0.02, // ratio of dislikes to likes
+        minLikeRatio = 0.004; // ratio of likes to views
 
     for (var i in videos) {
       
@@ -143,7 +143,8 @@ var youtubeSearch = (function () {
         sourceName: sourceName,
 
         title: video.snippet.title,
-        
+        description: video.snippet.description,
+
         thumbnail: video.snippet.thumbnails.medium.url,
         duration: helper.parseYTDuration(video.contentDetails.duration),
         
