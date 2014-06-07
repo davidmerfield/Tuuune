@@ -4,10 +4,17 @@ Find good unknown music.
 
 Works by searching for songs with low number of listens but a very high like-to-view ratio. Or just a high ratio of 'responses,' positive or negative.
 
+never allow the user to discover a song we know they've listened too.
+
+always start showing verfied great songs.
+pepper in new untested songs after a few hits
+
 Streaming sources:
-youtube
 soundcloud
+youtube
 Vimeo API
+- if found on youtube or vimeo, check if exists on soundcloud
+- soundcloud is ideal because we don't care about the video
 
 Search sources:
 Youtube Data API - have to show embed
