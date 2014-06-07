@@ -20,6 +20,44 @@ var helper = {
    duplicate: function (object) {
       return JSON.parse(JSON.stringify(object))
    },
+   createGrid: function (rows, columns) {
+       var grid = new Array(rows);
+       for(var i = 0; i < rows; i++) {
+           grid[i] = new Array(columns);
+           for(var j = 0; j < columns; j++) {
+               grid[i][j] = 0;
+           }
+       }
+       return grid;
+   },
+   intersect: function (first, second) {
+           
+     var grid = this.createGrid(first.length, second.length);
+     var longestSoFar = 0;
+     var matches = [];
+
+     for(var i = 0; i < first.length; i++) {
+         for(var j = 0; j < second.length; j++) {
+             if(first.charAt(i) == second.charAt(j)) {
+                 if(i == 0 || j == 0) {
+                     grid[i][j] = 1;
+                 }
+                 else {
+                     grid[i][j] = grid[i-1][j-1] + 1;
+                 }
+                 if(grid[i][j] > longestSoFar) {
+                     longestSoFar = grid[i][j];
+                     matches = [];
+                 }
+                 if(grid[i][j] == longestSoFar) {
+                     var match = first.substring(i - longestSoFar + 1, i + 1);
+                     matches.push(match);
+                 }
+             }
+         }
+     }
+     return matches[0];
+   },
    //Formats d to MM/dd/yyyy HH:mm:ss format
    formatDate: function (d){
      function addZero(n){
