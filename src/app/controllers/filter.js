@@ -3,24 +3,26 @@ var filter = function (songs, options) {
    var results = [],
        banned = { 
            words: [
-             'live', 'choir', 'medley', 'monologue',
+             'live', 'choir', 'chorus', 'medley', 'monologue',
              'university', 'college', 'encore', 'duet',
              'moshcam', 'premiere', 'dvd', 'Eurovision', 'sxsw',
              'improv', 'band', 'quartet', 'choral', 'chorale',
-             'concerto', 'requiem', 'improvisation', 'recital',
+             'concerto', 'requiem', 'improvisation', 'recital', 'conducted',
+             'composed', 'talent show', 'talent', 'the voice', 'x-factor', 'x factor',
              'festival', 'suite', 'idol', 'contest', 'Q&A', 'middle school',
              'high school', 'capella', 'bonaroo', 'subscribers',
              'octet', 'best of', 'barbershop', 'recording', 'song',
-             'music', 'orchestra', 'backstage', 'behind the scenes', 'parody', 'making of',
-             'rehearsal', 'acoustic', 'tour', 'part', 'hard rock cafe',
-             'violin', 'piano', 'hall of fame', 'documentary', 'tv show',
+             'orchestra', 'backstage', 'behind the scenes', 'parody', 'making of',
+             'rehearsal', 'acoustic', 'tour', 'part', 'hard rock cafe', 'broadcast',
+             'violin', 'piano', 'hall of fame', 'documentary', 'tv show', 'tv',
              'awards', 'music theory', 'arrangement', 'compilation',
-             'lesson', 'tabs', 'tutorial', 'theme', 'kickstarter', 'session',
+             'lesson', 'tabs', 'tutorial', 'theme', 'kickstarter', 'session', 'sessions',
              'blog', 'vlog', 'concert', 'concierto', 'interview', 'soundtrack',
-             'chord changes', 'instrumental', 'episode', 'perform', 'performing', 'performance',
-             'letterman', 'jimmy kimmel', 'jonathan ross', 'singing',
-             'me covering', 'guitar tab', 'performed by', 'me performing', 'anthem',
-             'version', 'review', 'at the', 'OST', 'ukelele', 'autoharp', 'guitar',
+             'chord changes', 'instrumental', 'episode',
+             'letterman', 'jimmy kimmel', 'jonathan ross', 'singing', 'ministry', 'community church',
+             'me covering', 'guitar tab', 'anthem', 'plays', 'playing',
+             'version', 'review', 'at the', 'OST', 'ukelele', 'lute', 'autoharp', 'guitar',
+             'poem', 'clarinet', 'dj', 'beat', 'download', 'ibiza', 'bass',
 
              'Justin Bieber', 'queen', 'One Direction', 'Michael Jackson', 'Temper Trap',
              'dean martin', 'justin timberlake', 'cee lo green', 'josh groban',
@@ -33,15 +35,19 @@ var filter = function (songs, options) {
              'R. Kelly', 'R.Kelly', 'bon iver', 'sinead o connor', 'norah jones', 'hq',
              'red hot chilli peppers', 'paul mcartney', 'taylor swift', 'jason derulo',
              'billy bragg', 'miley cyrus', 'p!nk', 'modest mouse', 'wu tang clan',
-             'ACDC', 'AC/DC', 'freddie mercury', 'beach boys', 'kaiser chiefs',
-             'macklemore', 'queens of the stone age', 'the kinks', 'jimi hendrix',
+             'ACDC', 'AC/DC', 'freddie mercury', 'beach boys', 'kaiser chiefs', 'black eyed peas',
+             'marvin gaye', 'chief keef', 'alicia keys', 'selena gomez', 'armand', 'paramore',
+             'macklemore', 'queens of the stone age', 'the kinks', 'jimi hendrix', 'pitbull',
              'twisted sister', '2pac', 'bjork', 'enya', 'jethro tull', 'mariah carey',
              'lupe fiasco', 'my chemical romance', 'the beatles', 'maroon 5', 'carly rae jepsen',
              'the wanted', 'david bowie', 'rod stewart', 'rolling stones', 'skrillex', 'cher lloyd',
-             'frank sinatra'
+             'frank sinatra', 'kanye west', 'glee', 'linkin park', 'ella fitzgerald', 'billie holiday',
+             'ray charles', 'the cure', 'the smiths', 'deep purple', 'eric clapton', 'aerosmith', 'nine inch nails',
+             'jarvis cocker', 'pearl jam', 'franz ferdinand', 'madonna', 'oakenfold', 'swedish house mafia'
            ],
            snippets: [
-            '@','#','TEDx','.wmv', '.mov', '.avi', '.mp3', '.mpg'
+             'perform', 'interview',
+             '!!', '..', '+', '*', '??', '@','#','TEDx','.wmv', '.mov', '.avi', '.mp3', '.mpg'
            ]};
 
    if (options.exclude.covers) {
@@ -60,22 +66,40 @@ var filter = function (songs, options) {
 
       var song = songs[i];
 
+      // Not a number
+      if (!isFinite(String(song.listens))) {
+        continue
+      };
 
       // Check if video has too few or too many views 
-      if (song.listens > options.maxListens ||
-          song.listens < options.minListens) {
+      if (song.listens > options.maxListens) {
+          console.log('skipping ' + song.pretty.title + ' for having too many listens');
+          console.log(song.listens);
+
          continue
-      }
-      
+      };
+
+      if (song.listens < options.minListens) {
+         console.log('skipping ' + song.pretty.title + ' for having too few listens');
+         console.log(song.listens);
+
+        continue
+
+      };
+
       // ignore non english songs
-      if(nonEnglish && nonEnglish.test(song.title + ' ' + song.description)) {
+      if(nonEnglish && nonEnglish.test(song.pretty.title + ' ' + song.description)) {
          continue
       }
 
       // skip banned words
-      if (hasBanned(song.title + ' ' + song.description, banned)) {
-         console.log('skipping ' + song.title);
+      if (hasBanned(song.pretty.title + ' ' + song.description, banned)) {
+         console.log('skipping ' + song.pretty.title);
          continue
+      }
+
+      if (isAllCaps(song.pretty.title)) {
+        continue
       }
 
       // Song title contains a number
@@ -91,6 +115,9 @@ var filter = function (songs, options) {
       // Ignore too short or too long videos
       if (song.duration < options.minDuration ||
           song.duration > options.maxDuration)  {
+
+          console.log(song.source.name + ': ' + song.duration);
+
          continue
       };
 
@@ -99,20 +126,24 @@ var filter = function (songs, options) {
       // Ensure there aren't other songs by the same artist
       for (var j = 0; j < results.length; j++) {
          var intersection = helper.intersect(song.pretty.title, results[j].pretty.title);
-         if (intersection.length > 6) {
+         if (intersection && intersection.length > 6) {
             console.log('Ignoring: ' + song.pretty.title);
-            console.log(intersection);            
+            console.log(intersection);
             alreadyFromArtist = true;
          };
       };
 
       if (!alreadyFromArtist) {
          // passed tests, add to queue
-         results.push(song);                 
+         results.push(song);
       };
    };
-        
+
    return results
+
+   function isAllCaps(str) {
+       return str === str.toUpperCase();
+   };
 
    function hasBanned (words, list) {
        words = words.toLowerCase();
