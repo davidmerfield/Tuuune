@@ -213,6 +213,9 @@ var player = (function() {
 
   function setCurrentPlayer (playerName) {
     
+    // reset the progress bar
+    drawProgressBar(true);
+
     if (currentSong && playerName !== currentSong.source.name) {
       dropCurrentPlayer();
     };
