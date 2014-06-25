@@ -119,7 +119,7 @@ var starred = (function(){
       
       var song = starredSongs[i];
 
-      if (song.source.name === 'youtube') {
+      if (song.source.name) {
 
         youtubeStats['Total songs']++;
         youtubeStats['Total likes'] += song.popularity.likes;
