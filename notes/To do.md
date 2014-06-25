@@ -2,24 +2,16 @@
 
 Short term build:
 
-One page app which when opened generates list of awesome undiscovered songs from Youtube and Soundcloud. Will keep playing after you click.
+One page app which when opened generates list of awesome undiscovered songs from Youtube and Soundcloud. Will keep playing after you click. Allow you to queue songs and star them to local storage. 
 
 Filter
-- determine parameters for best results
-
-- take thumbnail into consideration
-
-- fix banned artists implementation
+- determine like/dislike and like/view parameters for best results programmatically for each source.
 - generate dictionary of popular artists from last.fm
 - check for popular duplicate/re upload
-
-- hide/group results from same artists
+- fix duplicates from showing up in same list
 
 Song Finder
-- Regenerates next results on like song?
-- DESIGN THE PAGE
-- add option to filter by date?
-- Share song feature.
+- Make sure each song has shareable URL
 
 Play queue 
 - behaviour for playing songs within the queue is a little funky.
@@ -33,9 +25,13 @@ Player
 - make player work without flash
 - show youtube player for youtube songs
 
+- take thumbnail into consideration?
+
 Long term build:
 
 Create community based around sharing interesting and undiscovered music.
 
 Make filter use machine learning
 - make filter weighted, instead of binary
+- Regenerates next results on like song?
+- try to find the song on Youtube and Soundcloud
