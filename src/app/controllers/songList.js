@@ -12,6 +12,7 @@ function SongList (songs) {
          '</span>' + 
          '<span class="stats">' +
            '<span class="duration">{{pretty.duration}} &#8226; </span>' +
+           '<span class="ratio">{{popularity.ratio}} &#8226; </span>' +
            '<span class="views">{{pretty.listens}} listens &#8226; </span>' +
            '<span class="source">{{source.name}}</span>' +
          '</span>' +
