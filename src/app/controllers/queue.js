@@ -56,7 +56,7 @@ var queue = (function(){
 
     $('#userqueue').html(songQueue.user.render());
 
-    $('#defaultqueue').html(songQueue.auto.render());
+    // $('#defaultqueue').html(songQueue.auto.render());
 
   };
 

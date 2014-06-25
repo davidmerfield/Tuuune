@@ -11,7 +11,7 @@ var youtubePlayer = (function(){
         eventHandler: eventHandler,
         getCurrentTime: getCurrentTime
       };
-      
+
   function init (playerID, callback) {
 
     if (typeof playerID === 'function') {
@@ -32,15 +32,15 @@ var youtubePlayer = (function(){
       playerID, "425", "365", "8", null, null, {allowScriptAccess: "always"}
     );
 
-    // The youtube embed will call this in the context 
+    // The youtube embed will call this in the context
     // of window when it's ready to recieve calls.
     return window.onYouTubePlayerReady = function (playerID) {
-      
+
       embed = document.getElementById(playerID);
       embed.className = 'mediaEmbed';
 
       embed.addEventListener('onStateChange', 'youtubePlayer.eventHandler');
-      
+
       callback('Youtube player loaded.');
     };
   };
