@@ -153,7 +153,8 @@ var youtubeSearch = (function () {
         listens: views,
         popularity: {
           likes: likes,
-          dislikes: dislikes
+          dislikes: dislikes,
+          ratio: likes/views
         }
 
     }));

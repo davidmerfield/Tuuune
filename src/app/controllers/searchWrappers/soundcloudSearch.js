@@ -1,7 +1,7 @@
-var soundcloudSearch = (function (SC) {
+ var soundcloudSearch = (function (SC) {
 
   var key = '4be98cd2ee41fa05bf2f530b3fe042b5',
-      pageSize = 50,
+      pageSize = 100,
 
       sourceName = 'soundcloud',
       prefix = 'SC_', // used to store videos retrieved
@@ -27,14 +27,19 @@ var soundcloudSearch = (function (SC) {
   function filter(songs) {
 
     var results = [],
-    savesToPlays = 0.01;
+        savesToPlays = 0;
 
     for (var i in songs) {
 
       var song = songs[i],
-          saves = song.comment_count + song.download_count + song.favoritings_count;
+          listens = song.playback_count,
+          likes = song.download_count + song.favoritings_count;
 
       if (song.track_type === 'live') {
+        continue
+      };
+
+      if (!song.streamable) {
         continue
       };
 
@@ -42,41 +47,37 @@ var soundcloudSearch = (function (SC) {
         continue
       };
 
-      if (saves/song.playback_count < savesToPlays) {
+      if (likes/listens < 0) {
         continue
       };
-
-      if (!song.streamable) {
-        continue
-      }
-
-      // Perpahs this should be an object contructor
+      
       results.push(newSong({
 
         id: song.id,
-        
+
         prefix: prefix,
-        
+
         sourceName: sourceName,
 
         title: song.title,
+        description: '',
         thumbnail: song.artwork_url,
         duration: song.duration,
 
         sourceID: song.id,
         url: song.uri,
 
-        listens: song.playback_count,
+        listens: listens,
 
         popularity: {
-          favourites: song.favoritings_count,
-          downloads: song.download_count,
-          comments: song.comment_count
+          likes: likes,
+          dislikes: 0, // SC doesn't let you dislike, this isn't a hugely important indicator anyway
+          ratio: likes/listens
         }
       }));
 
 
-    }
+    };
 
     return results
   };
