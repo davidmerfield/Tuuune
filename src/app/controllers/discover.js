@@ -11,7 +11,7 @@ var discover =  (function () {
 
       options = options || {
         regionCode: 'US', // used to ensure songs are playable by user
-        minResults: 40, 
+        minResults: 40,
         topicID: '/m/074ft', // all songs
         minListens: 5000,
         maxListens: 100000,
@@ -29,7 +29,7 @@ var discover =  (function () {
         init: init,
         hide: hide
       };
-      
+
   function init () {
 
     // Make the view visible
@@ -45,7 +45,7 @@ var discover =  (function () {
     render(filteredSongs, true);
     
     // Hide the button which allows you to get more songs
-    $('#loadMore').hide();    
+    $('#loadMore').hide();
   
     // Find songs to populate the view
     searchForSongs(function(message){
@@ -86,7 +86,7 @@ var discover =  (function () {
   };
 
   // This is used to find songs from the web
-  // it calls itself recursively until its found enough songs
+  // it calls itself recursively until its found enough songs 
   // which pass the filter
 
   function searchForSongs (callback) {
@@ -95,7 +95,7 @@ var discover =  (function () {
       return callback('We have enough songs');
     };
 
-    var sources = [youtubeSearch], // references to the modules //soundcloud is disabled
+    var sources = [soundcloudSearch], // references to the modules youtubeSearch, 
         searchedSources = [];
 
     // go through each source and 
