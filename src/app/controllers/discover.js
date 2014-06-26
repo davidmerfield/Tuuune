@@ -95,7 +95,7 @@ var discover =  (function () {
       return callback('We have enough songs');
     };
 
-    var sources = [soundcloudSearch], // references to the modules youtubeSearch, 
+    var sources = [youtubeSearch, soundcloudSearch], // references to the modules , 
         searchedSources = [];
 
     // go through each source and 
