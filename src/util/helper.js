@@ -1,20 +1,24 @@
 var helper = {
-   makeDateRange: function(){
+   makeDateRange: function(earliestYear, rangeSize){
 
-     var min = new Date(2009, 1, 1),
-         minValue = min.valueOf(),
+    earliestYear = earliestYear || 2009;
+    rangeSize = rangeSize || 86400000; // 1 day in milliseconds
 
-         max = new Date(),
-         maxValue = max.valueOf(),
+     var earliestTime = new Date(earliestYear, 1, 1).valueOf(),
+         currentTime = new Date().valueOf(),
 
-         delta = maxValue - minValue;
+     // Pick a random point to end the date range
+     rangeEnd = Math.round(Math.random()*(currentTime - earliestTime)) + earliestTime;
 
-     afterValue = Math.round(Math.random()*delta) + minValue;
+     console.log(rangeSize);
+     console.log(rangeEnd);
+     console.log(rangeEnd - rangeSize);
 
-     after = new Date(afterValue);
-     before = new Date(after.getFullYear(), after.getMonth(), after.getDate() + 1);
+     end = new Date(rangeEnd);
+     
+     start = new Date(rangeEnd - rangeSize);
 
-     return {'after': after, 'before': before};
+     return {'start': start, 'end': end};
 
    },   
    duplicate: function (object) {
