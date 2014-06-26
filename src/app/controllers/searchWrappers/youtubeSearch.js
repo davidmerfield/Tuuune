@@ -16,8 +16,8 @@ var youtubeSearch = (function () {
     var dateRange = helper.makeDateRange(),
         options = {
           order: 'rating',
-          publishedAfter: helper.ISODateString(dateRange.after),
-          publishedBefore: helper.ISODateString(dateRange.before),
+          publishedAfter: helper.ISODateString(dateRange.start),
+          publishedBefore: helper.ISODateString(dateRange.end),
           regionCode: userOptions.regionCode || 'US',
           topicID: userOptions.topicID || null
         };

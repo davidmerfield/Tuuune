@@ -1,7 +1,7 @@
  var soundcloudSearch = (function (SC) {
 
   var key = '4be98cd2ee41fa05bf2f530b3fe042b5',
-      pageSize = 100,
+      pageSize = 200,
 
       sourceName = 'soundcloud',
       prefix = 'SC_', // used to store videos retrieved
@@ -12,13 +12,17 @@
 
   function getSongs (userOptions, callback) {
 
-    var dateRange = helper.makeDateRange(),
-        after = helper.formatDate(dateRange.after),
-        before = helper.formatDate(dateRange.before);
+    var dateRange = helper.makeDateRange(2009),
+        after = helper.formatDate(dateRange.start),
+        before = helper.formatDate(dateRange.end);
+
+    console.log(after);
+    console.log(before);
 
     SC.initialize({client_id: key});
 
     SC.get('/tracks', {limit: pageSize, created_at: {from: after, to: before}}, function(tracks) {
+      console.log(tracks);
        return callback(filter(tracks))
     });
 
@@ -33,7 +37,7 @@
 
       var song = songs[i],
           listens = song.playback_count,
-          likes = song.download_count + song.favoritings_count;
+          likes = song.favoritings_count;
 
       if (song.track_type === 'live') {
         continue
@@ -47,7 +51,7 @@
         continue
       };
 
-      if (likes/listens < 0) {
+      if (likes/listens < 0.01) {
         continue
       };
       
