@@ -28,8 +28,8 @@ var youtubePlayer = (function(){
 
     // This swaps the embed container with a YT player
     swfobject.embedSWF(
-      "http://www.youtube.com/v/pYVW0I-NnDc&enablejsapi=1&playerapiid=" + playerID,
-      playerID, "425", "365", "8", null, null, {allowScriptAccess: "always"}
+      "http://www.youtube.com/v/pYVW0I-NnDc&controls=0&iv_load_policy=3&modestbranding&showinfo=0&enablejsapi=1&playerapiid=" + playerID,
+      playerID, "200", "200", "8", null, null, {allowScriptAccess: "always"}
     );
 
     // The youtube embed will call this in the context

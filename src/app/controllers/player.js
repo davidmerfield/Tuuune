@@ -226,11 +226,14 @@ var player = (function() {
 
     if (playerName === 'youtube') {
       mediaPlayer = youtubePlayer;
+      $('#embeds').attr('class', '');
     };
 
     if (playerName === 'soundcloud') {
       mediaPlayer = soundcloudPlayer;
+      $('#embeds').attr('class', 'hidden');
     };
+
 
     var progressInterval;
     

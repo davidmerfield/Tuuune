@@ -16,7 +16,7 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, b, ul, ol, li, section {
 
 body {
   font: 400 1em / 1.33em 'Droid Sans Mono', sans-serif;
-  padding-top: 4em;
+  padding-top: 15em;
 }
 
 .sidebar {
@@ -111,8 +111,6 @@ header a {
 
 #options {
   padding: 1em 0;
-  position: fixed;
-  z-index: 1;
   background: #fff;
   border: none;
   border-bottom: 1px solid rgba(0,0,0,0.3)
@@ -391,20 +389,23 @@ header a {
   right: 0;
   margin: 0;
   padding: 0;
-  height: 4em;
+  height: 15em;
   background: #000;
   color: #fff
 }
   
   #controls {
     padding: 0;
-    margin: 0 auto;
+    margin: 9em auto 0 16em;
     position: relative;
-  }
+    float: left;
+    width: 32em;
+  } 
 
   #play, #pause,#next,#previous, #shuffle, #repeat{
     display: block;
     float: left;
+    margin-top: 7em;
     text-indent: -1000px;
   }
 
@@ -506,8 +507,10 @@ header a {
 }
 #songDuration {position: absolute;left:auto;right: -40px;}
 
-#embeds {width: 0px;height: 0px;overflow: hidden;position: absolute;top: -1000px;left: -1000px};
+#embeds.hidden {width:0;height: 0;margin: -1000px 0 0 -1000px;}
+#embeds {position:absolute;left:0;top:0;width: 200px;height: 200px;overflow: hidden;};
 
+#SC_EMBED {position: absolute;top:-1000px;left: -1000px;}
 
 #controls a {color: blue;text-decoration: underline;cursor: pointer;}
 .thumb img {margin-left: -8px;height: 60px}
