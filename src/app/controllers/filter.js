@@ -10,17 +10,17 @@ var filter = function (songs, options) {
              'concerto', 'requiem', 'improvisation', 'recital', 'conducted',
              'composed', 'talent show', 'talent', 'the voice', 'x-factor', 'x factor',
              'festival', 'suite', 'idol', 'contest', 'Q&A', 'middle school',
-             'high school', 'capella', 'bonaroo', 'subscribers',
-             'octet', 'best of', 'barbershop', 'recording', 'song',
+             'high school', 'capella', 'bonaroo', 'subscribers', 'radio', 'love', 'found myself', 'forsaken',
+             'octet', 'best of', 'barbershop', 'recording', 'song', 'release', 'fuck',
              'orchestra', 'backstage', 'behind the scenes', 'parody', 'making of',
              'rehearsal', 'acoustic', 'tour', 'part', 'hard rock cafe', 'broadcast',
-             'violin', 'piano', 'hall of fame', 'documentary', 'tv show', 'tv',
-             'awards', 'music theory', 'arrangement', 'compilation',
+             'violin', 'piano', 'hall of fame', 'documentary', 'tv show', 'tv', 'music',
+             'awards', 'music theory', 'arrangement', 'compilation', 'film', 'party', 'mix',
              'lesson', 'tabs', 'tutorial', 'theme', 'kickstarter', 'session', 'sessions',
              'blog', 'vlog', 'concert', 'concierto', 'interview', 'soundtrack',
-             'chord changes', 'instrumental', 'episode', 'test',
+             'chord changes', 'instrumental', 'episode', 'test', 'ft.', 'ft', 'featuring', 'feat.', 'feat',
              'letterman', 'jimmy kimmel', 'jonathan ross', 'singing', 'ministry', 'community church',
-             'me covering', 'guitar tab', 'anthem', 'plays', 'playing',
+             'me covering', 'guitar tab', 'anthem', 'plays', 'playing', 'unofficial',
              'version', 'review', 'at the', 'OST', 'ukelele', 'lute', 'autoharp', 'guitar',
              'poem', 'clarinet', 'dj', 'beat', 'download', 'd/l', 'ibiza', 'bass', 'preview', 'dub',
 
@@ -43,7 +43,12 @@ var filter = function (songs, options) {
              'the wanted', 'david bowie', 'rod stewart', 'rolling stones', 'skrillex', 'cher lloyd',
              'frank sinatra', 'kanye west', 'glee', 'linkin park', 'ella fitzgerald', 'billie holiday',
              'ray charles', 'the cure', 'the smiths', 'deep purple', 'eric clapton', 'aerosmith', 'nine inch nails',
-             'jarvis cocker', 'pearl jam', 'franz ferdinand', 'madonna', 'oakenfold', 'swedish house mafia'
+             'jarvis cocker', 'pearl jam', 'franz ferdinand', 'madonna', 'oakenfold', 'swedish house mafia','Michael bolton',
+             'stevie wonder', 'john legend', 'coldplay', 'verdi', 'oasis', 'van morrison', 'tina turner','talking heads',
+             'kasabian', 'streisand', 'blur', 'kt tunstall', 'david guetta', 'busta rhymes', 'flo rida', 'tyga', 'nirvana',
+             'ice cube', 'soulja boy', 'manic street preachers', 'tom petty', 'die antwoord', 'gershwin', 'ian brown', 'joy division',
+             'foo fighters', 'the clash', 'offspring', 'annie lennox', 'noel gallagher','debussy', 'mozart', 'aphex twin',
+             'iggy pop',  'depeche mode', 'wainwright', 'westlife', 'ellie goulding'
            ],
            snippets: [
              'perform', 'interview',
@@ -55,7 +60,7 @@ var filter = function (songs, options) {
    }
 
    if (options.exclude.remixes) {
-      banned.snippets.push('remix')
+      banned.snippets.push('remix', 'rework', 'rmx')
    }
 
    if (options.exclude.foreign) {
