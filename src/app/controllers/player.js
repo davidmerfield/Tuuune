@@ -199,6 +199,7 @@ var player = (function() {
 
     $('#player #star').attr('data-isStarred', isStarred)
     $('#songTitle').text(currentSong.pretty.title);
+    $('#player .thumbnail').html('<img src="' + currentSong.thumbnail + '" />');
     $('#songDuration').text(currentSong.pretty.duration);
 
     drawProgressBar(true);
@@ -226,14 +227,15 @@ var player = (function() {
 
     if (playerName === 'youtube') {
       mediaPlayer = youtubePlayer;
+      $('#player .thumbnail').hide();
       $('#embeds').attr('class', '');
     };
 
     if (playerName === 'soundcloud') {
       mediaPlayer = soundcloudPlayer;
+      $('#player .thumbnail').show();
       $('#embeds').attr('class', 'hidden');
     };
-
 
     var progressInterval;
     
