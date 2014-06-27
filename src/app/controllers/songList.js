@@ -11,9 +11,9 @@ function SongList (songs) {
            '<span class="queueSong">+ Queue</span>' +
          '</span>' + 
          '<span class="stats">' +
-           '<span class="duration">{{pretty.duration}} &#8226; </span>' +
+           '<span class="duration">{{pretty.duration}} / </span>' +
            '<span class="ratio">{{popularity.ratio}} &#8226; </span>' +
-           '<span class="views">{{pretty.listens}} listens &#8226; </span>' +
+           '<span class="views">{{pretty.listens}} listens</span>' +
            '<span class="source">{{source.name}}</span>' +
          '</span>' +
          '<span class="description">{{description}}</span>' +
