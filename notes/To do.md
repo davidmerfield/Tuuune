@@ -2,6 +2,8 @@
 
 Short term build:
 
+need to stop songs playing simulataneously.
+
 Pick 200 songs to hard code into the app and seed the song discovery with 20 of those. Store songs which have already been shown. 
 
 WE NEVER WANT TO SHOW THE USER A SONG THEY'VE ALREADY SEEN ON OUR APP IN DISCOVERY.
