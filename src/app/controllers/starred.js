@@ -90,9 +90,6 @@ var starred = (function(){
 
     var songs = localStorage.getItem(storageKey);
 
-    console.log('getting songs');
-    console.log(songs);
-
     if (songs) {
       return new SongList(JSON.parse(songs));
     } else {
@@ -101,8 +98,6 @@ var starred = (function(){
   };
 
   function setSongs (songs) {
-    console.log('setting songs');
-    console.log(songs);
     return localStorage.setItem(storageKey, JSON.stringify(songs));
   };
 
