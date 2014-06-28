@@ -2,6 +2,10 @@
 
 Short term build:
 
+Pick 200 songs to hard code into the app and seed the song discovery with 20 of those. Store songs which have already been shown. 
+
+WE NEVER WANT TO SHOW THE USER A SONG THEY'VE ALREADY SEEN ON OUR APP IN DISCOVERY.
+
 One page app which when opened generates list of awesome undiscovered songs from Youtube and Soundcloud. Will keep playing after you click. Allow you to queue songs and star them to local storage. 
 
 Filter
@@ -35,3 +39,5 @@ Make filter use machine learning
 - make filter weighted, instead of binary
 - Regenerates next results on like song?
 - try to find the song on Youtube and Soundcloud
+
+Rapid next-then previous should revert to point during song at which next was presed.
