@@ -27,7 +27,7 @@ body > section.full {margin: 2em;width: auto;}
   top: 0;
   bottom: 0;
   background: #000;
-  width: 266px;
+  width: 282px;
   margin: 0
 }
 
@@ -67,51 +67,60 @@ body > section.full {margin: 2em;width: auto;}
 }
 
 .song {
-  color: #eee;
-  background: #000;
   text-decoration: none;
+  background: #000;
   display: block;  
-  width: 14em;
+  width: 210px; /* 13 em + 2px */
   height: 19em;
   overflow: hidden;
   float: left;
-  padding: 1em;
-  margin: 0 2em 2em 0
+  margin: 0 1.5em 1.5em 0;
+  color: #fff;
+  border: 1px solid #000;
+  padding: 0.5em;
 }
 
-.song:hover .thumbnail {opacity: 0.4}
+.song:hover .thumbnail {opacity: 0.66}
 .song:hover .buttons > span {opacity: 1}
-
-.song .title {color: #fff;}
 
 .song .stats {
   color: #999;
   font-size: 0.77em;
   display: block;
+  line-height: 2em;
 }
 
 .song .buttons {
   position: absolute;
-  top: 1em;left: 1em;right: 1em;
+  top: 0;left: 0;right: 0
 }
 
 .song .buttons > span {
   text-align: center;
   display: block;
+  background: rgba(255,255,255,0.9);
+  color: #000;
   opacity: 0;
+  font-weight: 500;
+  border: 4px solid #000;  
+  margin: 1em 2.5em;    
 }
 
-.song .playSong {padding: 4em 0 2em}
-.song .playSong:first-letter {font-size: 3em}
+.song .buttons > span:first-letter {margin-right: 0.1566em}
 
-.song .queueSong {
-  border: 2px solid #fff;
-  border-radius: 0.5em;
-  margin: 0 2em;
+.song .buttons > span.playSong {
+  padding: 1em 0;
+  font-size: 1.5em;
+  margin: 3em 1.666em .666em
+}
+
+.song .buttons > .queueSong {
   padding: 0.5em 0;
+  display: none;
 }
 
-.song .queueSong:first-letter {margin-right: 0.33em;font-size: 1.5em}
+.playing .song .buttons > .playSong {margin-top: 1.666em}
+.playing .song .buttons > .queueSong {display: block}
 
 .song .description,
 .song .stats .source,
@@ -145,19 +154,24 @@ body > section.full {margin: 2em;width: auto;}
 #player {
   position: absolute;
   bottom: 0;
-  width: 100%
+  padding: 0.5em;
+  padding-bottom: 0;
+  width: 100%;
+  background: #000
 }
   
   #player .thumbnail {
-    width: 14em;
-    height: 14em;
-    margin: 0 1.3em 0.5em;
+    width: 200px;
+    height: 200px;
+    margin: 0 2em;
+    float: none;
   }
 
-  #player .thumbnail img {height: 14em}
+  #player .thumbnail img {height: 200px}
 
   #embeds {
     overflow: hidden;
+    height: 200px;
   }
 
   #embeds.hidden {
@@ -223,8 +237,9 @@ body > section.full {margin: 2em;width: auto;}
   color: #929292;
   display: block;
   font-size: 0.88em;
+  text-align: center;
   clear: both;
-  margin: 0 1.3em 1em
+  margin: 1em
 }
 
 #progressBar {
