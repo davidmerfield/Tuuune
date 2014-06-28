@@ -46,8 +46,11 @@ var youtubePlayer = (function(){
   };
 
   function play (song) {
+
+    embed.unMute();
+
     if (song) {
-      embed.loadVideoById(song.source.id)
+      embed.loadVideoById(song.source.id, 0, 'small')
     }
     else {
       embed.playVideo()
@@ -59,6 +62,7 @@ var youtubePlayer = (function(){
   };
 
   function stop () {
+    embed.mute()
     return embed.stopVideo()
   };
 
