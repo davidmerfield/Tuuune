@@ -10,22 +10,22 @@ var filter = function (songs, options) {
              'concerto', 'requiem', 'improvisation', 'recital', 'conducted',
              'composed', 'talent show', 'talent', 'the voice', 'x-factor', 'x factor',
              'festival', 'suite', 'idol', 'contest', 'Q&A', 'middle school',
-             'high school', 'capella', 'bonaroo', 'subscribers', 'radio', 'love', 'found myself', 'forsaken',
+             'high school', 'capella', 'bonaroo', 'subscribers', 'radio', 'love', 'loves', 'found myself', 'forsaken',
              'octet', 'best of', 'barbershop', 'recording', 'song', 'release', 'fuck',
              'orchestra', 'backstage', 'behind the scenes', 'parody', 'making of',
              'rehearsal', 'acoustic', 'tour', 'part', 'hard rock cafe', 'broadcast',
-             'violin', 'piano', 'hall of fame', 'documentary', 'tv show', 'tv', 'music',
+             'violin', 'piano', 'hall of fame', 'documentary', 'tv show', 'show', 'gig', 'tv', 'music',
              'awards', 'music theory', 'arrangement', 'compilation', 'film', 'party', 'mix',
              'lesson', 'tabs', 'tutorial', 'theme', 'kickstarter', 'session', 'sessions',
              'blog', 'vlog', 'concert', 'concierto', 'interview', 'soundtrack',
              'chord changes', 'instrumental', 'episode', 'test', 'ft.', 'ft', 'featuring', 'feat.', 'feat',
              'letterman', 'jimmy kimmel', 'jonathan ross', 'singing', 'ministry', 'community church',
              'me covering', 'guitar tab', 'anthem', 'plays', 'playing', 'unofficial',
-             'version', 'review', 'at the', 'OST', 'ukelele', 'lute', 'autoharp', 'guitar',
+             'version', 'review', 'at the', 'OST', 'ukelele', 'lute', 'autoharp', 'guitar', 'castanets',
              'poem', 'clarinet', 'dj', 'beat', 'download', 'd/l', 'ibiza', 'bass', 'preview', 'dub',
 
              'Justin Bieber', 'queen', 'One Direction', 'Michael Jackson', 'Temper Trap',
-             'dean martin', 'justin timberlake', 'cee lo green', 'josh groban', 'harry potter',
+             'dean martin', 'justin timberlake', 'green day', 'cee lo green', 'josh groban', 'harry potter',
              'britney spears', 'modest mouse', 'elton john', 'bob dylan', 'don mclean',
              'katy perry', 'johnny cash', 'snow patrol', 'nickleback', 'idina menzel',
              'timbaland', 'ingrid michaelson', 'shakira', 'lana del rey', 'alabama shakes',
@@ -44,15 +44,17 @@ var filter = function (songs, options) {
              'frank sinatra', 'kanye west', 'glee', 'linkin park', 'ella fitzgerald', 'billie holiday',
              'ray charles', 'the cure', 'the smiths', 'deep purple', 'eric clapton', 'aerosmith', 'nine inch nails',
              'jarvis cocker', 'pearl jam', 'franz ferdinand', 'madonna', 'oakenfold', 'swedish house mafia','Michael bolton',
-             'stevie wonder', 'john legend', 'coldplay', 'verdi', 'oasis', 'van morrison', 'tina turner','talking heads',
+             'stevie wonder', 'john legend', 'coldplay', 'verdi', 'oasis', 'minaj', 'nicki minaj',
+             'van morrison', 'tina turner','talking heads', 'pretenders', 'R.E.M.', 'elvis presley',
              'kasabian', 'streisand', 'blur', 'kt tunstall', 'david guetta', 'busta rhymes', 'flo rida', 'tyga', 'nirvana',
              'ice cube', 'soulja boy', 'manic street preachers', 'tom petty', 'die antwoord', 'gershwin', 'ian brown', 'joy division',
              'foo fighters', 'the clash', 'offspring', 'annie lennox', 'noel gallagher','debussy', 'mozart', 'aphex twin',
-             'iggy pop',  'depeche mode', 'wainwright', 'westlife', 'ellie goulding'
+             'iggy pop',  'depeche mode', 'wainwright', 'westlife', 'ellie goulding', 'judas priest','macfarlane', 'rick ross', 'metallica', 'a.c.d.c.',
+             'beyonce', 'pet shop boys', 'backstreet boys', 'hello kitty', 'my little pony', 'vivaldi', 'gaga'
            ],
            snippets: [
              'perform', 'interview',
-             '!!', '..', '+', '*', '??', '@','#','TEDx','.wmv', '.mov', '.avi', '.mp3', '.mpg', '.com'
+             '!!', '..', '+', '*', '??', '@','#','TEDx','.wmv', '.mov', '.flv', '.avi', '.mp3', '.mpg', '.com'
            ]};
 
    if (options.exclude.covers) {
