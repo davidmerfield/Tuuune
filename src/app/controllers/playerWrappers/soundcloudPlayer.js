@@ -81,6 +81,7 @@ var soundcloudPlayer = (function(SC){
    };
 
    function play (song) {
+    embed.setVolume(100);
       if (song) {
          embed.load(song.source.url, {auto_play: true});
          currentTime = 0;
@@ -91,11 +92,12 @@ var soundcloudPlayer = (function(SC){
 
    function pause () {
       embed.pause();
+      embed.setVolume(0);
    };
 
    function stop () {
+      embed.setVolume(0);
       embed.pause();
-      embed.load('');      
    };
 
    function seekTo (seconds) {
