@@ -16,13 +16,10 @@
         after = helper.formatDate(dateRange.start),
         before = helper.formatDate(dateRange.end);
 
-    console.log(after);
-    console.log(before);
-
     SC.initialize({client_id: key});
 
     SC.get('/tracks', {limit: pageSize, created_at: {from: after, to: before}}, function(tracks) {
-      console.log(tracks);
+      // console.log(tracks);
        return callback(filter(tracks))
     });
 
