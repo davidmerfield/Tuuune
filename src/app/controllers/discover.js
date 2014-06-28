@@ -53,7 +53,7 @@ var discover =  (function () {
       // Show the button to get more songs
       $('#loadMore').show();
       
-      console.log(message);
+//      console.log(message);
     });
   };
 
@@ -173,7 +173,7 @@ var discover =  (function () {
       // Show the button to get more songs
       $('#loadMore').show();
       
-      console.log(message);
+//      console.log(message);
     
     });
 
@@ -204,7 +204,7 @@ var discover =  (function () {
       // Show the button to get more songs
       $('#loadMore').show();
 
-      console.log(message);
+//      console.log(message);
     
     });
 
