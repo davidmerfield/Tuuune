@@ -66,10 +66,8 @@ var player = (function() {
   function play (newSong, defaultQueue) {
 
     // We've got nothing to play
-    if (!newSong && !currentSong && !defaultQueue) {return};
+    if (!newSong) {return};
 
-    // Play the currently loaded song
-    if (!newSong && currentSong) {return mediaPlayer.play()};
 
     // Store the default queue to find the next songs from
     if (defaultQueue) {queue.auto = defaultQueue};
@@ -85,11 +83,32 @@ var player = (function() {
 
         currentSong = newSong;
 
+        $('body').addClass('playing');
+        playToggle(true);
+
         // Start playing the new song
         mediaPlayer.play(currentSong);
 
       });
     };    
+  };
+
+  function playToggle (isPlaying) {
+    
+    if (isPlaying) {
+
+      mediaPlayer.play();
+
+      $('#play').hide();
+      $('#pause').show();
+
+    } else {
+
+      mediaPlayer.pause();
+
+      $('#play').show();
+      $('#pause').hide();        
+    };
   };
 
   function pause () {
@@ -98,55 +117,44 @@ var player = (function() {
 
   function next () {
 
-    var nextSong = nextInQueue();
+    var nextSong = (function(queue) {
 
-    if (nextSong) {play(nextSong)};
-        
-  };
+      // Check if the user has queued any songs
+      if (queue.user.length > 0) {
+         return queue.user.shift()
+      }
 
-  function nextInQueue () {
-    
-    // Check if the user has queued any songs
-    if (queue.user.length > 0) {
-      return queue.user.shift()
-    }
+      // this will return false if current song is removed from songlist
+      var defaultQueue = queue.auto.findAfter(currentSong.id);
+      // check playhistory if this is the case, or go to start of songlist
 
-    // this will return false if current song is removed from songlist
-    var defaultQueue = queue.auto.findAfter(currentSong.id);
+      // Check if there are any songs which should auto play
+      if (defaultQueue.length > 0) {
+        return defaultQueue.shift()
+      }
 
-    // check playhistory if this is the case, or go to start of songlist
+      return false
 
-    // Check if there are any songs which should auto play
-    if (defaultQueue.length > 0) {
-      return defaultQueue.shift()
-    }
+    }(queue));
 
-    // Otherwise
-    return false
-    
+    return play(nextSong);
   };
 
   function previous () {
 
-    var previousSong = lastPlayed();
+    var previousSong = (function(queue) {
 
-    if (previousSong) {play(previousSong)};
-  };
+      if (playHistory.length) {return playHistory[1]};
+      
+      var previousSongs = queue.auto.findBefore(currentSong.id);
 
-  function lastPlayed() {
+      if (previousSongs.length) {return previousSongs.pop()};
 
-    if (playHistory.length > 1) {
-      return playHistory[1] 
-    };
-    
-    var previousSongs = queue.auto.findBefore(currentSong.id);
+      return false
 
-    if (previousSongs.length > 0) {
-       return previousSongs.pop();
-    };
+    }(queue));
 
-    return false
-
+    return play(previousSong);
   };
 
   function getQueue () {
@@ -189,9 +197,7 @@ var player = (function() {
   function dropCurrentPlayer () {
     
     mediaPlayer.stop();
-
-    $(mediaPlayer).off();
-    
+    $(mediaPlayer).off();    
     mediaPlayer = undefined;
 
   };
@@ -233,26 +239,22 @@ var player = (function() {
       
       $(mediaPlayer).on('finished', function(){
         console.log('SONG FINISHED ---- PLAYER EVENT');
-        $('#play').show();
-        $('#pause').hide();
+        playToggle(false);
         clearInterval(progressInterval);
-        drawProgressBar(true);
+        drawProgressBar('reset');
         next();
       });
 
       $(mediaPlayer).on('playing', function(){
-        $('#play').hide();
-        $('#pause').show();
         console.log('SONG PLAYING ---- PLAYER EVENT');
         progressInterval = setInterval(drawProgressBar, 100);
+        $('#play').hide();
+        $('#pause').show();        
       });
 
       $(mediaPlayer).on('paused', function(){
+        playToggle(false);
         console.log('SONG PAUSED ---- PLAYER EVENT');
-        
-        $('#play').show();
-        $('#pause').hide();
-
         clearInterval(progressInterval);
       });
     };
@@ -285,9 +287,9 @@ var player = (function() {
         case "progressBar":
           progressBar(e);break;
         case "play":
-          play();break;
+          playToggle(true);break;
         case "pause":
-          pause();break;
+          playToggle(false);break;
         case "next":
           next();break;
         case "previous":
