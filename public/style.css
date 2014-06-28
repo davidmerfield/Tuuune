@@ -13,6 +13,7 @@ html, body, div, section, span, h1, h2, h3, h4, h5, h6, p, a, b, ul, ol, li, sec
 
 body {font: 400 1em / 1.33em 'RobotoDraft', sans-serif;padding-left: 266px}
 body > section {width: 48em;margin: 1em auto}
+body > section.full {margin: 2em;width: auto;}
 
 .hide {display: none!important;}
 .clear {display: block;width: 100%;clear: both}
@@ -30,26 +31,20 @@ body > section {width: 48em;margin: 1em auto}
   margin: 0
 }
 
-  #nav {margin: 12em 0 1em 2em}
+  #nav {margin: 2.566em 0 0 2em}
 
   #nav a {
+    font-size: 1.33em;
+    padding: 0.66em 0;
     display: block;
-    line-height: 2em;
     margin-bottom: 0.1566em;
-    opacity: 0.9;
     text-decoration: none;
     border-radius: 4px 0 0 4px;
     color: #aaa;
   }
 
-  #nav a:hover {background: #fff;color: #000}
-
-  #nav a.selected {
-    opacity: 1;
-    background: #fff;
-    color: #000;
-  }
-
+  #nav a:hover {background: #333}
+  #nav a.selected {background: #fff;color: #000}
 
 .thumbnail {
   width: 12em;
@@ -57,17 +52,10 @@ body > section {width: 48em;margin: 1em auto}
   overflow: hidden;
   display: block;
   float: left;
-  margin: 0.5em 0;
+  margin-bottom: 0.5em;
 }
 
 .thumbnail img {height: 12em;text-align: center}
-
-
-#discover {
-  min-height: 200px;
-  width: auto;
-  padding: 1em;
-}
 
 #results:empty:before {
   content: "";
@@ -79,29 +67,63 @@ body > section {width: 48em;margin: 1em auto}
 }
 
 .song {
-  color: #000;
+  color: #eee;
+  background: #000;
   text-decoration: none;
   display: block;  
-  width: 12em;
-  height: 18em;
+  width: 14em;
+  height: 19em;
   overflow: hidden;
   float: left;
-  margin: 0 2em 0 0;
+  padding: 1em;
+  margin: 0 2em 2em 0
 }
 
-.song .title {font-weight: 500}
+.song:hover .thumbnail {opacity: 0.4}
+.song:hover .buttons > span {opacity: 1}
+
+.song .title {color: #fff;}
 
 .song .stats {
-  color: #aaa;
-  font-size: 0.88em;
+  color: #999;
+  font-size: 0.77em;
   display: block;
 }
 
+.song .buttons {
+  position: absolute;
+  top: 1em;left: 1em;right: 1em;
+}
+
+.song .buttons > span {
+  text-align: center;
+  display: block;
+  opacity: 0;
+}
+
+.song .playSong {padding: 4em 0 2em}
+.song .playSong:first-letter {font-size: 3em}
+
+.song .queueSong {
+  border: 2px solid #fff;
+  border-radius: 0.5em;
+  margin: 0 2em;
+  padding: 0.5em 0;
+}
+
+.song .queueSong:first-letter {margin-right: 0.33em;font-size: 1.5em}
+
 .song .description,
 .song .stats .source,
-.song .stats .ratio,
-.song .buttons {
+.song .stats .ratio {
   display: none;
+}
+
+#options {
+  font-size: 1.33em;
+  margin-bottom: 1em;
+  border-bottom: 2px solid #000;
+  padding: 0.66em 0;
 }
 
 #loadMore {
@@ -150,8 +172,6 @@ body > section {width: 48em;margin: 1em auto}
   #controls {
     margin: 0 auto;
   } 
-
-  #controls a {color: blue;text-decoration: underline;cursor: pointer;}
 
   #play, #pause,#next,#previous, #shuffle, #repeat{
     display: block;
