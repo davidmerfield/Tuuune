@@ -10,10 +10,6 @@ var helper = {
      // Pick a random point to end the date range
      rangeEnd = Math.round(Math.random()*(currentTime - earliestTime)) + earliestTime;
 
-     console.log(rangeSize);
-     console.log(rangeEnd);
-     console.log(rangeEnd - rangeSize);
-
      end = new Date(rangeEnd);
      
      start = new Date(rangeEnd - rangeSize);
