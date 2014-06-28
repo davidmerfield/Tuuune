@@ -95,6 +95,7 @@ var soundcloudPlayer = (function(SC){
 
    function stop () {
       embed.pause();
+      embed.load('');      
    };
 
    function seekTo (seconds) {

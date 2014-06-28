@@ -2,6 +2,8 @@ var player = (function() {
 
   var mediaPlayer, // e.g. Youtube
       
+      mediaPlayers, // List of available media players
+      
       currentSong, // The song currently being played
       
       // Contains the songs which will play next
@@ -10,7 +12,7 @@ var player = (function() {
         auto: new SongList
       },
 
-      // Contains the song the user has played
+      // Contains the songs the user has played
       playHistory = new SongList,
 
       options = {
@@ -32,14 +34,15 @@ var player = (function() {
       };
 
   function init () {
-    
-    var players = [youtubePlayer, soundcloudPlayer];
 
-    bindEventHanders();
+    mediaPlayers = [youtubePlayer, soundcloudPlayer];
 
-    loadMediaPlayers(players, function(status){
+    loadMediaPlayers(mediaPlayers, function(status){
         
       console.log(status);
+
+      bindEventHanders();
+
     });
   };
 
@@ -49,13 +52,13 @@ var player = (function() {
 
   function loadMediaPlayers (players, callback) {
     
-    if (players.length === 0) {
-      return callback('All players loaded')
-    };
+    if (!players.length) {return callback('Players loaded')};
 
     // Init adds each media player to the DOM
     players[0].init(function(status){
+
       loadMediaPlayers(players.slice(1), callback)
+
     });
 
   };
@@ -75,17 +78,19 @@ var player = (function() {
     if (newSong) {
 
       // Make sure we use the correct player to play the song
-      setCurrentPlayer(newSong.source.name);
+      setPlayerTo(newSong, function(){
 
-      // Store the new song as the current song
-      setCurrentSong(newSong);
+        // add last played song to history
+        playHistory.unshift(currentSong);
 
-      // Start playing the new song
-      return mediaPlayer.play(currentSong);
+        currentSong = newSong;
 
-    };
-        
-  }
+        // Start playing the new song
+        mediaPlayer.play(currentSong);
+
+      });
+    };    
+  };
 
   function pause () {
     mediaPlayer.pause();    
@@ -191,80 +196,68 @@ var player = (function() {
 
   };
 
-  function setCurrentSong (song) {
+  function setPlayerTo (newSong, callback) {
 
-    currentSong = song;
-
-    var isStarred = song.isStarred ? 'starred' : '';
-
-    $('#player #star').attr('data-isStarred', isStarred)
-    $('#songTitle').text(currentSong.pretty.title);
-    $('#player .thumbnail').html('<img src="' + currentSong.thumbnail + '" />');
-    $('#songDuration').text(currentSong.pretty.duration);
-
-    drawProgressBar(true);
-
-    // add last played song to history
-    playHistory.unshift(currentSong);
+    var newPlayerName = newSong.source.name;
 
     // we emit this event so the history view knows when to rerender
     $(exports).trigger('songChange');
-
-  };
-
-  function setCurrentPlayer (playerName) {
     
-    // reset the progress bar
+    // Add new song info to player
+    $('#songTitle').text(newSong.pretty.title);
+    $('#player .thumbnail').html('<img src="' + newSong.thumbnail + '" />');
+    $('#songDuration').text(newSong.pretty.duration);
+    var isStarred = newSong.isStarred ? 'starred' : '';
+    $('#player #star').attr('data-isStarred', isStarred)
+
+    // Reset the progress bar
     drawProgressBar(true);
 
-    if (currentSong && playerName !== currentSong.source.name) {
-      dropCurrentPlayer();
-    };
+    if (!currentSong || currentSong.source.name !== newPlayerName) {
 
-    if (currentSong && playerName === currentSong.source.name) {
-      return
-    };
-
-    if (playerName === 'youtube') {
-      mediaPlayer = youtubePlayer;
-      $('#player .thumbnail').hide();
-      $('#embeds').attr('class', '');
-    };
-
-    if (playerName === 'soundcloud') {
-      mediaPlayer = soundcloudPlayer;
-      $('#player .thumbnail').show();
-      $('#embeds').attr('class', 'hidden');
-    };
-
-    var progressInterval;
-    
-    $(mediaPlayer).on('finished', function(){
-      console.log('SONG FINISHED ---- PLAYER EVENT');
-      $('#play').show();
-      $('#pause').hide();
-      clearInterval(progressInterval);
-      drawProgressBar(true);
-      next();
-    });
-
-    $(mediaPlayer).on('playing', function(){
-      $('#play').hide();
-      $('#pause').show();
-      console.log('SONG PLAYING ---- PLAYER EVENT');
-      progressInterval = setInterval(drawProgressBar, 100);
-    });
-
-    $(mediaPlayer).on('paused', function(){
-      console.log('SONG PAUSED ---- PLAYER EVENT');
+      if (currentSong) {dropCurrentPlayer()};
       
-      $('#play').show();
-      $('#pause').hide();
+      if (newPlayerName === 'youtube') {
+        mediaPlayer = youtubePlayer;
+        $('#player .thumbnail').hide();
+        $('#embeds').attr('class', '');
+      };
 
+      if (newPlayerName === 'soundcloud') {
+        mediaPlayer = soundcloudPlayer;
+        $('#player .thumbnail').show();
+        $('#embeds').attr('class', 'hidden');
+      };
 
-      clearInterval(progressInterval);
-    });
+      var progressInterval;
+      
+      $(mediaPlayer).on('finished', function(){
+        console.log('SONG FINISHED ---- PLAYER EVENT');
+        $('#play').show();
+        $('#pause').hide();
+        clearInterval(progressInterval);
+        drawProgressBar(true);
+        next();
+      });
 
+      $(mediaPlayer).on('playing', function(){
+        $('#play').hide();
+        $('#pause').show();
+        console.log('SONG PLAYING ---- PLAYER EVENT');
+        progressInterval = setInterval(drawProgressBar, 100);
+      });
+
+      $(mediaPlayer).on('paused', function(){
+        console.log('SONG PAUSED ---- PLAYER EVENT');
+        
+        $('#play').show();
+        $('#pause').hide();
+
+        clearInterval(progressInterval);
+      });
+    };
+
+    return callback()
   };
 
   function star() {
