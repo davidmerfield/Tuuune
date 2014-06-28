@@ -5,10 +5,10 @@ function SongList (songs) {
         '<span class="thumbnail" style="background: url({{thumbnail}}) no-repeat center center;background-size: cover"><img src="" /></span>' +
          '<span class="title">{{pretty.title}} </span> ' +
          '<span class="buttons">' +
-           '<span class="playSong">&#9654;</span>' +
+           '<span class="playSong">&#9654; Play</span>' +
+           '<span class="queueSong">+ Play next</span>' +
            // '<span class="removeSong">Hide</span>' +
            // '<span class="starSong" data-isStarred="{{#isStarred}}starred{{/isStarred}}">&#9733;</span>' +
-           '<span class="queueSong">+ Play next</span>' +
          '</span>' + 
          '<span class="stats">' +
            '<span class="duration">{{pretty.duration}} / </span>' +
