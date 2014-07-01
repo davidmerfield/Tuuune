@@ -149,6 +149,7 @@ var youtubeSearch = (function () {
         duration: helper.parseYTDuration(video.contentDetails.duration),
         
         url: videoURL + video.id,
+        permalink: videoURL + video.id,
                 
         listens: views,
         popularity: {

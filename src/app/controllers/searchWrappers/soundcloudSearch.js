@@ -66,6 +66,8 @@
         duration: song.duration,
 
         sourceID: song.id,
+        
+        permalink: song.permalink_url,
         url: song.uri,
 
         listens: listens,
