@@ -170,7 +170,7 @@ body > section.full {margin: 2em;width: auto;}
 
 .playing #player {left: 0}
 
-#about {position: absolute;bottom: 0;text-align: center;width: 100%;border-top: 1px solid #333;}
+#about {position: absolute;bottom: 0;text-align: center;width: 100%;border-top: 1px solid #444;}
 #about a {line-height: 4em;font-size: 0.88em;color: #666;text-decoration: none;}
 #about a em {border-bottom: 2px solid #444;font-style: normal;}
 
@@ -178,9 +178,10 @@ body > section.full {margin: 2em;width: auto;}
 a#resetResults i {width: 1.5em;}
 
 #player {
+  border-top: 1px solid #444;
   position: absolute;
   bottom: 4em;
-  padding: 0.5em;
+  padding: 1.5em 0.5em 0.5em;
   width: 100%;
   left: -1000px;
 }
