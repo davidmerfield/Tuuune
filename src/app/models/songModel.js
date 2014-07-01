@@ -11,7 +11,8 @@ var newSong = function(data) {
      source: {
       name: data.sourceName,
       id: data.id,
-      url: data.url
+      url: data.url,
+      permalink: data.permalink
      },
 
      title: data.title,
