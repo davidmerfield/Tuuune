@@ -40,8 +40,9 @@ var player = (function() {
     loadMediaPlayers(mediaPlayers, function(status){
         
       console.log(status);
-
       bindEventHanders();
+      
+      if (currentSong) {play(currentSong)};
 
     });
   };
@@ -68,7 +69,6 @@ var player = (function() {
     // We've got nothing to play
     if (!newSong) {return};
 
-
     // Store the default queue to find the next songs from
     if (defaultQueue) {queue.auto = defaultQueue};
 
@@ -82,6 +82,9 @@ var player = (function() {
         playHistory.unshift(currentSong);
 
         currentSong = newSong;
+
+        $('.song').removeClass('playing');
+        $('#' + newSong.id).addClass('playing');
 
         $('body').addClass('playing');
         playToggle(true);
@@ -214,7 +217,8 @@ var player = (function() {
     $('#player .thumbnail').html('<img src="' + newSong.thumbnail + '" />');
     $('#songDuration').text(newSong.pretty.duration);
     var isStarred = newSong.isStarred ? 'starred' : '';
-    $('#player #star').attr('data-isStarred', isStarred)
+    $('#player #permalink').attr('href', newSong.source.permalink);
+    $('#player #star').attr('data-isStarred', isStarred);
 
     // Reset the progress bar
     drawProgressBar(true);
@@ -284,6 +288,8 @@ var player = (function() {
       var method = $(this).attr('id');
 
       switch (method) {
+        case "permalink":
+          return pause();
         case "progressBar":
           progressBar(e);break;
         case "play":
