@@ -1,7 +1,7 @@
 function SongList (songs) {
 
    var template = 
-      '<a href="#" class="song" id="{{id}}">' +
+      '<a href="javascript:void(0)" class="song" id="{{id}}">' +
         '<span class="thumbnail" style="background: url({{thumbnail}}) no-repeat center center;background-size: cover"><img src="" /></span>' +
          '<span class="title">{{pretty.title}} </span> ' +
          '<span class="buttons">' +
