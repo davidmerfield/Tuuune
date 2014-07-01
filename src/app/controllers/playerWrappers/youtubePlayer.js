@@ -22,6 +22,7 @@ var youtubePlayer = (function(){
     // Build the container which will house the youtube player
     var embedContainer = document.createElement('div');
         embedContainer.id = playerID;
+        embedContainer.innerHTML = "You don't have flash, please download the latest verion."; 
 
     var embeds = document.getElementById('embeds');
         embeds.appendChild(embedContainer);
