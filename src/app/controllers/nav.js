@@ -1,15 +1,11 @@
 var nav = (function () {
 
-   var currentView,
-       views,
-       
-       exports = {
-         init: init,
-         setCurrentView: setCurrentView
-       };
+   var currentView, views,
+       el = '#nav';
 
    function init (name){
-    
+      
+      // In future views should tell the nav they exist
       views = {
          starred: starred,
          discover: discover,
@@ -17,44 +13,38 @@ var nav = (function () {
          songHistory: songHistory
       };
 
-      if (name) {
-         setCurrentView(name)
-      } else {
-      };
+      // Load the first view
+      setCurrentView(name);
 
-      addListener();
-
+      // Listen to links in the nav for click events
+      $(el).on('click', 'a', function (argument) {
+         var name = $(this).attr('href').slice(1);
+         setCurrentView(name);
+         return false
+      });
    };
 
    function setCurrentView (name) {
 
-      console.log(name);
+      // Make sure the view exists
+      if (!views[name]) {throw 'No view called' + name};
 
-      $('#nav a').attr('class', '');
-      $("#nav a[data-view='" + name + "']").attr('class', 'selected');
-
-      if (currentView) {
-         currentView.hide()
-      };
-
+      // Close any existing views
+      if (currentView) {currentView.hide()};
+      
+      // Save the new view so we can close it in future
       currentView = views[name];
-   
+      
+      // Start new view
       currentView.init();
 
+      // Update the nav to show we've selected a new view
+      $('#nav a')
+         .removeClass('selected')
+         .filter("[href='#" + name + "']")
+         .addClass('selected');
    };
 
-   function addListener () {
-
-      $('#nav a').click(function(e){
-
-         var viewName = $(this).attr('data-view');
-
-         setCurrentView(viewName);
-
-      });
-
-   };
-
-   return exports;
+   return {init: init};
 
 }());
