@@ -1,54 +1,71 @@
-# To do
+## General
 
-# Precache valid results then select from those instead of hammering YTs API? Would be so much quicker...
-		- This is a good idea. Store the songs in JSON.
-		- select 200 good songs with attractive album covers to form favorable first impression
-- Create introductory visual to explain how discover works, set users expectations to have to wade through shit
-		-	Emphasize this is for listening to good music you've never heard of... no genre options just new shit
+- Ensure app complies with YT and SCs api TOS
+- This won't work disclaimer for mobile/ipad/internet explorer
+
+## Song card
+
+- Make queued and starred and playing and loading states dynamic and rechecked each time the view is rendered
+- Undo add to queue
+- Make song cards responsive
+
+## Discover
+
+- Precache valid results then select from those
+		- Store the songs in JSON
+		- Select 200 good songs with attractive album covers to form favorable first impression
+
+- Create introductory visual
+		- Explain how discover works, set users expectations
+		-	Emphasize this finds music you've never heard of... no genre
 		- It takes effort on your part, is this an active process
-- add region detection/selection to make sure no 'video not available in your country'
-- Nice truncation
-- Loading then playing animation for song card
-- added to queue state for song card
-- add 'quality' indicator to song card / hotness incidator
-- make song cards responsive width to fill screen
-- add loading/buffering state to player
-- add volume setting to player, media players
-- make player work without flash
-- show youtube player for youtube songs
-- add star button to song cards
-- try to avoid distorting the album art too much
-- this won't work disclaimer for mobile/ipad/internet explorer
+		- One big button to start listening, first song preloaded
 
-Discover
+- Make sure every song we show to the user can be played
+		- Add region detection/selection 
 
-- stop already seen songs from showing up again in search results
+- Stop songs the user has seen from showing up again in search results
 
-Starred
+## Player
 
-- Add dynamic label which shows how many starred songs there are
-- Work out how to robustly backup starred songs locally, perhaps cookies? they don't persist throughout sessions
-- explain that the songs might get removed, follow me on twitter for updates
+- Add loading/buffering state to player
+- Add better flash detection
+	- Show sound cloud embed if flash not enabled
+- Add error handling for players
+- Fix progress bar
+- Add tooltips to star and permalink
+- Prevent player from playing two songs at the same time
 
-Queue
+## Starred
+
+- Add dynamic label for starred song count to nav
+- Work out how to robustly backup starred songs locally, perhaps cookies? they don't persist very well throughout sessions
+
+## Queue
+- Add dynamic label for queued song count to nav
 - Add label which shows how many songs there are in queue
 Save queue locally
 
-History
-Save history locally
-Allow yourself to play a song from history
-Player
-- fix progress bar
-- add tooltips to star and permalink
-- show sound cloud embed if flash not enabled
-- prevent played from playing two songs at the same time
-- save play history
+## History
+- Fix play history
+- Save history locally
+- Allow yourself to play a song from history
 
-Footer
-- add legal disclaimer
+## Fun shit
+- Add nice colors
+- Add fun design touches
+- Design a logo
+- Add neat about project
+- Make fun use of custom cursors
 
-# After launch
+--------------- SHARE THIS ----------------
 
+# Future To Do
+
+- make player work without flash
+- Add 'quality' indicator to song card
+
+- add volume setting to player, media players
 - add related songs which fly out around the current song card in a circle, use spotify's api for this too
 - Add sensible animation
 - Make a community
@@ -61,6 +78,9 @@ Footer
 - Make sure each song has shareable URL
 - determine like/dislike and like/view parameters for best results programmatically for each source.
 - generate dictionary of popular artists from last.fm
+
+- add top lists feature
+
 - check for popular duplicate/re upload
 - Think about how to add in albums
 - Make filter use machine learning
