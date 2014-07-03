@@ -1,23 +1,22 @@
 function SongList (songs) {
 
    var template = 
-      '<a href="javascript:void(0)" class="song" id="{{id}}">' +
+      '<span class="song" id="{{id}}">' +
         '<span class="thumbnail" style="background: url({{thumbnail}}) no-repeat center center;background-size: cover"><img src="" /></span>' +
-         '<span class="title">{{pretty.title}} </span> ' +
-         '<span class="buttons">' +
-           '<span class="playSong">&#9654; Play</span>' +
-           '<span class="queueSong">+ Play next</span>' +
-           // '<span class="removeSong">Hide</span>' +
-           // '<span class="starSong" data-isStarred="{{#isStarred}}starred{{/isStarred}}">&#9733;</span>' +
-         '</span>' + 
+        '<span class="hoverOverlay">' +
+          '<button class="play">&#9654; Play</button>' +
+          '<button class="addToQueue">+ Play next</button>' +
+        '</span>' + 
+         '<button class="play">{{tinyTitle}}</button> ' +
+         '<button class="star" data-isStarred="{{#isStarred}}starred{{/isStarred}}">&#9733;</button>' +
          '<span class="stats">' +
            '<span class="duration">{{pretty.duration}} / </span>' +
-           '<span class="ratio">{{popularity.ratio}} &#8226; </span>' +
+           // '<span class="ratio">{{popularity.ratio}} &#8226; </span>' +
            '<span class="views">{{pretty.listens}} listens</span>' +
-           '<span class="source">{{source.name}}</span>' +
+           // '<span class="source">{{source.name}}</span>' +
          '</span>' +
-         '<span class="description">{{description}}</span>' +
-      '</a>';
+         // '<span class="description">{{description}}</span>' +
+      '</span>';
 
    return (function (songs) {
 
@@ -108,6 +107,10 @@ function SongList (songs) {
          var html = '';
          
          for (var i = 0; i < this.length; i++){
+
+            // Use truncated title
+            this[i].tinyTitle = helper.truncate(this[i].pretty.title, 65);
+
             html += Mustache.render(template, this[i]);
          };
 
@@ -119,17 +122,3 @@ function SongList (songs) {
 
    }(songs));
 };
-
-// HI DAVID blah blah, lets kiss. you can touch my boobs for 6 seconds.
-// kira is right in front of us dingus
-// fine, boring man. If we went on a plane i dont think youd have the BALLS to mile high.
-// of course i dont want to make things awkward
-// did you enjoy your six seconds?
-// i did look how well i can type withought looking at the keyboard
-// dorkasourus. i think you a wee honry. i can assume things. im often right.
-// not any more than normal
-// YES
-// wait so you are or not? do you just mean youre always horny 
-// usually a tiny bit
-// i asumed more because you keep grabbing my vagina slightly 
-// HANNAH HANNAH HANNAH ROSE HHANNANAH ROSE hannah rose 
