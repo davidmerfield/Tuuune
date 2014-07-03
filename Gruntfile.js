@@ -11,17 +11,14 @@ module.exports = function(grunt) {
       uglify: {
          my_target: {
             options: {
-               mangle: true,
                beautify: true
             },
             files: {
                'public/js/app.js': [
                   'src/libraries/**/*.js',
+                  'src/init.js',
                   'src/util/**/*.js',
-                  'src/app/models/**/*.js',
-                  'src/app/views/**/*.js',
-                  'src/app/controllers/**/*.js',
-                  'src/init.js'
+                  'src/app/**/*.js'
                ]
             }
          }
