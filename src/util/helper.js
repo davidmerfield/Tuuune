@@ -1,4 +1,8 @@
 var helper = {
+   truncate: function (string, length) {
+     if (string.length - 3 <= length) {return string};
+     return string.substring(0,length).trim() + '...';
+   },
    makeDateRange: function(earliestYear, rangeSize){
 
     earliestYear = earliestYear || 2009;
