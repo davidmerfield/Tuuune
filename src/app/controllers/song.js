@@ -12,23 +12,23 @@ var Song = (function(){
    };
 
    var eventHandlers = {
-     playSong: function(song, songList) {
+     play: function(song, songList) {
         
         player.play(song, songList);
 
      },
-     queueSong: function(song, songList) {
+     addToQueue: function(song, songList) {
         
         player.addToQueue(song);
 
      },
-     removeSong: function(song, songList, el) {
+     remove: function(song, songList, el) {
 
       songList.remove(song.id);
       el.parent().parent().remove();
 
      },
-     starSong: function(song, songList, el) {
+     star: function(song, songList, el) {
 
       var isStarred = el.attr('data-isStarred');
 
@@ -52,18 +52,16 @@ var Song = (function(){
 
     var options = options || {};
 
-    $('#' + view).on('click', '.song .buttons span', function(e){
+    $('#' + view).on('click', '.song button', function(e){
         
-      var id = $(this).parent().parent().attr('id'),
+      var id = $(this).parents('.song').attr('id'),
           className = $(this).attr('class'),
           song = songList.find(id);
 
+      // Edge case for unstarring and restarring a song
+      if (!song && className === 'star') {song = starred.cache.find(id)};
 
-      if (!song && className === 'starSong') {
-        song = starred.cache.find(id);
-      };
-
-      if (options.noDefaultQueue && className === 'playSong') {
+      if (options.noDefaultQueue && className === 'play') {
         player.play(song);
         e.preventDefault();
         return false        
@@ -75,30 +73,29 @@ var Song = (function(){
       };
 
       eventHandlers[className](song, songList, $(this));
-
       $('#' + view).trigger(className, {id: id});
 
       e.preventDefault();
       return false
     });
 
-    $('#' + view).on('click', '.song',function(e){
+    // $('#' + view).on('click', '.song',function(e){
       
-      var id = $(this).attr('id'),
-          song = songList.find(id);
+    //   var id = $(this).attr('id'),
+    //       song = songList.find(id);
       
-      if (options.noDefaultQueue) {
-        player.play(song);
-        e.preventDefault();
-        return false        
-      };
+    //   if (options.noDefaultQueue) {
+    //     player.play(song);
+    //     e.preventDefault();
+    //     return false        
+    //   };
 
-      eventHandlers['playSong'](song, songList, $(this));
-      $('#' + view).trigger('playSong', {id: id});
+    //   eventHandlers['play'](song, songList, $(this));
+    //   $('#' + view).trigger('playSong', {id: id});
 
-      e.preventDefault();
-      return false
-    });
+    //   e.preventDefault();
+    //   return false
+    // });
 
 
    };
