@@ -28,7 +28,7 @@ var newSong = function(data) {
      pretty: {
       title: helper.tidyTitle(data.title),
       duration: mins + ':' + seconds,
-      listens: Math.ceil(data.listens/1000) + 'k'
+      listens: Math.ceil(parseInt(data.listens)/1000) + 'k'
      }
 
    };
