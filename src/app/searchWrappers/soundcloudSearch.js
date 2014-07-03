@@ -1,6 +1,8 @@
  var soundcloudSearch = (function (SC) {
 
-  var key = '4be98cd2ee41fa05bf2f530b3fe042b5',
+  var Song = include('Song'),
+
+      key = '4be98cd2ee41fa05bf2f530b3fe042b5',
       pageSize = 200,
 
       sourceName = 'soundcloud',
@@ -52,7 +54,7 @@
         continue
       };
       
-      results.push(newSong({
+      results.push(Song.create({
 
         id: song.id,
 

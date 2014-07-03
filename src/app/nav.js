@@ -1,39 +1,31 @@
-var nav = (function () {
+Tuuune.nav = (function () {
 
-   var currentView, views,
-       el = '#nav';
+  var el = '#nav',
+      currentView;
 
    function init (name){
-      
-      // In future views should tell the nav they exist
-      views = {
-         starred: starred,
-         discover: discover,
-         queue: queue,
-         songHistory: songHistory
-      };
 
       // Load the first view
-      setCurrentView(name);
+      setView(name);
 
       // Listen to links in the nav for click events
       $(el).on('click', 'a', function (argument) {
          var name = $(this).attr('href').slice(1);
-         setCurrentView(name);
+         setView(name);
          return false
       });
    };
 
-   function setCurrentView (name) {
+   function setView (name) {
 
       // Make sure the view exists
-      if (!views[name]) {throw 'No view called' + name};
+      if (!Tuuune[name]) {throw 'No view called' + name};
 
       // Close any existing views
       if (currentView) {currentView.hide()};
       
       // Save the new view so we can close it in future
-      currentView = views[name];
+      currentView = Tuuune[name];
       
       // Start new view
       currentView.init();

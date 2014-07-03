@@ -1,6 +1,8 @@
 var youtubeSearch = (function () {
 
-  var key = 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4',
+  var Song = include('Song'),
+
+      key = 'AIzaSyC_URB8fBLx2waLcJ29-8hlihfmz4Xlzn4',
       baseURL = 'https://www.googleapis.com/youtube/v3/',
       videoURL = 'https://www.youtube.com/watch?v=',
 
@@ -136,7 +138,7 @@ var youtubeSearch = (function () {
         continue
       }
 
-      results.push(newSong({
+      results.push(Song.create({
 
         id: video.id,
         prefix: prefix,

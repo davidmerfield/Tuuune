@@ -1,6 +1,8 @@
-var player = (function() {
+Tuuune.player = (function() {
 
-  var mediaPlayer, // e.g. Youtube
+  var SongList = include('SongList'),
+
+      mediaPlayer, // e.g. Youtube
       
       mediaPlayers, // List of available media players
       
@@ -13,7 +15,7 @@ var player = (function() {
       },
 
       // Contains the songs the user has played
-      playHistory = new SongList,
+      songHistory = new SongList,
 
       options = {
         repeat: false,
@@ -28,7 +30,7 @@ var player = (function() {
         next: next,
         previous: previous,
 
-        history: playHistory,
+        songHistory: songHistory,
         queue: getQueue,
         addToQueue: addToQueue
       };
@@ -81,14 +83,12 @@ var player = (function() {
         .removeClass('playing')
         .removeClass('loading');
 
+      songHistory.unshift(newSong);
+
       // Make sure we use the correct player to play the song
       setPlayerTo(newSong, function(){
 
-        // add last played song to history
-        playHistory.unshift(currentSong);
-
         currentSong = newSong;
-
 
         playToggle(true);
 
@@ -132,7 +132,7 @@ var player = (function() {
 
       // this will return false if current song is removed from songlist
       var defaultQueue = queue.auto.findAfter(currentSong.id);
-      // check playhistory if this is the case, or go to start of songlist
+      // check songHistory if this is the case, or go to start of songlist
 
       // Check if there are any songs which should auto play
       if (defaultQueue.length > 0) {
@@ -150,7 +150,7 @@ var player = (function() {
 
     var previousSong = (function(queue) {
 
-      if (playHistory.length) {return playHistory[1]};
+      if (songHistory.length) {return songHistory[1]};
       
       var previousSongs = queue.auto.findBefore(currentSong.id);
 
@@ -277,17 +277,12 @@ var player = (function() {
 
   function star() {
 
-    console.log('HERERED');
+    
+    var starred = include('starred');
+    
+    starred.toggle(currentSong);
 
-    if (!currentSong) {return};
-
-    if (currentSong.isStarred) {
-      starred.unstar(currentSong);
-      $('#controls #star').attr('data-isStarred', '');
-    } else {
-      $('#controls #star').attr('data-isStarred', 'starred');
-      starred.star(currentSong);
-    };
+    $('#star').attr('data-isStarred', currentSong.isStarred);
 
   };
 
@@ -335,5 +330,3 @@ var player = (function() {
   return exports
 
 }());
-
-// :D

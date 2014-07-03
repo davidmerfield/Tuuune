@@ -1,5 +1,6 @@
-// Takes list of songs, returns a list of songs which passes each test
-var filter = function (songs, options) {
+Tuuune.filter = function (songs, options) {
+
+  // Takes list of songs, returns a list of songs which passes each test
 
   var results = [],
       
