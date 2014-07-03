@@ -28,7 +28,7 @@ Tuuune.queue = (function(){
 
     songQueue = player.queue();
 
-    if (songQueue.user.length) {
+    if (songQueue && songQueue.user.length) {
       $('#queue .songList').html(songQueue.user.render());
     };
   };

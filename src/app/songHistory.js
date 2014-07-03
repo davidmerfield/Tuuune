@@ -30,7 +30,7 @@ Tuuune.songHistory = (function(){
 
     songHistory = player.songHistory;
 
-    if (songHistory.length) {
+    if (songHistory && songHistory.length) {
       console.log(songHistory);
       $('#songHistory .songList').html(songHistory.render());
     };
