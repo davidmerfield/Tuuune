@@ -32,77 +32,32 @@
           <a id="star" href="javascript:void(0)">&#9733;</a>
           <span class="clear"></span>
           </section>
-       </section> 
-<!--          <section id="about"><a href="http://twitter.com/davidmerfieId" target="_blank">Made by <em>David Merfield</em>.</a></section>
--->      </section>
+       </section>
+    </section>
     <section id="starred" style="display:none">
       <h1>Starred Songs</h1>
-      <section class="listStats">
-        <h3>Video stats</h3>
-        <section class="youtube"></section>
-        <section class="soundcloud"></section>
-      </section>
       <section class="songList"></section>
     </section>
     <section id="queue" style="display:none">
       <h1>Play queue</h1>
-      <section class="songList">
-        <section id="userqueue"></section>
-        <section id="defaultqueue"></section>
-      </section>
+      <section class="songList"></section>
     </section>
-    <section id="history" style="display:none">
+    <section id="songHistory" style="display:none">
       <h1>Play history</h1>
       <section class="songList"></section>
     </section>
     <section id="discover" class="full">
        <section id="options">
-          Find great songs with <select id="maxListens" class="option" category="filter">
+          Find great songs with 
+          <select name="maxListens" class="option">
              <option value="1000000">under 1,000,000 listens</option>
              <option value="100000" selected>under 100,000 listens</option>
              <option value="10000">under 10,000 listens</option>
-          </select> <!-- 
-          in  <select id="topicID" class="option" category="search">
-             <option value="/m/074ft">any genre</option>
-             <option value="/m/07t13s">hip hop</option>
-             <option value="/m/0m0jc">electronic</option>
-             <option value="/m/03_d0">jazz</option>
-             <option value="/m/05rwpb">indie</option>
-             <option value="/m/03lty">metal</option>
-             <option value="/m/0155w">blues</option>
-             <option value="/m/06by7">rock</option>
-             <option value="/m/06cqb">reggae</option>
-          </select>   -->
-          <a href="javascript:void(0)" id="resetResults"><i>&#8635;</i> Load new results</a>
-<!--             <a href="javascript:void(0)" id="toggleAdvanced">More options</a>
-          <section id="advancedOptions" class="hide">
-             <label>Uploaded during
-                <select id="after" class="option" category="search">
-                   <option>Any date</option>
-                   <option>This year</option>
-                   <option>This month</option>
-                   <option>This week</option>
-                   <option>Today</option>
-                </select>
-             </label>
-             <b>Include</b>
-             <label>
-               <input type="checkbox" id="remixes" class="option"  category="filter" />
-               Remixes
-             </label>
-             <label>
-               <input type="checkbox" id="foreign"  class="option"  category="filter" />
-               Foreign songs
-             </label>
-             <label>
-               <input type="checkbox" id="covers" class="option"  category="filter" />
-               Covers and tributes
-             </label>
-           </section> -->
+          </select> 
        </section>
-       <section id="results" class="empty">
-       </section>
-       <a id="loadMore" href="javascript:void(0)" style="display:none">Load more songs</a>
+       <button id="resetResults"><i>&#8635;</i> Load new results</button>
+       <section id="results" class="empty"></section>
+       <button id="loadMore" style="display:none">Load more songs</button>
     </section>
   </body>
 </html>
