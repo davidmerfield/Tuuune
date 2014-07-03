@@ -295,3 +295,91 @@ app which tells you how hipster your music tastes are!!!!
 # take lots of design cues from svpply
 - found by X user
 - select genre UI
+
+#Advanced options
+
+<!-- 
+     in  <select id="topicID" class="option" category="search">
+        <option value="/m/074ft">any genre</option>
+        <option value="/m/07t13s">hip hop</option>
+        <option value="/m/0m0jc">electronic</option>
+        <option value="/m/03_d0">jazz</option>
+        <option value="/m/05rwpb">indie</option>
+        <option value="/m/03lty">metal</option>
+        <option value="/m/0155w">blues</option>
+        <option value="/m/06by7">rock</option>
+        <option value="/m/06cqb">reggae</option>
+     </select>   -->
+<!--             <a href="javascript:void(0)" id="toggleAdvanced">More options</a>
+<section id="advancedOptions" class="hide">
+<label>Uploaded during
+ <select id="after" class="option" category="search">
+    <option>Any date</option>
+    <option>This year</option>
+    <option>This month</option>
+    <option>This week</option>
+    <option>Today</option>
+ </select>
+</label>
+<b>Include</b>
+<label>
+<input type="checkbox" id="remixes" class="option"  category="filter" />
+Remixes
+</label>
+<label>
+<input type="checkbox" id="foreign"  class="option"  category="filter" />
+Foreign songs
+</label>
+<label>
+<input type="checkbox" id="covers" class="option"  category="filter" />
+Covers and tributes
+</label>
+</section> -->
+
+#stats
+
+<section class="listStats">
+  <h3>Video stats</h3>
+  <section class="youtube"></section>
+  <section class="soundcloud"></section>
+</section>
+
+function getStats () {
+
+var youtubeStats = {
+'Total songs': 0,
+'Total likes': 0,
+'Total dislikes': 0,  
+'Total listens': 0
+};
+
+for (var i = 0;i < starredSongs.length;i++) {
+
+var song = starredSongs[i];
+
+if (song.source.name) {
+
+youtubeStats['Total songs']++;
+youtubeStats['Total likes'] += song.popularity.likes;
+youtubeStats['Total dislikes'] += song.popularity.dislikes;
+youtubeStats['Total listens'] += song.listens;
+
+};
+
+};
+
+youtubeStats['Mean likes'] = youtubeStats['Total likes']/youtubeStats['Total songs'];
+youtubeStats['Mean listens'] = youtubeStats['Total listens']/youtubeStats['Total songs'];
+youtubeStats['Mean dislikes/likes'] = youtubeStats['Total dislikes']/youtubeStats['Total likes'];
+youtubeStats['Mean reactions/listens'] = (youtubeStats['Total likes'] + youtubeStats['Total dislikes'])/youtubeStats['Total listens'];
+
+return youtubeStats
+};
+
+function makeStatsHtml (stats) {
+var html = '';
+for (var i in stats) {
+html += '<p><b>' + i + ':</b> ' + stats[i] + '</p>';
+};
+return html
+};
