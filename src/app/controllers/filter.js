@@ -73,19 +73,14 @@ var filter = function (songs, options) {
 
       var song = songs[i];
 
-      // Not a number
-      if (!isFinite(String(song.listens))) {
-        continue
-      };
-
-      // Check if video has too few or too many views 
+      // Check if video has too many views 
       if (song.listens > options.maxListens) {
          continue
       };
 
+      // Check if video has too few views 
       if (song.listens < options.minListens) {
         continue
-
       };
 
       // ignore non english songs
@@ -98,6 +93,7 @@ var filter = function (songs, options) {
          continue
       }
 
+      // Song title is all caps, probably not great
       if (isAllCaps(song.pretty.title)) {
         continue
       }
@@ -107,7 +103,7 @@ var filter = function (songs, options) {
          continue
       }
 
-      // probably not a song
+      // Song title has a dash in it
       if (song.title.indexOf(' - ') === -1) {
          continue
       }
@@ -118,26 +114,30 @@ var filter = function (songs, options) {
          continue
       };
 
-      var alreadyFromArtist = false;
-
-      // Ensure there aren't other songs by the same artist
-      for (var j = 0; j < results.length; j++) {
-         var intersection = helper.intersect(song.pretty.title, results[j].pretty.title);
-         if (intersection && intersection.length > 6) {
-            alreadyFromArtist = true;
-         };
+      // Ignore if we've already displayed a song from this artist
+      if (alreadyFromArtist(song.pretty.title, results)) {
+        continue
       };
 
-      if (!alreadyFromArtist) {
-         // passed tests, add to queue
-         results.push(song);
-      };
+      // passed tests, add to queue
+      results.push(song);
+
    };
 
    return results
 
    function isAllCaps(str) {
        return str === str.toUpperCase();
+   };
+
+   function alreadyFromArtist (title, results) {
+     for (var j = 0; j < results.length; j++) {
+        var intersection = helper.intersect(title, results[j].pretty.title);
+        if (intersection && intersection.length > 6) {
+           return true;
+        };
+     };
+     return false
    };
 
    function hasBanned (words, list) {
