@@ -1,9 +1,19 @@
+var Tuuune = {
+  views: {}
+};
+
+function include (name) {
+  return Tuuune[name]
+};
+
 $(function() {
 
-   var appPrefix = 'musicfinder';
+   var appPrefix = 'musicfinder',
+       nav = include('nav'),
+       player = include('player');
 
-   nav.init('discover');
+  nav.init('discover');
 
-   player.init();
+  player.init();
          
 });
