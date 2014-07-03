@@ -1,22 +1,4 @@
-function SongList (songs) {
-
-   var template = 
-      '<span class="song" id="{{id}}">' +
-        '<span class="thumbnail" style="background: url({{thumbnail}}) no-repeat center center;background-size: cover"><img src="" /></span>' +
-        '<span class="hoverOverlay">' +
-          '<button class="play">&#9654; Play</button>' +
-          '<button class="addToQueue">+ Play next</button>' +
-        '</span>' + 
-         '<button class="play">{{tinyTitle}}</button> ' +
-         '<button class="star" data-isStarred="{{#isStarred}}starred{{/isStarred}}">&#9733;</button>' +
-         '<span class="stats">' +
-           '<span class="duration">{{pretty.duration}} / </span>' +
-           // '<span class="ratio">{{popularity.ratio}} &#8226; </span>' +
-           '<span class="views">{{pretty.listens}} listens</span>' +
-           // '<span class="source">{{source.name}}</span>' +
-         '</span>' +
-         // '<span class="description">{{description}}</span>' +
-      '</span>';
+Tuuune.SongList = function SongList (songs) {
 
    return (function (songs) {
 
@@ -46,8 +28,7 @@ function SongList (songs) {
             };
          };
 
-         return false
-
+        return false
       };
 
       // Returns the list up to the song with the passed id
@@ -60,7 +41,6 @@ function SongList (songs) {
          };
 
          return false
-
       };
 
       // Returns the rest of the list after the song with the passed id
@@ -80,7 +60,7 @@ function SongList (songs) {
          
          for (var i = 0; i < this.length; i++){
             if (this[i].id === id) {
-               this.splice(i,1)
+              this.splice(i,1);
             };
          };
 
@@ -104,14 +84,15 @@ function SongList (songs) {
       // 
       songs.render = function () {
          
-         var html = '';
+         var html = '',
+             song = include('Song');
          
          for (var i = 0; i < this.length; i++){
 
             // Use truncated title
             this[i].tinyTitle = helper.truncate(this[i].pretty.title, 65);
 
-            html += Mustache.render(template, this[i]);
+            html += Mustache.render(song.template, this[i]);
          };
 
          return html
