@@ -164,9 +164,7 @@ body > section.full {margin: 2em;width: auto;}
   color: #999
 }
 
-.song button.star[data-isStarred="starred"] {
-  color: yellow
-}
+.song button.star[data-isStarred="true"] {color: yellow}
          
 #options {
   font-size: 1.33em;
@@ -262,7 +260,7 @@ a#resetResults i {width: 1.5em;}
   #star {right: 1em}
 
   #star:hover {color: #ccc}
-  #star[data-isStarred="starred"] {color: yellow}
+  #star[data-isStarred="true"] {color: yellow}
 
   #play, #pause {
     left: 50%;
