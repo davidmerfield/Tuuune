@@ -20,7 +20,7 @@ button {
 
 button:focus {outline: none;}
 
-body {font: 400 1em / 1.33em 'RobotoDraft', sans-serif;padding-left: 282px}
+body {font: 400 1em / 1.33em sans-serif;padding-left: 282px}
 body > section {width: 48em;margin: 1em auto}
 body > section.full {margin: 2em;width: auto;}
 
@@ -358,7 +358,7 @@ a i {
 
 select {
   border: 1px solid rgba(0,0,0,0.33);
-  font: normal 1em/1.33em 'RobotoDraft', sans-serif;
+  font: normal 1em/1.33em sans-serif;
   outline: none;
 }
 
