@@ -75,6 +75,12 @@ var player = (function() {
     // Prepare the player to play the new song
     if (newSong) {
 
+      $('body').addClass('playerUsed');
+      
+      $('.song')
+        .removeClass('playing')
+        .removeClass('loading');
+
       // Make sure we use the correct player to play the song
       setPlayerTo(newSong, function(){
 
@@ -83,10 +89,7 @@ var player = (function() {
 
         currentSong = newSong;
 
-        $('.song').removeClass('playing');
-        $('#' + newSong.id).addClass('playing');
 
-        $('body').addClass('playing');
         playToggle(true);
 
         // Start playing the new song
@@ -175,6 +178,7 @@ var player = (function() {
   };
 
   function addToQueue (song) {
+    $('#' + song.id + ' .addToQueue').text('✔ Added');
     queue.user.push(song);
   };
 
@@ -213,6 +217,10 @@ var player = (function() {
     $(exports).trigger('songChange');
     
     // Add new song info to player
+    document.title = newSong.pretty.title;
+
+    $('#' + newSong.id).addClass('loading');
+
     $('#songTitle').text(newSong.pretty.title);
     $('#player .thumbnail').html('<img src="' + newSong.thumbnail + '" />');
     $('#songDuration').text(newSong.pretty.duration);
@@ -252,6 +260,7 @@ var player = (function() {
       $(mediaPlayer).on('playing', function(){
         console.log('SONG PLAYING ---- PLAYER EVENT');
         progressInterval = setInterval(drawProgressBar, 100);
+        $('#' + newSong.id).attr('class', 'song playing');
         $('#play').hide();
         $('#pause').show();        
       });
