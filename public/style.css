@@ -1,4 +1,4 @@
-html, body, div, section, span, h1, h2, h3, h4, h5, h6, p, a, b, ul, ol, li, section {
+html, body, div, button, span, h1, h2, h3, h4, h5, h6, p, a, b, ul, ol, li, section {
   margin: 0;
   padding: 0;
   border: 0;
@@ -10,6 +10,15 @@ html, body, div, section, span, h1, h2, h3, h4, h5, h6, p, a, b, ul, ol, li, sec
   -moz-box-sizing: border-box; 
   box-sizing: border-box; 
 }
+
+button {
+  cursor: pointer;
+  background: none;
+  outline: none;
+  text-align: left;
+}
+
+button:focus {outline: none;}
 
 body {font: 400 1em / 1.33em 'RobotoDraft', sans-serif;padding-left: 282px}
 body > section {width: 48em;margin: 1em auto}
@@ -71,80 +80,94 @@ body > section.full {margin: 2em;width: auto;}
   text-decoration: none;
   background: #000;
   display: block;  
-  width: 13.3em;
-  border: 0.15em solid #fff;
-  height: 19em;
+  width: 13.333em;
+  height: 17.333em;
   overflow: hidden;
   float: left;
-  margin: 0 1.5em 1.5em 0;
+  margin: 0 1.334em 1.334em 0;
   color: #fff;
-  padding: 0.5em;
+  padding: 0.667em;
 }
 
-.song:hover .buttons {display: block;}
-.song:hover .buttons > span {opacity: 1}
 
-.song.playing:before {
+.song.loading:after,
+.song.playing:after {
+  content: "Loading...";
   position: absolute;
-  top: 0;
   left: 0;
-  content: "♫";
-  background: #000;
-  color: #fff;
-  padding: 0.75em;
-  z-index: 1;
+  right: 0;
+  top: 0;
+  height: 13.334em;
+  line-height: 13.334em;
+  text-align: center;
+  text-transform: uppercase;
+  background: rgba(0,0,0,0.3);
+  color: #fff
 }
 
-.song.playing .buttons {display: none!important}
+.song.playing:after {content: "Playing"}
+
+.song.loading .hoverOverlay,
+.song.playing .hoverOverlay {display: none!important}
+
+.song > .play {
+  font-size: 0.88em;
+  line-height: 1.33em;
+  max-height: 2.66em;
+  overflow: hidden;
+  display: block;
+  clear: both;
+  color: #eee;
+}
+
+.song > .play:hover {text-decoration: underline;}
 
 .song .stats {
   color: #999;
-  font-size: 0.77em;
+  font-size: 0.75em;
   display: block;
-  line-height: 2em;
+  float: left;
 }
 
-.song .buttons {
+.song .hoverOverlay {
   position: absolute;
   top: 0;left: 0;right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.33);
-  display: none;
+  bottom: 3.5em;
 }
 
-.song .buttons > span {
-  text-align: center;
-  display: block;
+.song .hoverOverlay:hover {background: rgba(0,0,0,0.33)}
+.song .hoverOverlay:hover button {opacity: 1}
+
+.song .hoverOverlay button {
   background: rgba(255,255,255,0.9);
   color: #000;
-  opacity: 0;
   font-weight: 500;
   border: 4px solid #000;  
-  margin: 1em 2.5em;    
+  padding: 1em;
+  display: block;
+  opacity: 0;
+  cursor: pointer;
 }
 
-.song .buttons > span:first-letter {margin-right: 0.1566em}
-
-.song .buttons > span.playSong {
-  padding: 1em 0;
+.song .hoverOverlay button.play {
   font-size: 1.5em;
-  margin: 3em 1.666em .666em
+  margin: 1.5em auto 0;
 }
 
-.song .buttons > .queueSong {
-  padding: 0.5em 0;
-  display: none;
+.song button.addToQueue {
+  padding: 0.667em;
+  margin: 1em auto;
 }
 
-.playing .song .buttons > .playSong {margin-top: 1.666em}
-.playing .song .buttons > .queueSong {display: block}
-
-.song .description,
-.song .stats .source,
-.song .stats .ratio {
-  display: none;
+.song button.star {
+  float: right;
+  color: #999
 }
 
+.song button.star[data-isStarred="starred"] {
+  color: yellow
+}
+         
 #options {
   font-size: 1.33em;
   margin-bottom: 1em;
@@ -168,7 +191,6 @@ body > section.full {margin: 2em;width: auto;}
 
 .listStats {display: none;}
 
-.playing #player {left: 0}
 
 #about {position: absolute;bottom: 0;text-align: center;width: 100%;border-top: 1px solid #444;}
 #about a {line-height: 4em;font-size: 0.88em;color: #666;text-decoration: none;}
@@ -176,6 +198,8 @@ body > section.full {margin: 2em;width: auto;}
 
 #resetResults {float: right;margin: 0.33em 0;text-decoration: none;border-bottom: 2px solid rgba(0,0,250,0.3)}
 a#resetResults i {width: 1.5em;}
+
+.playerUsed #player {left: 0}
 
 #player {
   border-top: 1px solid #444;
