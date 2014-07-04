@@ -2,40 +2,109 @@ Tuuune.queue = (function(){
    
    var  Song = include('Song'),
         SongList = include('SongList'),
-        player = include('player');
-          
+        player = include('player'),
+
+        storage = include('storage'),
+        storageKey = 'queue',
+
+        // Contains the songs which will play next
+        queue = {
+          user: new SongList,
+          auto: new SongList
+        };
+
+     
+  function add (song) {
+    queue.user.push(song);
+    updateNav();
+  };
+
+  function set (songs) {
+    queue.auto = songs;
+  };
+
+  function find (id) {
+    return queue.user.find(id) || queue.auto.find(id)
+  };
+
+  function before (song) {
+
+    // Check if the user has played any songs
+    if (songHistory.length) {
+      return songHistory[1]
+    };
+
+    // Allow the user to work up the song queue 
+    var previousSongs = queue.auto.findBefore(song.id);
+
+    if (previousSongs.length) {
+      return previousSongs.pop()
+    };
+
+    return false
+
+  };
+  
+  function updateNav () {
+    if (queue.user.length) {
+      $('.queueCount').text(queue.user.length);
+    };
+  };
+
+  function after (song) {
+
+    // Check if the user has queued any songs
+    if (queue.user.length > 0) {
+      var song = queue.user.shift();
+          updateNav();
+      return song
+    }
+
+    // this will return false if current song is removed from songlist
+    var defaultQueue = queue.auto.findAfter(song.id);
+    // check songHistory if this is the case, or go to start of songlist
+
+    // Check if there are any songs which should auto play
+    if (defaultQueue.length > 0) {
+      return defaultQueue.shift()
+    }
+
+    return false
+  };
+
   function init () {
 
-      $('#queue')
-        .show()
-        .on('click', '.song button', function(e){
-          Song.eventHandler(this)
-        });
+    $('#queue').show();
 
-      $(player).on('songChange', function(){
-         render();
-      });
+    Song.addListener('#queue');
 
-      render();
+    $(player).on('songChange', function(){
+       render();
+    });
+
+    render();
+
    };
 
   function hide () {
     $('#queue').off().hide();
-    $('#player').off();
+    $('#player').off('songChange');
   };
 
   function render() {
-
-    songQueue = player.queue();
-
-    if (songQueue && songQueue.user.length) {
-      $('#queue .songList').html(songQueue.user.render());
-    };
+    $('#queue .songList').html(queue.user.render());
   };
 
   return {
     init: init,
-    hide: hide
+    hide: hide,
+
+    add: add,
+    set: set,
+    find: find,
+
+    after: after,
+    before: before
   }
 
 }());
