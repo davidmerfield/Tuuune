@@ -33,11 +33,10 @@ Tuuune.discover = (function () {
       .show()
       .on('click', '#resetResults', reset)
       .on('click', '#loadMore', loadMore)
-      .on('change', '.option', updateOption)      
-      .on('click', '.song button', function(e){
-        Song.eventHandler(this, filteredSongs)
-      });
-    
+      .on('change', '.option', updateOption);
+
+    Song.addListener('#discover', filteredSongs);
+
     // Render any songs which we've already fetched
     render(filteredSongs);
     
