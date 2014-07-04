@@ -2,6 +2,8 @@
 
 Find good unknown music.
 
+Find music the internet is excited about.
+
 Works by searching for songs with low number of listens but a very high like-to-view ratio. Or just a high ratio of 'responses,' positive or negative.
 
 never allow the user to discover a song we know they've listened too.
