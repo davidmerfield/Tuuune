@@ -2,20 +2,19 @@ Tuuune.starred = (function(){
 
   var Song = include('Song'),
       SongList = include('SongList'),
+      storage = include('storage'),
 
-      storageKey = 'musicFinder:starred',
+      storageKey = 'starred',
     
       starredSongs = new SongList;
 
   function init () {
+    
+    starredSongs.add(storage.get(storageKey));
 
-    starredSongs.add(savedSongs());
+    $('#starred').show();
 
-    $('#starred')
-      .show()
-      .on('click', '.song button', function(e){
-        Song.eventHandler(this, starredSongs)
-      });
+    Song.addListener('#starred', starredSongs);
 
     // Render starred songs
     render();  
@@ -30,7 +29,7 @@ Tuuune.starred = (function(){
   };
 
   function reset() {
-    localStorage.removeItem(storageKey);
+    storage.drop(storageKey);
   };
 
   function isStarred (id) {
@@ -42,7 +41,7 @@ Tuuune.starred = (function(){
     console.log('Toggling' + song.pretty.title);
 
     // this should be instantiated
-    starredSongs.add(savedSongs());
+    starredSongs.add(storage.get(storageKey));
 
     song.isStarred = !song.isStarred;
 
@@ -50,27 +49,12 @@ Tuuune.starred = (function(){
       starredSongs.unshift(song);
     } else {
       starredSongs.remove(song.id);
-      render();
     };
 
-    $('#' + song.id + ' .star').attr('data-isStarred', song.isStarred);
+    $('[data-id="' +  song.id + '"] .star').attr('data-isStarred', song.isStarred);
+    storage.set(storageKey, starredSongs); 
 
-    setSongs(starredSongs);    
-  };
-
-  function savedSongs () {
-
-    var songs = localStorage.getItem(storageKey);
-
-    if (songs) {
-      return new SongList(JSON.parse(songs));
-    } else {
-      return new SongList([])
-    };
-  };
-
-  function setSongs (songs) {
-    return localStorage.setItem(storageKey, JSON.stringify(songs));
+    render();
   };
 
   function render() {
@@ -81,8 +65,7 @@ Tuuune.starred = (function(){
   return {
     init: init,
     hide: hide,
-    toggle: toggle,
-    savedSongs: savedSongs
+    toggle: toggle
   }
 
 }());
