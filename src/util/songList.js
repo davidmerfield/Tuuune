@@ -7,6 +7,8 @@ Tuuune.SongList = function SongList (songs) {
       // Adds array of new songs to song list
       songs.add = function (newSongs){
 
+         if (!newSongs || !newSongs.length) {return};
+
          for (var i = 0; i < newSongs.length; i++) {
             
             var newSong = newSongs[i];
