@@ -1,9 +1,15 @@
-var youtubePlayer = (function(){
+Tuuune.players.youtube = (function(){
 
-  var embed,
+  var playerName = 'youtube',
+
+      embed,
+      embedContainer,
+      embeds,
 
       exports = {
         init: init,
+        load: load,
+        toggle: toggle,
         play: play,
         pause: pause,
         stop: stop,
@@ -12,20 +18,18 @@ var youtubePlayer = (function(){
         getCurrentTime: getCurrentTime
       };
 
-  function init (playerID, callback) {
+  function init (callback) {
 
-    if (typeof playerID === 'function') {
-      var callback = playerID,
-          playerID = 'YC_EMBED';
-    };
+    embeds = document.getElementById('embeds');
+
+    var playerID = playerName + '_' + embeds.childNodes.length;
 
     // Build the container which will house the youtube player
-    var embedContainer = document.createElement('div');
-        embedContainer.id = playerID;
-        embedContainer.innerHTML = "You don't have flash, please download the latest verion."; 
+    embedContainer = document.createElement('div');
+    embedContainer.id = playerID;
+    embedContainer.innerHTML = "You don't have flash, please download the latest verion."; 
 
-    var embeds = document.getElementById('embeds');
-        embeds.appendChild(embedContainer);
+    embeds.appendChild(embedContainer);
 
     // This swaps the embed container with a YT player
     swfobject.embedSWF(
@@ -38,32 +42,34 @@ var youtubePlayer = (function(){
     return window.onYouTubePlayerReady = function (playerID) {
 
       embed = document.getElementById(playerID);
-      embed.className = 'mediaEmbed';
+      embed.className = playerName;    
 
-      embed.addEventListener('onStateChange', 'youtubePlayer.eventHandler');
+      embed.addEventListener('onStateChange', 'Tuuune.players.youtube.eventHandler');
 
-      callback('Youtube player loaded.');
+      callback(playerName + 'player ready');
     };
   };
 
-  function play (song) {
+  function play () {
+    return embed.playVideo();
+  };
 
-    embed.unMute();
-
-    if (song) {
-      embed.loadVideoById(song.source.id, 0, 'small')
-    }
-    else {
-      embed.playVideo()
-    }
+  function load (song, callback) {
+    embed.cueVideoById(song.source.id, 0, 'small');
+    return callback();
   };
 
   function pause () {
     return embed.pauseVideo()
   };
 
+  function toggle () {
+    var state = embed.getPlayerState();
+    if (state == 1) {pause()};
+    if (state == 2) {play()};
+  };
+
   function stop () {
-    embed.mute()
     return embed.stopVideo()
   };
 

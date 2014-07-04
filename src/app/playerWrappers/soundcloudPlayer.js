@@ -1,38 +1,43 @@
-var soundcloudPlayer = (function(SC){
+Tuuune.players.soundcloud = (function(SC){
 
-   var embed,
-       currentTime,
+  var playerName = 'soundcloud',
 
-       exports = {
-         init: init,
-         play: play,
-         pause: pause,
-         stop: stop,
-         seekTo: seekTo,
-         eventHandler: eventHandler,
-         getCurrentTime: getCurrentTime
-      };
+      embed,
+      embedContainer,
+      embeds,
 
-   function init (playerID, callback) {
+     currentTime,
+
+     exports = {
+       init: init,
+       play: play,
+       toggle: toggle,
+       load: load,
+       pause: pause,
+       stop: stop,
+       seekTo: seekTo,
+       eventHandler: eventHandler,
+       getCurrentTime: getCurrentTime
+    };
+
+   function init (callback) {
+
+      embeds = document.getElementById('embeds');
       
-      if (typeof playerID === 'function') {
-        var callback = playerID,
-            playerID = 'SC_EMBED';
-      };
+      var playerID = playerName + '_' + embeds.childNodes.length;
 
-      var embedContainer = document.createElement('iframe');
-          embedContainer.id = playerID;
-          embedContainer.src = "https://w.soundcloud.com/player/?url=";
-          embedContainer.className = "mediaEmbed";
+      embedContainer = document.createElement('iframe');
+      embedContainer.id = playerID;
+      embedContainer.src = "https://w.soundcloud.com/player/?url=";
+      embedContainer.className = playerName;
 
-      var embeds = document.getElementById('embeds');
-          embeds.appendChild(embedContainer);
+      embeds.appendChild(embedContainer);
 
       embed = SC.Widget(embedContainer);
       
       bindEvents();
 
-      callback('Soundcloud player ready');
+      callback(playerName + ' player ready');
 
    }; 
 
@@ -54,16 +59,22 @@ var soundcloudPlayer = (function(SC){
 
          var eventName = (function(){
            switch (eventID) {
-             case 'play': return 'playing';
-             case 'pause': return 'paused';
-             case 'finish': return 'finished';
-             case 'playProgress': setCurrentTime();
+
+             case 'play':
+               return 'playing';
+
+             case 'pause': 
+              return 'paused';
+
+             case 'finish':
+              return 'finished';
+             
+             case 'playProgress':
+              setCurrentTime();
            };
          }());
 
-         if (eventName) {
-            $(exports).trigger(eventName);
-         };
+         if (eventName) {$(exports).trigger(eventName)};
 
       };
 
@@ -80,23 +91,30 @@ var soundcloudPlayer = (function(SC){
       };
    };
 
-   function play (song) {
-    embed.setVolume(100);
-      if (song) {
-         embed.load(song.source.url, {auto_play: true});
-         currentTime = 0;
-      } else {
-         embed.play();
-      }
+   function play () {
+    return embed.play();
+   };
+
+   function load (song, callback) {
+    currentTime = 0;
+    embed.load(song.source.url, {callback: callback});
    };
 
    function pause () {
-      embed.pause();
-      embed.setVolume(0);
+    embed.pause();
+   };
+
+   function toggle () {
+    embed.isPaused(function(paused){
+
+      if (paused) {return embed.play()};
+
+      return embed.pause();
+    });
    };
 
    function stop () {
-      embed.setVolume(0);
+      currentTime = 0;
       embed.pause();
    };
 
