@@ -1,5 +1,6 @@
 var Tuuune = {
-  views: {}
+  views: {},
+  players: {}
 };
 
 function include (name) {
