@@ -5,15 +5,10 @@
 
 ## Song card
 
-- Make queued and starred and playing and loading states dynamic and rechecked each time the view is rendered
-- Undo add to queue
 - Make song cards responsive
+- Loading and playing state style
 
 ## Discover
-
-- Precache valid results then select from those
-		- Store the songs in JSON
-		- Select 200 good songs with attractive album covers to form favorable first impression
 
 - Create introductory visual
 		- Explain how discover works, set users expectations
@@ -21,20 +16,23 @@
 		- It takes effort on your part, is this an active process
 		- One big button to start listening, first song preloaded
 
+- Precache valid results then select from those
+		- Store the songs in JSON
+		- Select 200 good songs with attractive album covers to form favorable first impression
+
 - Make sure every song we show to the user can be played
 		- Add region detection/selection 
 
-- Stop songs the user has seen from showing up again in search results
+- Stop songs the user has seen from showing up again in search 
 
 ## Player
 
-- Add loading/buffering state to player
+- Add tooltips to star and permalink
+- Make player robust when skipping through lots of songs
+	- Add error handling for players
+	- Prevent player from playing two songs at the same time
 - Add better flash detection
 	- Show sound cloud embed if flash not enabled
-- Add error handling for players
-- Fix progress bar
-- Add tooltips to star and permalink
-- Prevent player from playing two songs at the same time
 
 ## Starred
 
