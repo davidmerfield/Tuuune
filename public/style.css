@@ -36,7 +36,6 @@ body > section.full {margin: 2em;width: auto;}
   top: 0;
   bottom: 0;
   background: #000;
-  border-right: 4px solid #fff;
   width: 282px;
   margin: 0
 }
@@ -55,6 +54,15 @@ body > section.full {margin: 2em;width: auto;}
 
   #nav a:hover {background: #333}
   #nav a.selected {background: #fff;color: #000}
+
+  .queueCount {
+    font-size: 0.88em;
+    margin-left: 0.5em;
+    border-radius: 0.1em;
+    text-align: center;
+    background: rgba(255,255,255,0.4);color: #000;padding: 0.15em 0.3em
+  }
+  .queueCount:empty {display: none}
 
 .thumbnail {
   width: 12em;
@@ -89,28 +97,7 @@ body > section.full {margin: 2em;width: auto;}
   padding: 0.667em;
 }
 
-
-.song.loading:after,
-.song.playing:after {
-  content: "Loading...";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 13.334em;
-  line-height: 13.334em;
-  text-align: center;
-  text-transform: uppercase;
-  background: rgba(0,0,0,0.3);
-  color: #fff
-}
-
-.song.playing:after {content: "Playing"}
-
-.song.loading .hoverOverlay,
-.song.playing .hoverOverlay {display: none!important}
-
-.song > .play {
+.song > button.title {
   font-size: 0.88em;
   line-height: 1.33em;
   max-height: 2.66em;
@@ -120,7 +107,7 @@ body > section.full {margin: 2em;width: auto;}
   color: #eee;
 }
 
-.song > .play:hover {text-decoration: underline;}
+.song > button.play:hover {text-decoration: underline;}
 
 .song .stats {
   color: #999;
@@ -165,7 +152,17 @@ body > section.full {margin: 2em;width: auto;}
 }
 
 .song button.star[data-isStarred="true"] {color: yellow}
-         
+
+.permalink {
+  left: 1em;
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
 #options {
   font-size: 1.33em;
   margin-bottom: 1em;
@@ -197,10 +194,10 @@ body > section.full {margin: 2em;width: auto;}
 #resetResults {float: right;margin: 0.33em 0;text-decoration: none;border-bottom: 2px solid rgba(0,0,250,0.3)}
 a#resetResults i {width: 1.5em;}
 
-.playerUsed #player {left: 0}
+#player.show {left: 0}
 
 #player {
-  border-top: 1px solid #444;
+  color: #fff;
   position: absolute;
   bottom: 4em;
   padding: 1.5em 0.5em 0.5em;
@@ -208,61 +205,37 @@ a#resetResults i {width: 1.5em;}
   left: -1000px;
 }
   
-  #player .thumbnail {
-    width: 200px;
+  #player .thumbnail,
+  #embeds {
     height: 200px;
+    overflow: hidden;
     margin: 0 2em;
-    float: none;
   }
 
+  #player .thumbnail {width: 200px;float: none;}
   #player .thumbnail img {height: 200px}
 
   #embeds {
-    overflow: hidden;
-    height: 200px;
-    color: #fff;
-    text-align: center;
+    margin: 0
   }
 
-  #embeds.hidden {
-    width:0;
-    height: 0;
+  #embeds.hidden,
+  #embeds .soundcloud {
     position: absolute;
     left: -1000px;
   }
 
-  #SC_EMBED {position: absolute;top:-1000px;left: -1000px;}
-  
-  #controls {
+  #player .song {margin: 0;padding: 0;width: 100%;height: auto}
+
+  .controls {
     margin: 0.5em auto;
     height: 36px
   } 
  
-  #play, #pause, #next, #previous, #star, #permalink  {
-    position: absolute;
-  }
+ .controls button, 
+ .controls a {position: absolute;}
 
-  #star, #permalink {
-    color: #797979;
-    text-decoration: none;
-    font-size: 1.5em;
-    margin: 0.33em 0    
-  }
-
-  #permalink {left: 1em;
-  -moz-transform: scaleX(-1);
-          -o-transform: scaleX(-1);
-          -webkit-transform: scaleX(-1);
-          transform: scaleX(-1);
-          filter: FlipH;
-          -ms-filter: "FlipH";
-        }
-  #star {right: 1em}
-
-  #star:hover {color: #ccc}
-  #star[data-isStarred="true"] {color: yellow}
-
-  #play, #pause {
+  .controls .togglePlay {
     left: 50%;
     margin-left: -18px;    
     background: url('./images/play.png') no-repeat center center;
@@ -273,11 +246,17 @@ a#resetResults i {width: 1.5em;}
     background-size: 18px;
   }
 
-  #pause {
+  .playing .controls .togglePlay {
     background-image: url('./images/pause.png');
   }
 
-  #next, #previous {
+  .loading .controls .togglePlay {
+    background-image: url('./images/loader_white.gif');
+  }
+
+  .controls .next,
+  .controls .previous {
+    display: block;
     background: url('./images/next.png') no-repeat center center;
     width: 16px;
     height: 24px;
@@ -286,13 +265,23 @@ a#resetResults i {width: 1.5em;}
     margin: 0.33em 0
   }
 
-  #previous {
+  .controls .previous {
     background-image: url('./images/previous.png');
     left: 33%;
     right: auto;
   }
 
-#songTitle {
+  .controls .star,
+  .controls .permalink {
+    color: #797979;
+    text-decoration: none;
+    font-size: 1.5em;
+    margin: 0.33em 0    
+  }
+
+  .controls .star {right: 1em}
+
+#player .title {
   display: block;
   text-align: center;
   margin: 1em 0;
@@ -301,7 +290,7 @@ a#resetResults i {width: 1.5em;}
   color: #fff
 }
 
-#progressBar {
+#player .progressBar {
   background: rgba(255,255,255,0.25);
   display: block;
   height: 8px;
@@ -309,7 +298,7 @@ a#resetResults i {width: 1.5em;}
   clear: both;
 }
 
-#progress {
+#player .progress {
   position: absolute;
   top: 0;
   left: 0;
@@ -317,7 +306,7 @@ a#resetResults i {width: 1.5em;}
   background: white;
 }
 
-#progress:after {
+#player .progress:after {
   content: '';
   display: none;
   float:right;
@@ -329,7 +318,8 @@ a#resetResults i {width: 1.5em;}
   background: #fff;
 }
 
-#currentTime, #songDuration {
+#player .currentTime, 
+#player .duration {
   position: absolute;
   top: -0.4em;
   font-size: 0.88em;
@@ -337,8 +327,8 @@ a#resetResults i {width: 1.5em;}
   color: rgba(255,255,255,0.33);
 }
 
-#currentTime {left: -3.156em;text-align: right;color: #fff}
-#songDuration {right: -3.156em;text-align: left}
+#player .currentTime {left: -3.156em;text-align: right;color: #fff}
+#player .duration {right: -3.156em;text-align: left}
 
 
 h1 {
