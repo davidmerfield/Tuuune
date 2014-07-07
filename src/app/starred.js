@@ -12,9 +12,9 @@ Tuuune.starred = (function(){
     
     starredSongs.add(storage.get(storageKey));
 
-    $('#starred').show();
-
-    Song.addListener('#starred', starredSongs);
+    $('#starred')
+      .show()
+      .on('click', '.song', starredSongs, Song.listener);
 
     // Render starred songs
     render();  
