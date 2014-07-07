@@ -4,16 +4,12 @@ Tuuune.queue = (function(){
         SongList = include('SongList'),
         player = include('player'),
 
-        storage = include('storage'),
-        storageKey = 'queue',
-
         // Contains the songs which will play next
         queue = {
           user: new SongList,
           auto: new SongList
         };
 
-     
   function add (song) {
     queue.user.push(song);
     updateNav();
@@ -74,13 +70,14 @@ Tuuune.queue = (function(){
 
   function init () {
 
-    $('#queue').show();
+    $('#queue')
+      .show()
+      .on('click', '.song', Song.listener);
 
-    Song.addListener('#queue');
-
-    $(player).on('songChange', function(){
-       render();
-    });
+    $(player)
+      .on('songChange', function(){
+        render();
+      });
 
     render();
 
