@@ -92,7 +92,7 @@ body > section.full {margin: 2em;width: auto;}
   height: 17.333em;
   overflow: hidden;
   float: left;
-  margin: 0 1.334em 1.334em 0;
+  margin: 0.66em;
   color: #fff;
   padding: 0.667em;
 }
@@ -148,10 +148,24 @@ body > section.full {margin: 2em;width: auto;}
 
 .song button.star {
   float: right;
-  color: #999
+  color: #999;
+  font-size: 0.77em;
 }
 
 .song button.star[data-isStarred="true"] {color: yellow}
+
+.song button.star:after {
+  content: "Save";
+  margin-left: 0.15em;
+  color: #aaa;
+  border-bottom: 1px solid #777
+}
+
+.song button.star[data-isStarred="true"]:after {
+  color: yellow;
+  content: "Saved";
+  border-bottom: none;
+}
 
 .permalink {
   left: 1em;
@@ -166,8 +180,7 @@ body > section.full {margin: 2em;width: auto;}
 #options {
   font-size: 1.33em;
   margin-bottom: 1em;
-  border-bottom: 2px solid #000;
-  padding: 0.66em 0;
+  padding: 0.66em;
 }
 
 #loadMore {
@@ -279,7 +292,7 @@ a#resetResults i {width: 1.5em;}
     margin: 0.33em 0    
   }
 
-  .controls .star {right: 1em}
+  .controls button.star {right: 1em;font-size: 0.88em}
 
 #player .title {
   display: block;
