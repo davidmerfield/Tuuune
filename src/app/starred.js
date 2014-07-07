@@ -2,23 +2,23 @@ Tuuune.starred = (function(){
 
   var Song = include('Song'),
       SongList = include('SongList'),
+    
       storage = include('storage'),
-
       storageKey = 'starred',
     
-      starredSongs = new SongList;
+      songs = new SongList;
 
-  function init () {
-    
-    starredSongs.add(storage.get(storageKey));
+  function init () {    
+    songs.add(storage.get(storageKey));
+  };
 
+  function show () {
     $('#starred')
       .show()
-      .on('click', '.song', starredSongs, Song.listener);
+      .on('click', '.song', songs, Song.listener);
 
     // Render starred songs
     render();  
-
   };
 
   function hide () {
@@ -33,39 +33,39 @@ Tuuune.starred = (function(){
   };
 
   function isStarred (id) {
-    return starredSongs.find(id)
+    return songs.find(id)
   };
 
   function toggle (song) {
 
-    console.log('Toggling' + song.pretty.title);
-
     // this should be instantiated
-    starredSongs.add(storage.get(storageKey));
+    songs.add(storage.get(storageKey));
 
     song.isStarred = !song.isStarred;
 
     if (song.isStarred) {
-      starredSongs.unshift(song);
+      songs.unshift(song);
     } else {
-      starredSongs.remove(song.id);
+      songs.remove(song.id);
     };
 
     $('[data-id="' +  song.id + '"] .star').attr('data-isStarred', song.isStarred);
-    storage.set(storageKey, starredSongs); 
+    storage.set(storageKey, songs); 
 
     render();
   };
 
   function render() {
-    songsHTML = starredSongs.render();
+    songsHTML = songs.render();
     $('#starred .songList').html(songsHTML);
   };
 
   return {
     init: init,
+    show: show,
     hide: hide,
-    toggle: toggle
+    toggle: toggle,
+    songs: songs
   }
 
 }());

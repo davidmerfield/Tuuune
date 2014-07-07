@@ -1,47 +1,55 @@
 Tuuune.songHistory = (function(){
-   
-   var  Song = include('Song'),
-        SongList = include('SongList'),
-        storage = include('storage'),
-        player = include('player'),
-       
-        storageKey = 'history',
-        songHistory = new SongList;
-   
+
+  var Song = include('Song'),
+      SongList = include('SongList'),
+
+      storage = include('storage'),
+      storageKey = 'history',
+
+      player = include('player'),
+
+      songs = new SongList;
+
   function init () {
 
-    songHistory.add(storage.get(storageKey));
+    songs.add(storage.get(storageKey));
+
+  };
+
+  function show () {
 
     $('#songHistory')
       .show()
       .on('click', '.song', Song.listener);
 
     $(player).on('songChange', function(){
-       render();
+      render();
     });
 
     render();
-   };
+  };
 
   function hide () {
     $('#songHistory').off().hide();
     $('#player').off();
-    storage.set(storageKey, songHistory)
+    storage.set(storageKey, songs)
   };
 
   function add (song) {
-    songHistory.unshift(song);
-    storage.set(storageKey, songHistory)
+    songs.unshift(song);
+    storage.set(storageKey, songs)
   };
 
   function render() {
-    $('#songHistory .songList').html(songHistory.render());
+    $('#songHistory .songList').html(songs.render());
   };
 
   return {
     init: init,
+    show: show,
     hide: hide,
-    add: add
+    add: add,
+    songs: songs
   }
 
 }());

@@ -27,8 +27,8 @@ Tuuune.nav = (function () {
       // Save the new view so we can close it in future
       currentView = Tuuune[name];
       
-      // Start new view
-      currentView.init();
+      // Show new view
+      currentView.show();
 
       // Update the nav to show we've selected a new view
       $('#nav a')

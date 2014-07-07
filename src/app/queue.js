@@ -70,6 +70,11 @@ Tuuune.queue = (function(){
 
   function init () {
 
+
+   };
+
+  function show () {
+
     $('#queue')
       .show()
       .on('click', '.song', Song.listener);
@@ -81,7 +86,7 @@ Tuuune.queue = (function(){
 
     render();
 
-   };
+  };
 
   function hide () {
     $('#queue').off().hide();
@@ -95,7 +100,8 @@ Tuuune.queue = (function(){
   return {
     init: init,
     hide: hide,
-
+    show: show,
+    
     add: add,
     set: set,
     find: find,
