@@ -7,10 +7,9 @@ Tuuune.discover = (function () {
       storage = include('storage'),
             
       allSongs = new SongList, 
+      results = new SongList,  // songs which pass the filter
 
-      // songs which pass the filter
-      results = new SongList, 
-      minResults = 40, 
+      pageSize = minResults = 40, 
 
       // default search preferences
       options = {
@@ -39,15 +38,16 @@ Tuuune.discover = (function () {
 
     // Show the DOM el and bind its event handlers
     $('#discover')
-      .on('change', '.option', updateOption)
+      .on('change', '.option', optionChange)
       .on('click', '#resetResults', reset)
       .on('click', '#loadMore', loadMore)
       .on('click', '.song', results, Song.listener)
-      .show();
+      .show()
+      .find('.option')
+        .each(setOption);
 
-    // Render any songs which we've already fetched
-    render(results);
-    
+    $('#results').html(results.render());
+
     // Find new songs
     search();
 
@@ -66,35 +66,44 @@ Tuuune.discover = (function () {
 
   function findSongs (callback) {
 
-    if (results.length > minResults) {
-      return callback('Song search complete');
-    };
-
     var sources = [youtubeSearch, soundcloudSearch], // references to the modules , 
-        searchedSources = [];
+        searchedSources = [],
+        source;
+
+    // We've found enough songs
+    if (results.length > minResults) {return callback()};
 
     // go through each source and 
     for (var i in sources) {
       
-      var source = sources[i]; // e.g. youtube
+      source = sources[i]; // e.g. youtube
       
       // Find songs from this source
       source.getSongs(options, function(newSongs){
 
+        var newResults,
+            starred = include('starred'),
+            songHistory = include('songHistory');
+
+        newSongs = new SongList(newSongs);
+            
+        // Ignore songs we've already seen
+        newSongs
+          .exclude(allSongs)
+          .exclude(starred.songs)
+          .exclude(songHistory.songs);
+
+        allSongs.add(newSongs);
+
+        // Filter new songs
+        newResults = new SongList(filter(newSongs, options));
+        
+        results.add(newResults);
+
+        $('#results').append(newResults.render());
+
         // Indicate that the source has replied
         searchedSources.push(source);
-
-        // Add new songs to list of all songs
-        allSongs.add(newSongs);
-        
-        // Find the new songs which pass the filter
-        var newFilteredSongs = filter(newSongs, options);
-
-        // Add the new songs which pass the filter to the list of filtered songs
-        results.add(newFilteredSongs);
-
-        // Render new songs which pass the filter
-        render(newFilteredSongs);
 
         // We have heard from all the sources
         if (searchedSources.length === sources.length) {
@@ -145,33 +154,23 @@ Tuuune.discover = (function () {
 
   };
 
-  function render (songs) {
-
-    var songs = new SongList(songs),
-        songsHTML = songs.render();
-    
-    $('#results').append(songsHTML);
-
-    if (haveEnoughSongs()) {
-      $('#results').attr('class', 'done')
-    };
-
-  };
-
-  function haveEnoughSongs() {
-    return results.length > minResults;
-  };
-
   function reset () {
-    results = new SongList;
-    return init();
-  };
 
-  function loadMore (e) {
-    minResults += minResults;
+    // Remove any songs we've found
+    results = new SongList;
+    $('#results').empty();
+
     return search();
   };
 
-  return {init: init, hide: hide}
+  function loadMore (e) {
+
+    // Increase the threshold after which to stop searching
+    minResults += pageSize;
+
+    return search();
+  };
+
+  return {init: init, hide: hide, show: show}
 
 }());
