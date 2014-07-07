@@ -70,60 +70,58 @@ Tuuune.Song = (function(){
      return song
   };
 
-  function addListener (el, songs) {
+  function listener (e) {
 
-    $(el).on('click', '[data-action]', function(e){
+    // Import any modules we might need
+    var starred = include('starred'),
+        player = include('player'),
+        queue = include('queue'),
 
-      // Import any modules we might need
-      var starred = include('starred'),
-          player = include('player'),
-          queue = include('queue'),
+        // Find the id of the song which was clicked
+        id = $(this).attr('data-id'),
 
-          // Find the id of the song which was clicked
-          id = $(this).parents('.song').attr('data-id'),
+        // Find what we need to do to the song
+        action = $(e.target).attr('data-action'),
 
-          // Find the song from the id
-          song = songs ? songs.find(id) :
-                         queue.find(id),
-          
-          // Find what we need to do to the song
-          action = $(this).attr('data-action');
+        // Find the song from the id
+        songs = e.data,
+        song = songs ? songs.find(id) : false;
 
-      switch (action) {
-        
-        case 'play':
-          return player.play(song, songs);          
+    if (!song) {throw 'Song not found'};
 
-        case "togglePlay":
-          return player.toggle();
+    switch (action) {
+      
+      case 'play':
+        return player.play(song, songs);          
 
-        case "next":
-          return player.play(queue.after(song));
+      case "togglePlay":
+        return player.toggle();
 
-        case "previous":
-          return player.play(queue.before(song));
+      case "next":
+        return player.next();
 
-        case "setProgress":
-          return player.setProgress(e.pageX);
-        
-        case 'addToQueue':
-          return queue.add(song);
+      case "previous":
+        return player.previous();
 
-        case 'star':
-          return starred.toggle(song);
-        
-        case "permalink":
-          return player.pause();
-      };
+      case "setProgress":
+        return player.setProgress(e.pageX);
+      
+      case 'addToQueue':
+        return queue.add(song);
 
-    });
+      case 'star':
+        return starred.toggle(song);
+      
+      case "permalink":
+        return player.pause();
+    };
   };
 
   return {
-    addListener: addListener,
     create: create,
     template: template,
-    playerTemplate: playerTemplate
+    playerTemplate: playerTemplate,
+    listener: listener
   };
 
 }());

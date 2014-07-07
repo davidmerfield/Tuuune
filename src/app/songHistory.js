@@ -12,9 +12,9 @@ Tuuune.songHistory = (function(){
 
     songHistory.add(storage.get(storageKey));
 
-    $('#songHistory').show();
-
-    Song.addListener('#songHistory');
+    $('#songHistory')
+      .show()
+      .on('click', '.song', Song.listener);
 
     $(player).on('songChange', function(){
        render();
