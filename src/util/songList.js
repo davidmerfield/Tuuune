@@ -18,6 +18,26 @@ Tuuune.SongList = function SongList (songs) {
             };
 
          };
+
+         return this
+      };
+
+      // Returns songs not already on list
+      songs.exclude = function(otherList) {
+
+         if (!otherList || !otherList.find) {
+            return this
+         };
+
+         for (var i = 0; i < this.length; i++) {
+
+            if (otherList.find(this[i].id)) {
+               this.splice(i,1);
+            };
+         };
+
+         return this
+
       };
 
       // Returns the song which has the passed id
