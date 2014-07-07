@@ -3,8 +3,9 @@ Tuuune.discover = (function () {
   var Song = include('Song'),
       SongList = include('SongList'),
       filter = include('filter'),
+
+      storage = include('storage'),
             
-      // every song returned from the internet
       allSongs = new SongList, 
 
       // songs which pass the filter
@@ -26,7 +27,15 @@ Tuuune.discover = (function () {
         }
       };
 
-  function init () {
+  function init () {   
+
+    // Load options from disk
+    options = storage.get('discover:options') || options;
+
+  };
+
+  function show () {
+
 
     // Show the DOM el and bind its event handlers
     $('#discover')
@@ -97,18 +106,28 @@ Tuuune.discover = (function () {
     };
   }; 
 
-  function updateOption () {
+  function setOption () {
+
+    var name = $(this).attr('name');
+        $(this).val(options[name]);
+    
+  };
+
+  function optionChange () {
 
     var name = $(this).attr('name');
         options[name] = parseInt($(this).val()) || $(this).val();
 
+    storage.set('discover:options', options);
+
     results.set(filter(allSongs, options));
 
-    $('#results').empty();
-
-    render(results);
+    $('#results')
+      .empty()
+      .html(results.render());
 
     return search();
+
   };
 
   function search () {
@@ -118,7 +137,7 @@ Tuuune.discover = (function () {
 
     // Find songs to populate the view
     findSongs(function(status){
-    
+
       // Show the button to get more songs
       $('#loadMore').show();
     
