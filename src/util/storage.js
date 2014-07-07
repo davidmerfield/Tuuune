@@ -4,7 +4,8 @@ Tuuune.storage = (function(){
 
   function get (key) {
     var value = localStorage.getItem(appPrefix + key);
-    if (value) {return JSON.parse(value)}
+    if (value !== null) {
+      return JSON.parse(value)}
   };
 
   function drop (key) {
