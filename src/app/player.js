@@ -10,6 +10,7 @@ Tuuune.player = (function() {
       mediaPlayer, // e.g. Youtube
             
       currentSong,
+      queue,
       progressInterval,
       notReady = true,
 
@@ -25,13 +26,17 @@ Tuuune.player = (function() {
         play: play,
         pause: pause,
         toggle: toggle,
+        next: next,
+        previous: previous,
         setProgress: setProgress
       };
 
   function init () {
     
+    queue = include('queue');
+
     // Listen to song controls
-    Song.addListener(playerEl);
+    $('#player').on('click', '.song', queue, Song.listener);
 
     // We use external services to stream music, 
     // Load their players
@@ -49,20 +54,23 @@ Tuuune.player = (function() {
     if (!song) {throw 'Please specify a song to play'};   
 
     // The songs which are before and after the new song
-    if (defaultQueue) {
-      var queue = include('queue');
-          queue.set(defaultQueue)
-    };
+    if (defaultQueue) {queue.set(defaultQueue)};
 
     // Player is not yet ready, this needs better system
     if (notReady) {return}
 
     // Prepare the player to play the new song
     load(song, function(){
-
       return mediaPlayer.play();
-
     });
+  };
+
+  function next () {
+    return play(queue.after(currentSong));
+  };
+
+  function previous () {
+    return play(queue.before(currentSong));
   };
 
   function toggle () {
@@ -143,7 +151,7 @@ Tuuune.player = (function() {
       
       $('.song')
         .removeClass('playing loading paused');
-        
+
       $(songEl).addClass('loading');
 
       $(mediaPlayer)
