@@ -1,18 +1,18 @@
 Tuuune.discover = (function () {
 
-  var filter = include('filter'),
-      Song = include('Song'),
+  var Song = include('Song'),
       SongList = include('SongList'),
+      filter = include('filter'),
+            
+      // every song returned from the internet
+      allSongs = new SongList, 
 
-      // Contains all the songs retrieved from the web
-      allSongs = new SongList,
+      // songs which pass the filter
+      results = new SongList, 
+      minResults = 40, 
 
-      // Contains all the songs which pass the user's filter
-      filteredSongs = new SongList,
-      
-      minResults = 40,
-
-      options = options || {
+      // default search preferences
+      options = {
         regionCode: 'US', // used to ensure songs are playable by user
         topicID: '/m/074ft', // all songs
         minListens: 2500,
@@ -30,29 +30,35 @@ Tuuune.discover = (function () {
 
     // Show the DOM el and bind its event handlers
     $('#discover')
-      .show()
+      .on('change', '.option', updateOption)
       .on('click', '#resetResults', reset)
       .on('click', '#loadMore', loadMore)
-      .on('change', '.option', updateOption);
-
-    Song.addListener('#discover', filteredSongs);
+      .on('click', '.song', results, Song.listener)
+      .show();
 
     // Render any songs which we've already fetched
-    render(filteredSongs);
+    render(results);
     
     // Find new songs
     search();
 
   };
 
+  function hide () {
+    $('#discover')
+      .off()
+      .hide()
+      .find('#results')
+        .empty();
+  };
+
   // This is used to find songs from the web
-  // it calls itself recursively until its found enough songs 
-  // which pass the filter
+  // it calls itself recursively until it finds enough results
 
   function findSongs (callback) {
 
-    if (haveEnoughSongs()) {
-      return callback('We have enough songs');
+    if (results.length > minResults) {
+      return callback('Song search complete');
     };
 
     var sources = [youtubeSearch, soundcloudSearch], // references to the modules , 
@@ -76,7 +82,7 @@ Tuuune.discover = (function () {
         var newFilteredSongs = filter(newSongs, options);
 
         // Add the new songs which pass the filter to the list of filtered songs
-        filteredSongs.add(newFilteredSongs);
+        results.add(newFilteredSongs);
 
         // Render new songs which pass the filter
         render(newFilteredSongs);
@@ -96,11 +102,11 @@ Tuuune.discover = (function () {
     var name = $(this).attr('name');
         options[name] = parseInt($(this).val()) || $(this).val();
 
-    filteredSongs.set(filter(allSongs, options));
+    results.set(filter(allSongs, options));
 
     $('#results').empty();
 
-    render(filteredSongs);
+    render(results);
 
     return search();
   };
@@ -134,19 +140,11 @@ Tuuune.discover = (function () {
   };
 
   function haveEnoughSongs() {
-    return filteredSongs.length > minResults;
-  };
-
-  function hide () {
-    return $('#discover')
-      .off()
-      .hide()
-      .find('#results')
-        .empty();
+    return results.length > minResults;
   };
 
   function reset () {
-    filteredSongs = new SongList;
+    results = new SongList;
     return init();
   };
 
