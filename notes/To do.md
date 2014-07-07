@@ -1,53 +1,41 @@
 ## General
-
 - Ensure app complies with YT and SCs api TOS
 - This won't work disclaimer for mobile/ipad/internet explorer
 
 ## Song card
-
-- Make song cards responsive
 - Loading and playing state style
 
 ## Discover
-
-- Create introductory visual
+- Precache valid results then select from those
+		- Store the songs in JSON
+		- Select 200 good songs with attractive album covers to form favorable first impression
+- Introductory visual and pitch
 		- Explain how discover works, set users expectations
 		-	Emphasize this finds music you've never heard of... no genre
 		- It takes effort on your part, is this an active process
 		- One big button to start listening, first song preloaded
-
-- Precache valid results then select from those
-		- Store the songs in JSON
-		- Select 200 good songs with attractive album covers to form favorable first impression
-
 - Make sure every song we show to the user can be played
 		- Add region detection/selection 
-
 - Stop songs the user has seen from showing up again in search 
 
 ## Player
 
-- Add tooltips to star and permalink
 - Make player robust when skipping through lots of songs
 	- Add error handling for players
 	- Prevent player from playing two songs at the same time
+
 - Add better flash detection
-	- Show sound cloud embed if flash not enabled
+	- Show sound cloud embed if flash not enabled so the user can enable it
 
 ## Starred
-
-- Add dynamic label for starred song count to nav
-- Work out how to robustly backup starred songs locally, perhaps cookies? they don't persist very well throughout sessions
+- Add disclaimer to starred
+- Debug starred
 
 ## Queue
-- Add dynamic label for queued song count to nav
-- Add label which shows how many songs there are in queue
-Save queue locally
+- Debug queue
 
 ## History
-- Fix play history
-- Save history locally
-- Allow yourself to play a song from history
+- Debug queue
 
 ## Fun shit
 - Add nice colors
@@ -63,6 +51,7 @@ Save queue locally
 - make player work without flash
 - Add 'quality' indicator to song card
 
+- Make song cards responsive
 - add volume setting to player, media players
 - add related songs which fly out around the current song card in a circle, use spotify's api for this too
 - Add sensible animation
@@ -79,6 +68,8 @@ Save queue locally
 
 - add top lists feature
 
+- generate playlist from video which scrapes related videos, organizes them into a unique list based on each video's quality
+- show reason for discovered song
 - check for popular duplicate/re upload
 - Think about how to add in albums
 - Make filter use machine learning
