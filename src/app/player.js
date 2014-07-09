@@ -6,46 +6,31 @@ Tuuune.player = (function() {
       playerEl = '#player',
       progressEl = '.progressBar',
 
-      mediaPlayers,
-      mediaPlayer, // e.g. Youtube
-            
-      currentSong,
-      queue,
-      progressInterval,
-      notReady = true,
+      mediaPlayers, mediaPlayer,
+      currentSong, queue, songHistory,
 
       options = {
         repeat: false,
         shuffle: false
-      },
-
-      exports = {
-        init: init,
-        hide: hide,
-
-        play: play,
-        pause: pause,
-        toggle: toggle,
-        next: next,
-        previous: previous,
-        setProgress: setProgress
       };
 
   function init () {
     
+    // Load other modules
     queue = include('queue');
+    mediaPlayers = include('players');
+    songHistory = include('songHistory');
 
-    // Listen to song controls
-    $('#player').on('click', '.song', queue, Song.listener);
-
-    // We use external services to stream music, 
-    // Load their players
+    // We use external services to stream music
     loadPlayers(function(){
-      
+
+      console.log('Players loaded.');
+
+      // Listen to song controls
+      $(playerEl).on('click', '.song', queue, Song.listener);
+
       // Play song if one was clicked before player was started
       if (currentSong) {play(currentSong)};
-
-      notReady = false;
     });
   };
 
@@ -56,83 +41,35 @@ Tuuune.player = (function() {
     // The songs which are before and after the new song
     if (defaultQueue) {queue.set(defaultQueue)};
 
-    // Player is not yet ready, this needs better system
-    if (notReady) {return}
-
     // Prepare the player to play the new song
     load(song, function(){
-      return mediaPlayer.play();
+
+      // Make sure we're playing the right song
+      if (song.id === currentSong.id) {return mediaPlayer.play()}
+      
+      // Shit noooooo
+      console.log('we are now on a different song')
     });
   };
 
-  function next () {
-    return play(queue.after(currentSong));
-  };
-
-  function previous () {
-    return play(queue.before(currentSong));
-  };
-
-  function toggle () {
-
-    // Player is not yet ready, this needs better system    
-    if (notReady) {return}
-    
-    mediaPlayer.toggle()
-  };
-
-  function pause () {
-
-    // Player is not yet ready, this needs better system
-    if (notReady) {return}
-
-    mediaPlayer.pause()
-  };
-
-  function renderProgress (reset) {
-
-    if (reset) {
-      $('.currentTime').text('0:00');
-      $('.progress').width('0%');
-      return 
-    };
-
-    var currentTime = mediaPlayer.getCurrentTime();
-        playedPercent = (currentTime/currentSong.duration)*100*1000,
-
-        mins = Math.floor(currentTime / 60),
-        seconds = helper.pad(Math.floor(currentTime % 60),2);
-
-    $('.currentTime').text(mins + ':' + seconds);
-    $('.progress').width(playedPercent + '%');
-
-  };
-
-
   function load (song, callback) {
 
-    var newPlayerName = song.source.name;
+    var source = song.source.name;
+
+    if (!mediaPlayers[source]) {return console.log('No player for song')};
 
     // Add new song info to player
     document.title = song.pretty.title;
 
-    $('#player .song')
-      .attr('data-id', song.id)
-      .html(Mustache.render(Song.playerTemplate, song))
-
-    if (newPlayerName === 'youtube') {
-      $('#embeds').removeClass('hidden');
-      $(playerEl + ' .thumbnail').hide();
-    } else {
-      $('#embeds').addClass('hidden');
-    }
+    $(playerEl)
+      .attr('class', source)
+      .find('.song')
+        .attr('data-id', song.id)
+        .html(Mustache.render(Song.playerTemplate, song));
 
     // Reset the progress bar
     renderProgress(true);
-
     clearInterval(progressInterval);          
-
-    if (!currentSong) {$(playerEl).addClass('show')};
 
     if (!currentSong || currentSong.source.name !== newPlayerName) {
 
@@ -145,7 +82,6 @@ Tuuune.player = (function() {
       if (!mediaPlayers[newPlayerName]) {throw 'No player called ' + newPlayerName};
 
       mediaPlayer = mediaPlayers[newPlayerName]
-      var queue = include('queue');
 
       var songEl = '[data-id="' + song.id + '"]';
       
@@ -182,12 +118,11 @@ Tuuune.player = (function() {
     };
 
     mediaPlayer.load(song, function(){
-
-      var songHistory = include('songHistory');
-          songHistory.add(song);
+      
+      songHistory.add(song);
 
       // we emit this event so the history view knows when to rerender
-      $(exports).trigger('songChange');
+      $(playerEl).trigger('songChange');
 
       currentSong = song;
 
@@ -195,7 +130,42 @@ Tuuune.player = (function() {
     });
   };
 
-  function setProgress(mouseX) {
+  function next () {
+    return play(queue.after(currentSong));
+  };
+
+  function previous () {
+    return play(queue.before(currentSong));
+  };
+
+  function toggle () {
+    return mediaPlayer.toggle()
+  };
+
+  function pause () {
+    return mediaPlayer.pause()
+  };
+
+  function renderProgress (reset) {
+
+    if (reset) {
+      $('.currentTime').text('0:00');
+      $('.progress').width('0%');
+      return 
+    };
+
+    var currentTime = mediaPlayer.getCurrentTime();
+        playedPercent = (currentTime/currentSong.duration)*100*1000,
+
+        mins = Math.floor(currentTime / 60),
+        seconds = helper.pad(Math.floor(currentTime % 60),2);
+
+    $('.currentTime').text(mins + ':' + seconds);
+    $('.progress').width(playedPercent + '%');
+
+  };
+
+  function seek (mouseX) {
 
     var xOffset = mouseX - $(progressEl).offset().left,
         ratio = xOffset/$(progressEl).width(),
@@ -206,15 +176,8 @@ Tuuune.player = (function() {
   };
 
   function loadPlayers (callback) {
-
-    mediaPlayers = include('players');
-
     mediaPlayers.youtube.init(function(){
-
       mediaPlayers.soundcloud.init(function(){
-
-        console.log('Players loaded.');
-
         return callback()
       });
     });
@@ -224,6 +187,16 @@ Tuuune.player = (function() {
     $(playerEl).off();
   };
 
-  return exports
+  return {
+    init: init,
+    hide: hide,
+
+    play: play,
+    pause: pause,
+    toggle: toggle,
+    next: next,
+    previous: previous,
+    seek: seek
+  }
 
 }());
