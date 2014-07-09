@@ -22,7 +22,7 @@ Tuuune.songHistory = (function(){
       .show()
       .on('click', '.song', Song.listener);
 
-    $(player).on('songChange', function(){
+    $('#player').on('songChange', function(){
       render();
     });
 
