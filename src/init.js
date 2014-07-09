@@ -1,6 +1,7 @@
 var Tuuune = {
   views: {},
-  players: {}
+  players: {},
+  search: []
 };
 
 function include (name) {
@@ -9,8 +10,7 @@ function include (name) {
 
 $(function() {
 
-  var appPrefix = 'musicfinder',
-      nav = include('nav'),
+  var nav = include('nav'),
       player = include('player'),
       starred = include('starred');
       songHistory = include('songHistory'),
