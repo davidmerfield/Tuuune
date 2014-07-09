@@ -1,4 +1,4 @@
-var youtubeSearch = (function () {
+Tuuune.search.push((function () {
 
   var Song = include('Song'),
 
@@ -169,4 +169,4 @@ var youtubeSearch = (function () {
 
   return exports;
   
-}());
+}()));

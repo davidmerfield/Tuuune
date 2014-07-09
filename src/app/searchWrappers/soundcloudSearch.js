@@ -1,4 +1,4 @@
- var soundcloudSearch = (function (SC) {
+Tuuune.search.push((function (SC) {
 
   var Song = include('Song'),
 
@@ -89,4 +89,4 @@
 
   return exports;
 
-}(SC));
+}(SC)));
