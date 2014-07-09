@@ -2,14 +2,14 @@ Tuuune.discover = (function () {
 
   var Song = include('Song'),
       SongList = include('SongList'),
-      filter = include('filter'),
 
+      filter = include('filter'),
       storage = include('storage'),
             
       allSongs = new SongList, 
       results = new SongList,  // songs which pass the filter
 
-      pageSize = minResults = 40, 
+      pageSize = minResults = 20, 
 
       // default search preferences
       options = {
@@ -27,51 +27,48 @@ Tuuune.discover = (function () {
       };
 
   function init () {   
-
-    // Load options from disk
     options = storage.get('discover:options') || options;
-
   };
 
   function show () {
 
-
     // Show the DOM el and bind its event handlers
     $('#discover')
+      .show()
       .on('change', '.option', optionChange)
       .on('click', '#resetResults', reset)
       .on('click', '#loadMore', loadMore)
-      .on('click', '.song', results, Song.listener)
-      .show()
-      .find('.option')
-        .each(setOption);
+      .on('click', '.song', results, Song.listener);
 
+    // Make sure each option control reflects the stored setting
+    $('.option').each(setOption)
+
+    // Populate the results div with any existing results
     $('#results').html(results.render());
 
     // Find new songs
-    search();
-
+    findSongs();
   };
 
   function hide () {
-    $('#discover')
-      .off()
-      .hide()
-      .find('#results')
-        .empty();
+    $('#discover').off().hide();
+    $('#results').empty();
   };
 
-  // This is used to find songs from the web
-  // it calls itself recursively until it finds enough results
+  // Find songs from the internet, calls itself recursively until
+  // enough songs are found.
+  function findSongs () {
 
-  function findSongs (callback) {
-
-    var sources = [youtubeSearch, soundcloudSearch], // references to the modules , 
-        searchedSources = [],
+    var sources = include('search'),
+        searchedSources = 0,
         source;
 
+    $('#loadMore').hide();    
+
     // We've found enough songs
-    if (results.length > minResults) {return callback()};
+    if (results.length > minResults) {
+      return $('#loadMore').show()
+    };
 
     // go through each source and 
     for (var i in sources) {
@@ -87,7 +84,7 @@ Tuuune.discover = (function () {
 
         newSongs = new SongList(newSongs);
             
-        // Ignore songs we've already seen
+        // Remove songs we've already seen
         newSongs
           .exclude(allSongs)
           .exclude(starred.songs)
@@ -103,74 +100,51 @@ Tuuune.discover = (function () {
         $('#results').append(newResults.render());
 
         // Indicate that the source has replied
-        searchedSources.push(source);
+        searchedSources++;
 
         // We have heard from all the sources
-        if (searchedSources.length === sources.length) {
-          return findSongs(callback);
+        if (searchedSources === sources.length) {
+          return findSongs();
         };
-
       });
-
     };
   }; 
 
-  function setOption () {
-
-    var name = $(this).attr('name');
-        $(this).val(options[name]);
-    
-  };
-
   function optionChange () {
 
-    var name = $(this).attr('name');
-        options[name] = parseInt($(this).val()) || $(this).val();
-
+    var name = $(this).attr('name'),
+        value = parseInt($(this).val()) || $(this).val();
+    
+    // Store the updated option
+    options[name] = value;
     storage.set('discover:options', options);
 
+    // Re-render search results to reflect this new preference
     results.set(filter(allSongs, options));
+    $('#results').html(results.render());
 
-    $('#results')
-      .empty()
-      .html(results.render());
-
-    return search();
-
+    // Find new songs with new filter options
+    return findSongs();
   };
 
-  function search () {
-
-    // Hide the button which allows you to get more songs
-    $('#loadMore').hide();    
-
-    // Find songs to populate the view
-    findSongs(function(status){
-
-      // Show the button to get more songs
-      $('#loadMore').show();
-    
-    });
-
+  // Set the option value of a control
+  function setOption () {
+    var name = $(this).attr('name');
+    $(this).val(options[name]);
   };
 
+  // Remove any songs we've found and start a new search
   function reset () {
-
-    // Remove any songs we've found
-    results = new SongList;
+    results.empty();
     $('#results').empty();
-
-    return search();
+    return findSongs();
   };
 
+  // Increases the threshold after which to stop searching
   function loadMore (e) {
-
-    // Increase the threshold after which to stop searching
     minResults += pageSize;
-
-    return search();
+    return findSongs();
   };
 
   return {init: init, hide: hide, show: show}
-
 }());
