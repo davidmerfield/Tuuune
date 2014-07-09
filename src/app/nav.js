@@ -18,14 +18,16 @@ Tuuune.nav = (function () {
 
    function setView (name) {
 
+      var view = include(name);
+
       // Make sure the view exists
-      if (!Tuuune[name]) {throw 'No view called' + name};
+      if (!view) {throw 'No view called' + name};
 
       // Close any existing views
       if (currentView) {currentView.hide()};
       
       // Save the new view so we can close it in future
-      currentView = Tuuune[name];
+      currentView = view;
       
       // Show new view
       currentView.show();
