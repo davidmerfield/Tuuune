@@ -18,7 +18,7 @@ Tuuune.Song = (function(){
      playerTemplate = 
         '<span class="thumbnail" data-action="togglePlay" style="background: url({{thumbnail}}) no-repeat center center;background-size: cover"><img src="" /></span>' +
         '<span class="title">{{pretty.title}}</span> ' +
-        '<span class="progressBar" data-action="setProgress">' +
+        '<span class="progressBar" data-action="seek">' +
           '<span class="currentTime">0:00</span>' +
           '<span class="progress"></span>' +
           '<span class="duration">{{pretty.duration}}</span>' +
@@ -103,8 +103,8 @@ Tuuune.Song = (function(){
       case "previous":
         return player.previous();
 
-      case "setProgress":
-        return player.setProgress(e.pageX);
+      case "seek":
+        return player.seek(e.pageX);
       
       case 'addToQueue':
         return queue.add(song);
