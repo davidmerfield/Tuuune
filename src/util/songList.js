@@ -25,9 +25,7 @@ Tuuune.SongList = function SongList (songs) {
       // Returns songs not already on list
       songs.exclude = function(otherList) {
 
-         if (!otherList || !otherList.find) {
-            return this
-         };
+         if (!otherList) {return this};
 
          for (var i = 0; i < this.length; i++) {
 
@@ -99,7 +97,7 @@ Tuuune.SongList = function SongList (songs) {
       };
 
       // Remove all the songs on the list
-      songs.reset = function () {
+      songs.empty = function () {
         this.splice(0,this.length)
       };
 
