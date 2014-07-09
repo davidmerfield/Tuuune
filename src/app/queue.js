@@ -79,7 +79,7 @@ Tuuune.queue = (function(){
       .show()
       .on('click', '.song', Song.listener);
 
-    $(player)
+    $('#player')
       .on('songChange', function(){
         render();
       });
