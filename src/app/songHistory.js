@@ -22,22 +22,18 @@ Tuuune.songHistory = (function(){
       .show()
       .on('click', '.song', Song.listener);
 
-    $('#player').on('songChange', function(){
-      render();
-    });
-
     render();
   };
 
   function hide () {
     $('#songHistory').off().hide();
-    $('#player').off();
     storage.set(storageKey, songs)
   };
 
   function add (song) {
     songs.unshift(song);
-    storage.set(storageKey, songs)
+    storage.set(storageKey, songs);
+    render();
   };
 
   function render() {
