@@ -62,10 +62,10 @@ header.small {
 }
 
 .small #logo {height: 64px;line-height: 64px}
-.small #embeds {position: absolute;top: -1000px}
+.small #player #embeds {position: absolute;top: -1000px}
 .small #player {padding: 0;}
 .small #player .song {padding: 0}
-.small .thumbnail {height: 32px;width: 32px;}
+.small #player .thumbnail {height: 32px;width: 32px;display: none;}
 .small #player .title {max-height: 64px;line-height:64px;position: absolute;top: 0;left: 0;width: 15em;margin: 0}
 .small .controls {position: absolute;top: 0.5em;left: 15em;width: 16em;}
 .small .thumbnail img {height: 32px;}
@@ -289,9 +289,9 @@ header.small {
 .listStats {display: none;}
 
 
-#about {position: absolute;bottom: 0;text-align: center;width: 100%;border-top: 1px solid #444;}
-#about a {line-height: 4em;font-size: 0.88em;color: #666;text-decoration: none;}
-#about a em {border-bottom: 2px solid #444;font-style: normal;}
+#about {position: fixed;bottom: 0;left: 0;width: 12em;margin: 2.556em}
+#about a {font-size: 0.88em;color: #aaa;text-decoration: none;}
+#about a em {border-bottom: 2px solid #ccc;font-style: normal;}
 
 .spacer {margin: 0 0.5em;color: #aaa}
 
