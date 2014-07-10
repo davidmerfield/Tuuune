@@ -11,6 +11,9 @@ Tuuune.queue = (function(){
         };
 
   function add (song) {
+
+    render();
+
     queue.user.push(song);
     updateNav();
   };
@@ -24,6 +27,8 @@ Tuuune.queue = (function(){
   };
 
   function before (song) {
+
+    render();
 
     // Check if the user has played any songs
     if (songHistory.length) {
@@ -48,6 +53,8 @@ Tuuune.queue = (function(){
   };
 
   function after (song) {
+
+    render();
 
     // Check if the user has queued any songs
     if (queue.user.length > 0) {
@@ -78,11 +85,6 @@ Tuuune.queue = (function(){
     $('#queue')
       .show()
       .on('click', '.song', Song.listener);
-
-    $('#player')
-      .on('songChange', function(){
-        render();
-      });
 
     render();
 
