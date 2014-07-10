@@ -2,15 +2,14 @@ Tuuune.Song = (function(){
 
   var template = 
        '<span class="song" data-id="{{id}}">' +
-         '<span class="thumbnail" style="background: url({{thumbnail}}) no-repeat center center;background-size: cover"><img src="" /></span>' +
-         '<span class="hoverOverlay">' +
-           '<button class="play" data-action="play">&#9654; Play</button>' +
-           '<button class="addToQueue" data-action="addToQueue">+ Play next</button>' +
-         '</span>' +
+          '<span class="thumbnail" style="background: url({{thumbnail}}) no-repeat center center;background-size: cover"><img src="" /></span>' +
+          '<span class="hoverOverlay">' +
+            '<button class="play" data-action="play">&#9654; Play</button>' +
+            '<button class="addToQueue" data-action="addToQueue">+ Play next</button>' +
+          '</span>' +
           '<span class="title" data-action="play">{{tinyTitle}}</span> ' +
           '<button class="star" data-action="star" data-isStarred="{{isStarred}}">&#9733;</button>' +
           '<span class="stats">' +
-            '<span class="duration">{{pretty.duration}} / </span>' +
             '<span class="views">{{pretty.listens}} listens</span>' +
           '</span>' +
        '</span>';
@@ -45,7 +44,7 @@ Tuuune.Song = (function(){
        pretty: {
         title: helper.tidyTitle(data.title),
         duration: mins + ':' + seconds,
-        listens: Math.ceil(parseInt(data.listens)/1000) + 'k'
+        listens: data.listens.toLocaleString()
        }
 
      };
