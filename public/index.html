@@ -2,6 +2,7 @@
   <head>
     <meta charset="utf-8">
     <title>Tuuune</title>
+    <link href="https://fonts.googleapis.com/css?family=RobotoDraft:400,500,700,400italic" rel="stylesheet" type="text/css">   
     <link rel="stylesheet" href="./style.css">
     <script type="text/javascript" src="./js/app.js"></script>
     <link rel="shortcut icon" href="./images/favicon.png"> 
@@ -21,23 +22,26 @@
     </header>
     <section class="sidebar">
       <section id="nav">
-        <a href="#discover"><i>&#9835;</i> Discover</a>
-        <a href="#starred"><i>&#9733;</i> Starred</a>
-        <a href="#queue"><i>&#9654;</i> Queue <b class="queueCount"></b></a>
-        <a href="#songHistory"><i>&#8617;</i> History</a>
+        <a href="#discover"><i>&#9835;</i> <span>Discover</span></a>
+        <a href="#starred"><i>&#9733;</i> <span>Starred</span></a>
+        <a href="#queue"><i>&#9654;</i> <span>Queue</span> <b class="queueCount"></b></a>
+        <a href="#songHistory"><i>&#8617;</i> <span>History</span></a>
       </section>
     </section>
     <section id="starred" style="display:none">
       <h1>Starred Songs</h1>
       <section class="songList"></section>
+      <section class="clear"></section>
     </section>
     <section id="queue" style="display:none">
       <h1>Play queue</h1>
       <section class="songList"></section>
+      <section class="clear"></section>
     </section>
     <section id="songHistory" style="display:none">
       <h1>Play history</h1>
       <section class="songList"></section>
+      <section class="clear"></section>
     </section>
     <section id="discover">
        <section id="options">
@@ -47,10 +51,12 @@
              <option value="100000" selected>under 100,000 listens</option>
              <option value="10000">under 10,000 listens</option>
           </select> 
-          <button id="resetResults"><i>&#8635;</i> Load new results</button>
+          <span class="spacer">/</span>
+          <button id="resetResults">Load new results</button>
        </section>
        <section id="results" class="empty"></section>
        <button id="loadMore" style="display:none">Load more songs</button>
+       <section class="clear"></section>
     </section>
   </body>
 </html>

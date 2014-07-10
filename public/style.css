@@ -20,8 +20,20 @@ button {
 
 button:focus {outline: none;}
 
-body {font: 400 1em / 1.33em sans-serif;padding-left: 282px;padding-top: 232px}
-body > section {width: 48em;margin: 2em 0;width: auto}
+body {
+  background: #F7F7F7;
+  border: 1em solid #000;
+  font: 400 1em / 1.33em 'RobotoDraft', 'Roboto', sans-serif;padding-left: 282px;padding-top: 232px}
+
+body > section {width: 48em;margin: 2em 0;width: auto;min-height: 1000px}
+body > section h1,
+body > section p {
+  margin: 0.5em 0.5em 1em;
+}
+
+body > section h1 {
+  line-height: 3em
+}
 
 .hide {display: none!important;}
 .clear {display: block;width: 100%;clear: both}
@@ -76,8 +88,10 @@ header.small {
   width: 282px;
   margin: 0
 }
+  
+  .sidebar.fixed {position: fixed;top: 64px;left: 0}
 
-  #nav {margin: 2.566em 2em 0}
+  #nav {margin: 2.566em}
 
   #nav a {
     font-size: 1.33em;
@@ -86,19 +100,23 @@ header.small {
     margin-bottom: 0.1566em;
     text-decoration: none;
     border-radius: 4px;
-    color: #aaa;
+    color: #2F7EE2;
   }
 
-  #nav a:hover {background: #000;color: #fff}
-  #nav a.selected {background: #fff;color: #000}
+  #nav a:hover span {border-bottom: 2px solid #2F7EE2}
 
   #nav a i {
     font-style: normal;
-    width: 2.25em;
+    width: 2em;
     display: block;
     float: left;
     text-align: center;
   }
+
+
+  #nav a.selected {color: #000}
+  #nav a.selected span {border-bottom: none;}
+
   
   .queueCount {
     font-size: 0.88em;
@@ -115,7 +133,7 @@ header.small {
   overflow: hidden;
   display: block;
   float: left;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.66em;
 }
 
 .thumbnail img {height: 12em;text-align: center}
@@ -132,31 +150,38 @@ header.small {
 .song {
   text-decoration: none;
   display: block;  
-  width: 14.333em;
-  height: 18.333em;
+  width: 13.333em;
+  height: 17.666em;
   overflow: hidden;
+  border-radius: 4px;
   float: left;
   margin: 0.66em;
   padding: 0.667em;
-  border: 8px solid #fff;
+  color: #fff;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.1);
+  border-bottom-width: 2px;
 }
 
-.song:hover {border-color: blue}
 
-.song > button.title {
+.song .title {
   font-size: 0.88em;
+  color: #232323;
+  font-weight: 500;
   line-height: 1.33em;
   max-height: 2.66em;
-  font-weight: bold;
+  height: 2.66em;
+  margin-bottom: 0.33em;
   overflow: hidden;
   display: block;
   clear: both;
+  cursor: pointer;
 }
 
-.song > button.play:hover {text-decoration: underline;}
+.song .title:hover {text-decoration: underline;}
 
 .song .stats {
-  color: #999;
+  color: #989898;
   font-size: 0.75em;
   display: block;
   float: left;
@@ -176,6 +201,7 @@ header.small {
   color: #000;
   font-weight: 500;
   border: 4px solid #000;  
+  border-radius: 4px;
   padding: 1em;
   display: block;
   opacity: 0;
@@ -194,7 +220,7 @@ header.small {
 
 .song button.star {
   float: right;
-  color: #999;
+  color: #989898;
   font-size: 0.77em;
 }
 
@@ -202,16 +228,17 @@ header.small {
 
 .song button.star:after {
   content: "Save";
-  margin-left: 0.15em;
-  color: #aaa;
-  border-bottom: 1px solid #777
+  margin: 0 0.2em;
 }
+
 
 .song button.star[data-isStarred="true"]:after {
   color: #fdb12f;
   content: "Saved";
-  border-bottom: none;
 }
+
+.song button.star:hover:after {border-bottom: 1px solid #989898}
+.song button.star[data-isStarred="true"]:hover:after {border-bottom-color: #fdb12f}
 
 .permalink {
   left: 1em;
@@ -237,9 +264,26 @@ header.small {
   display: block;
 }
 
-.songList:empty:after {
-  content: 'No songs here!';
-  margin-top: 1em
+
+.songList:empty:before {
+  content: 'No songs here!'!important;
+  display: block;
+  padding: 0.66em;
+  margin: -1em 0 1em;  
+}
+
+#starred .songList:before {
+  display: block;
+  padding: 0.66em;
+  margin: -1em 0 1em;  
+  content: "The songs below are stored in your browser's cache. If you empty your cache or close the browser they might disappear."
+}
+
+#songHistory .songList:before {
+  display: block;
+  padding: 0.66em;
+  margin: -1em 0 1em;  
+  content: "The songs below are stored in your browser's cache. To clear your history empty your browser's cache."
 }
 
 .listStats {display: none;}
@@ -249,9 +293,10 @@ header.small {
 #about a {line-height: 4em;font-size: 0.88em;color: #666;text-decoration: none;}
 #about a em {border-bottom: 2px solid #444;font-style: normal;}
 
-#resetResults {float: right;margin: 0.33em 0;text-decoration: none;border-bottom: 2px solid rgba(0,0,250,0.3)}
-a#resetResults i {width: 1.5em;}
+.spacer {margin: 0 0.5em;color: #aaa}
 
+#resetResults {text-decoration: none;color: #2F7EE2}
+#resetResults:hover {border-bottom: 2px solid #2F7EE2}
 #player.show {left: 0}
 
 #player {
@@ -289,7 +334,8 @@ a#resetResults i {width: 1.5em;}
     border: none;
     width: 536px;
     padding-left: 232px;
-    height: 200px
+    height: 200px;
+    background: none;
   }
 
   .controls {
