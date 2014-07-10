@@ -31,8 +31,10 @@ $(function() {
 
     if (offset > 168) {
       $('header').attr('class', 'small')
+      $('.sidebar').addClass('fixed')
     } else {
       $('header').attr('class', '')
+      $('.sidebar').removeClass('fixed')
     }
   });
 });
