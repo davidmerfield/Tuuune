@@ -7,7 +7,7 @@ Tuuune.Song = (function(){
            '<button class="play" data-action="play">&#9654; Play</button>' +
            '<button class="addToQueue" data-action="addToQueue">+ Play next</button>' +
          '</span>' +
-          '<button class="title" data-action="play">{{tinyTitle}}</button> ' +
+          '<span class="title" data-action="play">{{tinyTitle}}</span> ' +
           '<button class="star" data-action="star" data-isStarred="{{isStarred}}">&#9733;</button>' +
           '<span class="stats">' +
             '<span class="duration">{{pretty.duration}} / </span>' +
