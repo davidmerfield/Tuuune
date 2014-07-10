@@ -4,15 +4,9 @@ Tuuune.player = (function() {
       SongList = include('SongList'),
 
       playerEl = '#player',
-      progressEl = '.progressBar',
 
       mediaPlayers, mediaPlayer,
-      currentSong, queue, songHistory,
-
-      options = {
-        repeat: false,
-        shuffle: false
-      };
+      currentSong, queue, songHistory;
 
   function init () {
     
@@ -21,13 +15,13 @@ Tuuune.player = (function() {
     mediaPlayers = include('players');
     songHistory = include('songHistory');
 
+    // Listen to song controls
+    $(playerEl).on('click', '.song', queue, Song.listener);
+
     // We use external services to stream music
     loadPlayers(function(){
 
       console.log('Players loaded.');
-
-      // Listen to song controls
-      $(playerEl).on('click', '.song', queue, Song.listener);
 
       // Play song if one was clicked before player was started
       if (currentSong) {play(currentSong)};
@@ -36,98 +30,92 @@ Tuuune.player = (function() {
 
   function play (song, defaultQueue) {
 
+    // No song to play
     if (!song) {throw 'Please specify a song to play'};   
 
     // The songs which are before and after the new song
     if (defaultQueue) {queue.set(defaultQueue)};
 
+    // Update reference to currentSong
+    var previousPlayer = currentSong ? currentSong.source.name : false;
+        currentSong = song;
+
     // Prepare the player to play the new song
-    load(song, function(){
+    load(song, previousPlayer, function(){
 
       // Make sure we're playing the right song
-      if (song.id === currentSong.id) {return mediaPlayer.play()}
+      if (song.id === currentSong.id) {
+
+        // Save that we've played this song
+        songHistory.add(song);
+
+        // we emit this event so the history view knows when to rerender
+        $(playerEl).trigger('songChange');
+
+        return mediaPlayer.play()
+      };
       
       // Shit noooooo
-      console.log('we are now on a different song')
+      console.log('ABORT: we are now on a different song')
     });
   };
 
-  function load (song, callback) {
+  function load (song, previousPlayer, callback) {
 
-    var source = song.source.name;
+    var newPlayer = song.source.name;
 
-    if (!mediaPlayers[source]) {return console.log('No player for song')};
+    if (!mediaPlayers[newPlayer]) {return callback('No player for song')};
+
+    // We need to instantiate a new player
+    if (previousPlayer !== newPlayer) {
+      
+      if (previousPlayer) {
+        mediaPlayer.stop();
+        $(mediaPlayer).off();            
+      }
+
+      mediaPlayer = mediaPlayers[newPlayer];
+      $(mediaPlayer).on('playing paused finished', eventHandler);
+    }
+
+    // Update player to show this song
+    render(song);
+
+    // Set the song's state as loading
+    $('[data-id="' + currentSong.id + '"]').attr('data-state', 'loading');
+
+    mediaPlayer.load(song, function(){  
+      return callback()
+    });
+  };
+
+  function render (song) {
+    var template = 
+      '<span class="thumbnail" data-action="togglePlay" style="background: url({{thumbnail}}) no-repeat center center;background-size: cover"><img src="" /></span>' +
+      '<span class="title">{{pretty.title}}</span> ' +
+      '<span class="progressBar" data-action="seek">' +
+        '<span class="currentTime">0:00</span>' +
+        '<span class="progress"></span>' +
+        '<span class="duration">{{pretty.duration}}</span>' +
+      '</span>' +
+      '<section class="controls">' +
+        '<button class="previous" data-action="previous"></button>' +
+        '<button class="togglePlay" data-action="togglePlay"></button>' +
+        '<button class="next" data-action="next"></button>' +
+        '<a class="permalink" data-action="permalink" target="_blank" href="{{source.permalink}}">&#9099;</a>' +
+        '<button class="star" data-action="star" data-isStarred="{{isStarred}}">&#9733;</button>' +
+      '</section>';
 
     // Add new song info to player
     document.title = song.pretty.title;
 
+    drawProgressBar('stop');
+
     $(playerEl)
-      .attr('class', source)
+      .attr('class', song.source.name)
       .find('.song')
         .attr('data-id', song.id)
-        .html(Mustache.render(Song.playerTemplate, song));
-
-    // Reset the progress bar
-    renderProgress(true);
-    clearInterval(progressInterval);          
-
-    if (!currentSong || currentSong.source.name !== newPlayerName) {
-
-      if (currentSong) {
-        mediaPlayer.stop();
-        $(mediaPlayer).off();    
-        mediaPlayer = null;
-      };
-      
-      if (!mediaPlayers[newPlayerName]) {throw 'No player called ' + newPlayerName};
-
-      mediaPlayer = mediaPlayers[newPlayerName]
-
-      var songEl = '[data-id="' + song.id + '"]';
-      
-      $('.song')
-        .removeClass('playing loading paused');
-
-      $(songEl).addClass('loading');
-
-      $(mediaPlayer)
-        .on('playing', function(){
-          console.log('Playing ' + song.pretty.title);              
-
-          $(songEl)
-            .addClass('playing')
-            .removeClass('paused loading');
-
-          progressInterval = setInterval(renderProgress, 100);                
-        })
-        .on('paused', function(){
-          console.log('Paused ' + song.pretty.title);              
-
-          $(songEl)
-            .addClass('paused')
-            .removeClass('playing loading');             
-        })
-        .on('finished', function(){
-          console.log('Finished ' + song.pretty.title);              
-          
-          clearInterval(progressInterval);          
-
-          $(songEl).removeClass('playing loading');   
-          play(queue.after(song));
-        });
-    };
-
-    mediaPlayer.load(song, function(){
-      
-      songHistory.add(song);
-
-      // we emit this event so the history view knows when to rerender
-      $(playerEl).trigger('songChange');
-
-      currentSong = song;
-
-      return callback()
-    });
+        .html(Mustache.render(template, song));
   };
 
   function next () {
@@ -146,13 +134,35 @@ Tuuune.player = (function() {
     return mediaPlayer.pause()
   };
 
-  function renderProgress (reset) {
+  function eventHandler (e) {
 
-    if (reset) {
-      $('.currentTime').text('0:00');
-      $('.progress').width('0%');
-      return 
+    var songEl = '[data-id="' + currentSong.id + '"]';
+        name = e.type;
+
+    console.log(name + ' ' + currentSong.pretty.title);              
+
+    $(songEl).attr('data-state', name);
+    
+    switch (name) {
+      case 'playing':
+        drawProgressBar();
+        break;
+      case 'paused':
+        drawProgressBar('stop');
+        break;
+      case 'finished':
+        drawProgressBar('stop');
+        play(queue.after(currentSong));
+        break;
     };
+  };
+
+  function drawProgressBar (stop) {
+    if (stop) {return clearInterval(window.progressInterval)};
+    window.progressInterval = setInterval(renderProgress, 100);      
+  };
+
+  function renderProgress (position) {
 
     var currentTime = mediaPlayer.getCurrentTime();
         playedPercent = (currentTime/currentSong.duration)*100*1000,
@@ -167,8 +177,11 @@ Tuuune.player = (function() {
 
   function seek (mouseX) {
 
-    var xOffset = mouseX - $(progressEl).offset().left,
-        ratio = xOffset/$(progressEl).width(),
+    // Set the song's state as loading
+    $('[data-id="' + currentSong.id + '"]').attr('data-state', 'loading');
+
+    var xOffset = mouseX - $('.progressBar').offset().left,
+        ratio = xOffset/$('.progressBar').width(),
         seconds = Math.round(ratio*currentSong.duration/1000);
 
     return mediaPlayer.seekTo(seconds);
@@ -183,13 +196,8 @@ Tuuune.player = (function() {
     });
   };
 
-  function hide () {
-    $(playerEl).off();
-  };
-
   return {
     init: init,
-    hide: hide,
 
     play: play,
     pause: pause,
