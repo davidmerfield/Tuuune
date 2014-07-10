@@ -12,6 +12,9 @@ Tuuune.nav = (function () {
       $(el).on('click', 'a', function (argument) {
          var name = $(this).attr('href').slice(1);
          setView(name);
+         if ($('body').scrollTop() > 168) {
+            $('body').scrollTop(169);            
+         };
          return false
       });
    };
