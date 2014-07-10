@@ -20,7 +20,7 @@ Tuuune.songHistory = (function(){
 
     $('#songHistory')
       .show()
-      .on('click', '.song', Song.listener);
+      .on('click', '.song', songs, Song.listener);
 
     render();
   };
