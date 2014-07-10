@@ -51,8 +51,13 @@ header.small {
 
 .small #logo {height: 64px;line-height: 64px}
 .small #embeds {position: absolute;top: -1000px}
+.small #player {padding: 0;}
+.small #player .song {padding: 0}
 .small .thumbnail {height: 32px;width: 32px;}
+.small #player .title {max-height: 64px;line-height:64px;position: absolute;top: 0;left: 0;width: 15em;margin: 0}
+.small .controls {position: absolute;top: 0.5em;left: 15em;width: 16em;}
 .small .thumbnail img {height: 32px;}
+.small #player .progressBar {display: none;}
 
 #logo {
   font-size: 1.33em;
@@ -72,7 +77,7 @@ header.small {
   margin: 0
 }
 
-  #nav {margin: 2.566em 0 0 2em}
+  #nav {margin: 2.566em 2em 0}
 
   #nav a {
     font-size: 1.33em;
@@ -80,13 +85,21 @@ header.small {
     display: block;
     margin-bottom: 0.1566em;
     text-decoration: none;
-    border-radius: 4px 0 0 4px;
+    border-radius: 4px;
     color: #aaa;
   }
 
-  #nav a:hover {background: #333}
+  #nav a:hover {background: #000;color: #fff}
   #nav a.selected {background: #fff;color: #000}
 
+  #nav a i {
+    font-style: normal;
+    width: 2.25em;
+    display: block;
+    float: left;
+    text-align: center;
+  }
+  
   .queueCount {
     font-size: 0.88em;
     margin-left: 0.5em;
@@ -119,18 +132,22 @@ header.small {
 .song {
   text-decoration: none;
   display: block;  
-  width: 13.333em;
-  height: 17.333em;
+  width: 14.333em;
+  height: 18.333em;
   overflow: hidden;
   float: left;
   margin: 0.66em;
   padding: 0.667em;
+  border: 8px solid #fff;
 }
+
+.song:hover {border-color: blue}
 
 .song > button.title {
   font-size: 0.88em;
   line-height: 1.33em;
   max-height: 2.66em;
+  font-weight: bold;
   overflow: hidden;
   display: block;
   clear: both;
@@ -181,7 +198,7 @@ header.small {
   font-size: 0.77em;
 }
 
-.song button.star[data-isStarred="true"] {color: yellow}
+.song button.star[data-isStarred="true"] {color: #fdb12f}
 
 .song button.star:after {
   content: "Save";
@@ -191,7 +208,7 @@ header.small {
 }
 
 .song button.star[data-isStarred="true"]:after {
-  color: yellow;
+  color: #fdb12f;
   content: "Saved";
   border-bottom: none;
 }
@@ -269,6 +286,7 @@ a#resetResults i {width: 1.5em;}
     float: left;
     margin: 0;
     padding: 0;
+    border: none;
     width: 536px;
     padding-left: 232px;
     height: 200px
@@ -379,15 +397,6 @@ a#resetResults i {width: 1.5em;}
 
 h1 {
   font-size: 1.25em;
-}
-
-/* Icon */
-a i {
-  font-style: normal;
-  width: 2.5em;
-  display: block;
-  float: left;
-  text-align: center;
 }
 
 select {
