@@ -20,9 +20,8 @@ button {
 
 button:focus {outline: none;}
 
-body {font: 400 1em / 1.33em sans-serif;padding-left: 282px}
-body > section {width: 48em;margin: 1em auto}
-body > section.full {margin: 2em;width: auto;}
+body {font: 400 1em / 1.33em sans-serif;padding-left: 282px;padding-top: 232px}
+body > section {width: 48em;margin: 2em 0;width: auto}
 
 .hide {display: none!important;}
 .clear {display: block;width: 100%;clear: both}
@@ -30,12 +29,33 @@ body > section.full {margin: 2em;width: auto;}
 .floatRight {float: right;}
 .floatLeft {float: left;}
 
-.sidebar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
+header {
   background: #000;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 232px;
+  max-height: 232px;
+  padding-left: 282px;
+  overflow: hidden;
+}
+
+#logo {
+  font-size: 1.33em;
+  position: absolute;
+  left: 4em;
+  height: 232px;
+  line-height: 232px;
+  color: #fff;
+}
+
+.sidebar {
+  position: absolute;
+  left: 0;
+  top: 232px;
+  bottom: 0;
   width: 282px;
   margin: 0
 }
@@ -86,14 +106,12 @@ body > section.full {margin: 2em;width: auto;}
 
 .song {
   text-decoration: none;
-  background: #000;
   display: block;  
   width: 13.333em;
   height: 17.333em;
   overflow: hidden;
   float: left;
   margin: 0.66em;
-  color: #fff;
   padding: 0.667em;
 }
 
@@ -104,7 +122,6 @@ body > section.full {margin: 2em;width: auto;}
   overflow: hidden;
   display: block;
   clear: both;
-  color: #eee;
 }
 
 .song > button.play:hover {text-decoration: underline;}
@@ -122,7 +139,7 @@ body > section.full {margin: 2em;width: auto;}
   bottom: 3.5em;
 }
 
-.song .hoverOverlay:hover {background: rgba(0,0,0,0.33)}
+.song .hoverOverlay:hover {background: rgba(0,0,0,0)}
 .song .hoverOverlay:hover button {opacity: 1}
 
 .song .hoverOverlay button {
@@ -179,7 +196,6 @@ body > section.full {margin: 2em;width: auto;}
 
 #options {
   font-size: 1.33em;
-  margin-bottom: 1em;
   padding: 0.66em;
 }
 
@@ -211,38 +227,44 @@ a#resetResults i {width: 1.5em;}
 
 #player {
   color: #fff;
-  position: absolute;
-  bottom: 4em;
-  padding: 1.5em 0.5em 0.5em;
-  width: 100%;
-  left: -1000px;
+  padding: 1em;
+  width: 100%
 }
   
   #player .thumbnail,
   #embeds {
-    height: 200px;
     overflow: hidden;
-    margin: 0 2em;
+    float: left;
   }
 
-  #player .thumbnail {width: 200px;float: none;}
-  #player .thumbnail img {height: 200px}
+  #player .thumbnail {width: 192px;height: 192px;position: absolute;left: 0;margin: 4px 0}
+  #player .thumbnail img {height: 192px;}
 
   #embeds {
-    margin: 0
+    margin: 0;height: 200px;position: absolute;
+    left: 0;
   }
 
-  #embeds.hidden,
-  #embeds .soundcloud {
+  #player.youtube .thumbnail,
+  #player.youtube .soundcloud,
+  #player.soundcloud #embeds,
+  #player.hidden {
     position: absolute;
-    left: -1000px;
+    top: -1000px;
   }
 
-  #player .song {margin: 0;padding: 0;width: 100%;height: auto}
+  #player .song {
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 536px;
+    padding-left: 232px;
+    height: 200px
+  }
 
   .controls {
     margin: 0.5em auto;
-    height: 36px
+    height: 36px;
   } 
  
  .controls button, 
@@ -259,11 +281,11 @@ a#resetResults i {width: 1.5em;}
     background-size: 18px;
   }
 
-  .playing .controls .togglePlay {
+  .song[data-state="playing"] .controls .togglePlay {
     background-image: url('./images/pause.png');
   }
 
-  .loading .controls .togglePlay {
+  .song[data-state="loading"] .controls .togglePlay {
     background-image: url('./images/loader_white.gif');
   }
 
@@ -297,21 +319,20 @@ a#resetResults i {width: 1.5em;}
 #player .title {
   display: block;
   text-align: center;
-  margin: 1em 0;
+  margin: 4em 0 1em;
   max-height: 1.33em;
   overflow: hidden;
   color: #fff
 }
 
-#player .progressBar {
+.progressBar {
   background: rgba(255,255,255,0.25);
   display: block;
   height: 8px;
   margin: 1em 3em;
-  clear: both;
 }
 
-#player .progress {
+.progressBar .progress {
   position: absolute;
   top: 0;
   left: 0;
@@ -319,7 +340,7 @@ a#resetResults i {width: 1.5em;}
   background: white;
 }
 
-#player .progress:after {
+.progressBar .progress:after {
   content: '';
   display: none;
   float:right;
@@ -331,8 +352,8 @@ a#resetResults i {width: 1.5em;}
   background: #fff;
 }
 
-#player .currentTime, 
-#player .duration {
+.progressBar .currentTime, 
+.progressBar .duration {
   position: absolute;
   top: -0.4em;
   font-size: 0.88em;
@@ -340,8 +361,8 @@ a#resetResults i {width: 1.5em;}
   color: rgba(255,255,255,0.33);
 }
 
-#player .currentTime {left: -3.156em;text-align: right;color: #fff}
-#player .duration {right: -3.156em;text-align: left}
+.progressBar .currentTime {left: -3.156em;text-align: right;color: #fff}
+.progressBar .duration {right: -3.156em;text-align: left}
 
 
 h1 {

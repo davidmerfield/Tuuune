@@ -7,16 +7,24 @@
     <link rel="shortcut icon" href="./images/favicon.png"> 
   </head>
   <body>
+    <header>
+      <a id="logo">Tuuune</a>
+      <section id="howItWorks" style="display: none">
+        <h1>Find undiscovered music</h1>
+        <h2>Tuuune searches the internet for well-appreciated but overlooked songs.For example, it looks up youtube music videos with low watches but a high like ratio. It's basically a hipster music finder.</h2>
+        <button class="start">Start listening</button>
+      </section>
+      <section id="player" class="hidden">
+        <section class="song"></section>
+        <section id="embeds"></section>
+      </section>
+    </header>
     <section class="sidebar">
       <section id="nav">
         <a href="#discover"><i>&#9835;</i> Discover</a>
         <a href="#starred"><i>&#9733;</i> Starred</a>
         <a href="#queue"><i>&#9654;</i> Queue <b class="queueCount"></b></a>
         <a href="#songHistory"><i>&#8617;</i> History</a>
-      </section>
-      <section id="player">
-        <section id="embeds"></section>
-        <section class="song"></section>
       </section>
     </section>
     <section id="starred" style="display:none">
@@ -31,7 +39,7 @@
       <h1>Play history</h1>
       <section class="songList"></section>
     </section>
-    <section id="discover" class="full">
+    <section id="discover">
        <section id="options">
           Find great songs with 
           <select name="maxListens" class="option">
