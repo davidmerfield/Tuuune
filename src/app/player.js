@@ -40,6 +40,8 @@ Tuuune.player = (function() {
     var previousPlayer = currentSong ? currentSong.source.name : false;
         currentSong = song;
 
+    $('#howItWorks').hide();
+
     // Prepare the player to play the new song
     load(song, previousPlayer, function(){
 
