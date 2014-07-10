@@ -13,24 +13,7 @@ Tuuune.Song = (function(){
             '<span class="duration">{{pretty.duration}} / </span>' +
             '<span class="views">{{pretty.listens}} listens</span>' +
           '</span>' +
-       '</span>',
-
-     playerTemplate = 
-        '<span class="thumbnail" data-action="togglePlay" style="background: url({{thumbnail}}) no-repeat center center;background-size: cover"><img src="" /></span>' +
-        '<span class="title">{{pretty.title}}</span> ' +
-        '<span class="progressBar" data-action="seek">' +
-          '<span class="currentTime">0:00</span>' +
-          '<span class="progress"></span>' +
-          '<span class="duration">{{pretty.duration}}</span>' +
-        '</span>' +
-        '<section class="controls">' +
-          '<button class="previous" data-action="previous"></button>' +
-          '<button class="togglePlay" data-action="togglePlay"></button>' +
-          '<button class="next" data-action="next"></button>' +
-          '<a class="permalink" data-action="permalink" target="_blank" href="{{source.permalink}}">&#9099;</a>' +
-          '<button class="star" data-action="star" data-isStarred="{{isStarred}}">&#9733;</button>' +
-        '</section>';
-
+       '</span>';
 
   function create (data) {
 
@@ -120,7 +103,6 @@ Tuuune.Song = (function(){
   return {
     create: create,
     template: template,
-    playerTemplate: playerTemplate,
     listener: listener
   };
 
