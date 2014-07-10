@@ -10,9 +10,6 @@ module.exports = function(grunt) {
       },
       uglify: {
          my_target: {
-            options: {
-               beautify: true
-            },
             files: {
                'public/js/app.js': [
                   'src/libraries/**/*.js',
