@@ -25,5 +25,14 @@ $(function() {
 
   // Show the first view
   nav.init('discover');
-       
+  $(document).on('scroll', function(e){
+    
+    var offset = $(document).scrollTop();
+
+    if (offset > 168) {
+      $('header').attr('class', 'small')
+    } else {
+      $('header').attr('class', '')
+    }
+  });
 });

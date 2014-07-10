@@ -42,6 +42,18 @@ header {
   overflow: hidden;
 }
 
+header.small {
+  position: fixed;
+  height: 64px;
+  max-height: 64px;
+  z-index: 10
+}
+
+.small #logo {height: 64px;line-height: 64px}
+.small #embeds {position: absolute;top: -1000px}
+.small .thumbnail {height: 32px;width: 32px;}
+.small .thumbnail img {height: 32px;}
+
 #logo {
   font-size: 1.33em;
   position: absolute;
