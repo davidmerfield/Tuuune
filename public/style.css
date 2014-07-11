@@ -39,15 +39,20 @@ body > section h1 {
 
 #howItWorks {
   width: 40em;
-  margin-top: 4em
 }
+
+#howItWorks button {
+  color: #2F7EE2;
+}
+
+#howItWorks button:hover {border-bottom: 2px solid #2F7EE2}
 
 #howItWorks h1, h2 {
   font-weight: 300;
   margin-bottom: 1em;
 }
 #howItWorks h1 {
-  margin-top: 3em;
+  margin-top: 2.66em
 }
 #howItWorks h2 {
   color: #ccc
@@ -78,6 +83,7 @@ header.small {
   z-index: 10
 }
 
+.small #howItWorks {display: none;}
 .small #logo {height: 64px;line-height: 64px}
 .small #player #embeds {position: absolute;top: -1000px}
 .small #player {padding: 0;}

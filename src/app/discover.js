@@ -32,6 +32,9 @@ Tuuune.discover = (function () {
 
   function show () {
 
+    var player = include('player');
+    $('#howItWorks .start').click(function(){player.play(results[0], results)});
+
     // Show the DOM el and bind its event handlers
     $('#discover')
       .show()

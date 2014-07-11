@@ -20,6 +20,10 @@ Tuuune.Song = (function(){
      var mins = Math.floor(data.duration / 60000),
          seconds = helper.pad(Math.floor((data.duration/1000) % 60), 2);
 
+     if (!data.listens) {
+      console.log(data);
+     };
+     
      var song = {
 
        id: data.prefix + data.id,
