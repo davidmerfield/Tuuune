@@ -1,5 +1,5 @@
 /node_modules/*
-/public/js/*
+/public/app.js
 /music.sublime-project
 /music.sublime-workspace
 /*.log

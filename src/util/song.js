@@ -21,7 +21,7 @@ Tuuune.Song = (function(){
          seconds = helper.pad(Math.floor((data.duration/1000) % 60), 2);
 
      if (!data.listens) {
-      console.log(data);
+        data.listens = 1000;
      };
      
      var song = {
