@@ -52,7 +52,7 @@ body > section h1 {
   margin-bottom: 1em;
 }
 #howItWorks h1 {
-  margin-top: 2.66em
+  margin-top: 4.5em
 }
 #howItWorks h2 {
   color: #ccc
@@ -83,7 +83,6 @@ header.small {
   z-index: 10
 }
 
-.small #howItWorks {display: none;}
 .small #logo {height: 64px;line-height: 64px}
 .small #player #embeds {position: absolute;top: -1000px}
 .small #player {padding: 0;}
@@ -98,8 +97,9 @@ header.small {
   font-size: 1.33em;
   position: absolute;
   left: 4em;
-  height: 232px;
-  line-height: 232px;
+  bottom: 0;
+  height: 64px;
+  line-height: 64px;
   color: #fff;
 }
 
